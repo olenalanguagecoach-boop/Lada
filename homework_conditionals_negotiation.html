@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summit & Pines — Homework: Conditionals, Modals & Negotiation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B2A4A;
+    --mtn-blue:#1B4F72;
+    --ice:#F7FAFC;
+    --ice-dim:#EAF1F6;
+    --sky:#4FA8DA;
+    --amber:#E8A33D;
+    --success:#2F9E7A;
+    --error:#C4483C;
+    --ink:#16283A;
+    --line:#D7E2EA;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ice-dim);
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+  }
+  .app{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 0 60px;
+  }
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(180deg,var(--navy) 0%,var(--mtn-blue) 78%,var(--sky) 100%);
+    position:relative;
+    overflow:hidden;
+    padding:38px 28px 46px;
+    color:var(--ice);
+  }
+  .hero svg{position:absolute; bottom:-2px; left:0; width:100%; height:auto; opacity:.9;}
+  .hero-content{position:relative; z-index:2;}
+  .eyebrow{font-size:13px; letter-spacing:.02em; color:var(--amber); font-weight:600; margin-bottom:6px;}
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:30px;
+    line-height:1.15;
+    margin:0 0 10px;
+  }
+  .hero p{font-size:15px; line-height:1.55; color:#DCE9F2; max-width:52ch; margin:0;}
+
+  /* NAV DOTS */
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:22px 20px 4px;
+  }
+  .dot{
+    width:11px; height:11px; border-radius:50%;
+    background:#C7D6E0;
+    border:none; cursor:pointer;
+    transition:transform .15s ease, background .15s ease;
+    padding:0;
+  }
+  .dot.active{background:var(--mtn-blue); transform:scale(1.3);}
+  .dot:hover{background:var(--sky);}
+
+  .panels{padding:6px 20px 0;}
+  .panel{display:none; animation:fade .25s ease;}
+  .panel.active{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 24px;
+    margin-top:18px;
+    box-shadow:0 1px 2px rgba(11,42,74,.04);
+  }
+  .card h2{
+    font-family:'Fraunces',serif;
+    font-size:21px;
+    font-weight:600;
+    margin:0 0 4px;
+    color:var(--navy);
+  }
+  .card .sub{font-size:13.5px; color:#5B7284; margin:0 0 20px; line-height:1.5;}
+  .sub b{color:var(--mtn-blue);}
+
+  .item{margin-bottom:16px;}
+  .item p.q{font-size:15px; line-height:1.5; margin:0 0 8px;}
+  .item .num{color:var(--sky); font-weight:600; margin-right:4px;}
+
+  input[type=text]{
+    width:100%;
+    padding:10px 12px;
+    border:1.5px solid var(--line);
+    border-radius:9px;
+    font-size:14.5px;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    transition:border-color .15s ease;
+  }
+  input[type=text]:focus{outline:none; border-color:var(--sky);}
+  select{
+    width:100%;
+    padding:10px 12px;
+    border:1.5px solid var(--line);
+    border-radius:9px;
+    font-size:14.5px;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:#fff;
+  }
+  select:focus{outline:none; border-color:var(--sky);}
+
+  .item.correct input, .item.correct select{border-color:var(--success); background:#F1FAF6;}
+  .item.wrong input, .item.wrong select{border-color:var(--error); background:#FDF3F2;}
+
+  .feedback{font-size:13px; margin-top:5px; display:none;}
+  .feedback.show{display:block;}
+  .feedback.correct{color:var(--success);}
+  .feedback.wrong{color:var(--error);}
+
+  .actions{display:flex; gap:10px; align-items:center; margin-top:22px; flex-wrap:wrap;}
+  button.check{
+    background:var(--mtn-blue);
+    color:#fff;
+    border:none;
+    padding:11px 20px;
+    border-radius:9px;
+    font-size:14px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  button.check:hover{background:var(--navy);}
+  button.reveal{
+    background:none;
+    border:1.5px solid var(--line);
+    color:#5B7284;
+    padding:10px 18px;
+    border-radius:9px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  button.reveal:hover{border-color:var(--sky); color:var(--mtn-blue);}
+  .score{
+    margin-left:auto;
+    font-size:14px;
+    font-weight:600;
+    color:var(--navy);
+    background:var(--ice-dim);
+    padding:8px 14px;
+    border-radius:20px;
+  }
+
+  .keybox{
+    display:none;
+    margin-top:16px;
+    padding:14px 16px;
+    background:#FBF6ED;
+    border:1px solid #EBD9AF;
+    border-radius:10px;
+    font-size:13.5px;
+    line-height:1.7;
+    color:#6B4E1C;
+  }
+  .keybox.show{display:block;}
+
+  .wordbank{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:20px;
+    padding:14px;
+    background:var(--ice-dim);
+    border-radius:10px;
+  }
+  .wordbank span{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    color:var(--mtn-blue);
+    font-weight:500;
+  }
+
+  textarea{
+    width:100%;
+    min-height:120px;
+    padding:12px;
+    border:1.5px solid var(--line);
+    border-radius:9px;
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    color:var(--ink);
+    resize:vertical;
+  }
+  textarea:focus{outline:none; border-color:var(--sky);}
+
+  .footer-nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:26px 20px 0;
+  }
+  .arrow-btn{
+    background:#fff;
+    border:1.5px solid var(--line);
+    width:42px; height:42px;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--mtn-blue);
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .arrow-btn:hover{border-color:var(--sky); background:var(--ice-dim);}
+  .arrow-btn:disabled{opacity:.35; cursor:default;}
+  .arrow-btn:disabled:hover{border-color:var(--line); background:#fff;}
+  .page-label{font-size:13px; color:#5B7284; font-weight:500;}
+
+  .final-score{
+    text-align:center;
+    padding:20px;
+    margin-top:6px;
+  }
+  .final-score .big{
+    font-family:'Fraunces',serif;
+    font-size:38px;
+    color:var(--navy);
+    font-weight:600;
+  }
+  .final-score p{color:#5B7284; font-size:14px;}
+
+  @media (max-width:480px){
+    h1{font-size:24px;}
+    .card{padding:20px 16px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">SUMMIT & PINES · BUSINESS ENGLISH HOMEWORK</div>
+      <h1>Conditionals, modals &amp; negotiation language</h1>
+      <p>Four short exercises revising Conditional 1 &amp; 2, modal verbs, negotiation phrases and market vocabulary. Check each exercise as you go — your score updates live.</p>
+    </div>
+    <svg viewBox="0 0 760 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,90 0,55 90,15 170,50 240,10 330,58 420,20 500,55 600,18 690,50 760,30 760,90" fill="#F7FAFC" opacity="0.12"/>
+      <polygon points="0,90 0,68 110,40 210,66 300,35 400,62 520,32 620,64 760,45 760,90" fill="#F7FAFC"/>
+    </svg>
+  </div>
+
+  <div class="nav" id="navDots"></div>
+
+  <div class="panels" id="panels">
+
+    <!-- PANEL 1: Conditionals -->
+    <div class="panel active" data-panel="0">
+      <div class="card">
+        <h2>Exercise 1 — Conditionals</h2>
+        <p class="sub">Complete each sentence with the correct form. Target grammar: <b>Conditional 1 &amp; 2</b>, <b>unless / in case / supposing / as long as</b>.</p>
+        <div id="ex1-items"></div>
+        <div class="actions">
+          <button class="check" onclick="checkExercise(1)">Check answers</button>
+          <button class="reveal" onclick="toggleKey(1)">See correct answers</button>
+          <div class="score" id="score-1">0 / 8</div>
+        </div>
+        <div class="keybox" id="key-1"></div>
+      </div>
+    </div>
+
+    <!-- PANEL 2: Modals -->
+    <div class="panel" data-panel="1">
+      <div class="card">
+        <h2>Exercise 2 — Modals</h2>
+        <p class="sub">Choose the correct modal form: <b>should · have to · must · what about + gerund</b>.</p>
+        <div id="ex2-items"></div>
+        <div class="actions">
+          <button class="check" onclick="checkExercise(2)">Check answers</button>
+          <button class="reveal" onclick="toggleKey(2)">See correct answers</button>
+          <div class="score" id="score-2">0 / 6</div>
+        </div>
+        <div class="keybox" id="key-2"></div>
+      </div>
+    </div>
+
+    <!-- PANEL 3: Matching -->
+    <div class="panel" data-panel="2">
+      <div class="card">
+        <h2>Exercise 3 — Match the phrase to its function</h2>
+        <p class="sub">Select the correct negotiation function for each phrase.</p>
+        <div id="ex3-items"></div>
+        <div class="actions">
+          <button class="check" onclick="checkExercise(3)">Check answers</button>
+          <button class="reveal" onclick="toggleKey(3)">See correct answers</button>
+          <div class="score" id="score-3">0 / 10</div>
+        </div>
+        <div class="keybox" id="key-3"></div>
+      </div>
+    </div>
+
+    <!-- PANEL 4: Vocabulary -->
+    <div class="panel" data-panel="3">
+      <div class="card">
+        <h2>Exercise 4 — Vocabulary</h2>
+        <p class="sub">Choose the correct word or phrase from the word bank for each gap.</p>
+        <div class="wordbank">
+          <span>record profit</span><span>heavy losses</span><span>market share</span>
+          <span>flood the market</span><span>before long</span><span>discrepancy</span>
+          <span>above all</span><span>implement</span>
+        </div>
+        <div id="ex4-items"></div>
+        <div class="actions">
+          <button class="check" onclick="checkExercise(4)">Check answers</button>
+          <button class="reveal" onclick="toggleKey(4)">See correct answers</button>
+          <div class="score" id="score-4">0 / 8</div>
+        </div>
+        <div class="keybox" id="key-4"></div>
+      </div>
+    </div>
+
+    <!-- PANEL 5: Creative (optional) -->
+    <div class="panel" data-panel="4">
+      <div class="card">
+        <h2>Optional task — Open a negotiation</h2>
+        <p class="sub">Not auto-graded — bring this to your next lesson for feedback.</p>
+        <p class="item q" style="font-size:14.5px; line-height:1.6; margin-bottom:14px;">
+          Write 4–5 sentences opening a negotiation of your choice (e.g. renegotiating a supplier contract).
+          Use at least <b>3 functional phrases</b> and <b>2 conditional structures</b>.
+        </p>
+        <textarea id="creative" placeholder="Start writing here..."></textarea>
+        <p class="sub" style="margin:12px 0 0;">📩 Submit this task via Telegram once you're done.</p>
+      </div>
+
+      <div class="card final-score">
+        <div class="big" id="totalScore">0 / 32</div>
+        <p>Total score across Exercises 1–4</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-nav">
+    <button class="arrow-btn" id="prevBtn" onclick="changePanel(-1)" aria-label="Previous">←</button>
+    <div class="page-label" id="pageLabel">1 / 5</div>
+    <button class="arrow-btn" id="nextBtn" onclick="changePanel(1)" aria-label="Next">→</button>
+  </div>
+
+</div>
+
+<script>
+/* ---------- DATA ---------- */
+const ex1 = [
+  {q:"If the resort __________ (raise) prices again, we might lose regular guests.",
+   ans:"raises", options:["raises","raised","will raise","would raise"]},
+  {q:"__________ I were you, I would consider the options before signing.",
+   ans:"If", options:["If","When","Because","Although"]},
+  {q:"What if we __________ (offer) a loyalty discount instead of a price cut?",
+   ans:"offered", options:["offer","offered","offering","will offer"]},
+  {q:"If only we __________ (collect) more market data before launching the campaign.",
+   ans:"had collected", options:["collected","had collected","have collected","collect"]},
+  {q:"We won't proceed with the deal __________ both sides agree on the price.",
+   ans:"unless", options:["unless","if","provided that","supposing"]},
+  {q:"__________ the competitor lowered prices next month, what would our response be?",
+   ans:["Supposing","If"], options:["Supposing","If","Unless","Provided that"]},
+  {q:"You can keep the current rate __________ you sign a two-year contract.",
+   ans:["as long as","provided that"], options:["as long as","provided that","unless","if only"]},
+  {q:"__________ the negotiation fails, we should prepare a backup plan.",
+   ans:"In case", options:["In case","If only","Provided that","As long as"]},
+];
+
+const ex2 = [
+  {q:"You __________ discuss this with the finance team before making an offer — it's essential.", ans:["must","have to"]},
+  {q:"What about __________ (offer) a small discount instead of a price freeze?", ans:["offering"]},
+  {q:"Every contract __________ be signed by both parties — it's a legal requirement.", ans:["must"]},
+  {q:"I think you __________ collect more feedback before implementing the decision.", ans:["should"]},
+  {q:"We __________ submit the report by Friday; it's the company deadline.", ans:["have to","must"]},
+  {q:"What about __________ (consider) a longer implementation period instead?", ans:["considering"]},
+];
+
+const ex3 = [
+  {q:"We have an issue with...", ans:"Introducing an issue"},
+  {q:"I'll meet you halfway.", ans:"Compromising"},
+  {q:"What's your position?", ans:"Asking about position"},
+  {q:"It's a deal.", ans:"Accepting an offer"},
+  {q:"My position is that...", ans:"Stating your position"},
+  {q:"I'd like to discuss an issue with you.", ans:"Introducing an issue"},
+  {q:"I'm sorry but I can't agree to that.", ans:"Rejecting an offer"},
+  {q:"In return, would you consider...?", ans:"Compromising"},
+  {q:"I think that would be fair.", ans:"Accepting an offer"},
+  {q:"What about if I offered you...?", ans:"Making an offer"},
+];
+const ex3options = ["Introducing an issue","Stating your position","Asking about position","Making an offer","Compromising","Rejecting an offer","Accepting an offer"];
+
+const ex4 = [
+  {q:"If we don't act soon, competitors will __________ with cheap alternatives.", ans:"flood the market"},
+  {q:"There's a __________ between the sales report and the marketing figures.", ans:"discrepancy"},
+  {q:"__________, we need to protect our brand reputation.", ans:"above all"},
+  {q:"The resort made a __________ this winter thanks to high occupancy.", ans:"record profit"},
+  {q:"We suffered __________ after the unexpected storm closed the slopes for two weeks.", ans:"heavy losses"},
+  {q:"__________, three new hotels opened nearby.", ans:"before long"},
+  {q:"It's time to __________ the decision we agreed on last week.", ans:"implement"},
+  {q:"Our __________ dropped slightly after the new competitor entered.", ans:"market share"},
+];
+const ex4options = ["record profit","heavy losses","market share","flood the market","before long","discrepancy","above all","implement"];
+
+/* ---------- BUILD EXERCISE 1 (dropdown) ---------- */
+(function(){
+  const c = document.getElementById('ex1-items');
+  ex1.forEach((item,i)=>{
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.id = `e1-item-${i}`;
+    let opts = `<option value="">Select an answer...</option>`;
+    item.options.forEach(o=> opts += `<option value="${o}">${o}</option>`);
+    div.innerHTML = `
+      <p class="q"><span class="num">${i+1}.</span>${item.q}</p>
+      <select id="e1-input-${i}">${opts}</select>
+      <div class="feedback" id="e1-fb-${i}"></div>
+    `;
+    c.appendChild(div);
+  });
+})();
+
+/* ---------- BUILD EXERCISE 2 (text input) ---------- */
+function buildTextExercise(containerId, data, prefix){
+  const c = document.getElementById(containerId);
+  data.forEach((item,i)=>{
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.id = `${prefix}-item-${i}`;
+    div.innerHTML = `
+      <p class="q"><span class="num">${i+1}.</span>${item.q}</p>
+      <input type="text" id="${prefix}-input-${i}" autocomplete="off" />
+      <div class="feedback" id="${prefix}-fb-${i}"></div>
+    `;
+    c.appendChild(div);
+  });
+}
+buildTextExercise('ex2-items', ex2, 'e2');
+
+/* ---------- BUILD EXERCISE 3 (select) ---------- */
+(function(){
+  const c = document.getElementById('ex3-items');
+  ex3.forEach((item,i)=>{
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.id = `e3-item-${i}`;
+    let opts = `<option value="">Select a function...</option>`;
+    ex3options.forEach(o=> opts += `<option value="${o}">${o}</option>`);
+    div.innerHTML = `
+      <p class="q"><span class="num">${i+1}.</span>"${item.q}"</p>
+      <select id="e3-input-${i}">${opts}</select>
+      <div class="feedback" id="e3-fb-${i}"></div>
+    `;
+    c.appendChild(div);
+  });
+})();
+
+/* ---------- BUILD EXERCISE 4 (select) ---------- */
+(function(){
+  const c = document.getElementById('ex4-items');
+  ex4.forEach((item,i)=>{
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.id = `e4-item-${i}`;
+    let opts = `<option value="">Select a word/phrase...</option>`;
+    ex4options.forEach(o=> opts += `<option value="${o}">${o}</option>`);
+    div.innerHTML = `
+      <p class="q"><span class="num">${i+1}.</span>${item.q}</p>
+      <select id="e4-input-${i}">${opts}</select>
+      <div class="feedback" id="e4-fb-${i}"></div>
+    `;
+    c.appendChild(div);
+  });
+})();
+
+/* ---------- SCORING ---------- */
+let scores = {1:0, 2:0, 3:0, 4:0};
+
+function norm(s){ return s.trim().toLowerCase().replace(/\s+/g,' '); }
+
+function checkExercise(num){
+  let data, prefix, isSelect=false;
+  if(num===1){ data=ex1; prefix='e1'; isSelect=true; }
+  if(num===2){ data=ex2; prefix='e2'; }
+  if(num===3){ data=ex3; prefix='e3'; isSelect=true; }
+  if(num===4){ data=ex4; prefix='e4'; isSelect=true; }
+
+  let correctCount = 0;
+  data.forEach((item,i)=>{
+    const inputEl = document.getElementById(`${prefix}-input-${i}`);
+    const itemEl = document.getElementById(`${prefix}-item-${i}`);
+    const fbEl = document.getElementById(`${prefix}-fb-${i}`);
+    const userVal = inputEl.value;
+    let isCorrect = false;
+
+    if(isSelect){
+      isCorrect = Array.isArray(item.ans) ? item.ans.includes(userVal) : userVal === item.ans;
+    } else {
+      isCorrect = item.ans.some(a => norm(a) === norm(userVal));
+    }
+
+    itemEl.classList.remove('correct','wrong');
+    fbEl.classList.remove('show','correct','wrong');
+
+    if(userVal.trim() !== ''){
+      if(isCorrect){
+        itemEl.classList.add('correct');
+        fbEl.classList.add('show','correct');
+        fbEl.textContent = '✓ Correct';
+        correctCount++;
+      } else {
+        itemEl.classList.add('wrong');
+        fbEl.classList.add('show','wrong');
+        fbEl.textContent = '✗ Try again';
+      }
+    } else {
+      fbEl.classList.add('show','wrong');
+      fbEl.textContent = 'No answer given';
+    }
+  });
+
+  scores[num] = correctCount;
+  document.getElementById(`score-${num}`).textContent = `${correctCount} / ${data.length}`;
+  updateTotal();
+}
+
+function toggleKey(num){
+  let data, box;
+  if(num===1){ data=ex1; }
+  if(num===2){ data=ex2; }
+  if(num===3){ data=ex3; }
+  if(num===4){ data=ex4; }
+  box = document.getElementById(`key-${num}`);
+
+  if(box.classList.contains('show')){
+    box.classList.remove('show');
+    return;
+  }
+  let html = '';
+  data.forEach((item,i)=>{
+    const ans = Array.isArray(item.ans) ? item.ans.join(' / ') : item.ans;
+    html += `<div><b>${i+1}.</b> ${ans}</div>`;
+  });
+  box.innerHTML = html;
+  box.classList.add('show');
+}
+
+function updateTotal(){
+  const total = scores[1]+scores[2]+scores[3]+scores[4];
+  document.getElementById('totalScore').textContent = `${total} / 32`;
+}
+
+/* ---------- NAVIGATION ---------- */
+const totalPanels = 5;
+let current = 0;
+const panels = document.querySelectorAll('.panel');
+const navDotsContainer = document.getElementById('navDots');
+
+for(let i=0;i<totalPanels;i++){
+  const dot = document.createElement('button');
+  dot.className = 'dot' + (i===0 ? ' active' : '');
+  dot.setAttribute('aria-label', `Go to exercise ${i+1}`);
+  dot.onclick = ()=> goToPanel(i);
+  navDotsContainer.appendChild(dot);
+}
+
+function goToPanel(index){
+  current = index;
+  panels.forEach((p,i)=> p.classList.toggle('active', i===index));
+  document.querySelectorAll('.dot').forEach((d,i)=> d.classList.toggle('active', i===index));
+  document.getElementById('pageLabel').textContent = `${index+1} / ${totalPanels}`;
+  document.getElementById('prevBtn').disabled = index===0;
+  document.getElementById('nextBtn').disabled = index===totalPanels-1;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function changePanel(dir){
+  const next = current + dir;
+  if(next>=0 && next<totalPanels) goToPanel(next);
+}
+
+goToPanel(0);
+</script>
+
+</body>
+</html>
