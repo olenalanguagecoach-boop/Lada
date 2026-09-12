@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summit &amp; Pines | Investment Vocabulary Homework</title>
+<style>
+  :root {
+    --deep-blue: #0d3b66;
+    --mid-blue: #1e5f8c;
+    --light-blue: #e8f2fa;
+    --accent-blue: #3a8fd1;
+    --white: #ffffff;
+    --correct-green: #2e7d32;
+    --correct-bg: #e8f5e9;
+    --wrong-red: #c62828;
+    --wrong-bg: #fdecea;
+    --text-dark: #1a2a38;
+    --border-grey: #d5e3ee;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--light-blue);
+    color: var(--text-dark);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 700px;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(13, 59, 102, 0.15);
+    overflow: hidden;
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--deep-blue), var(--mid-blue));
+    color: var(--white);
+    padding: 24px 28px 0 28px;
+    position: relative;
+  }
+
+  .header-text { position: relative; z-index: 2; }
+
+  .header h1 {
+    margin: 0 0 4px 0;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .header p {
+    margin: 0 0 18px 0;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .mountains {
+    width: 100%;
+    height: 46px;
+    display: block;
+  }
+
+  .progress-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 0 8px 0;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--border-grey);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .dot.active { background: var(--accent-blue); }
+
+  .content { padding: 8px 28px 28px 28px; }
+
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .ex-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--deep-blue);
+    margin-bottom: 4px;
+  }
+
+  .ex-instructions {
+    font-size: 14px;
+    color: #4a5f70;
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .word-bank {
+    background: var(--light-blue);
+    border: 1px solid var(--border-grey);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+
+  .word-bank strong { color: var(--deep-blue); }
+
+  .wb-item {
+    display: inline-block;
+    background: var(--white);
+    border: 1px solid var(--border-grey);
+    border-radius: 6px;
+    padding: 2px 9px;
+    margin: 2px 3px 2px 0;
+    font-size: 13px;
+    color: var(--mid-blue);
+  }
+
+  .q-block {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border: 1px solid var(--border-grey);
+    border-radius: 10px;
+    background: #fbfdff;
+  }
+
+  .q-number {
+    font-weight: 700;
+    color: var(--mid-blue);
+    margin-right: 6px;
+  }
+
+  .q-text {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .blank-input {
+    border: none;
+    border-bottom: 2px solid var(--accent-blue);
+    background: transparent;
+    font-size: 15px;
+    font-family: inherit;
+    padding: 2px 4px;
+    width: 170px;
+    text-align: center;
+    color: var(--deep-blue);
+    font-weight: 600;
+  }
+
+  .blank-input:focus {
+    outline: none;
+    border-bottom-color: var(--deep-blue);
+  }
+
+  .mc-options {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mc-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border-grey);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14.5px;
+    transition: all 0.15s;
+  }
+
+  .mc-option:hover {
+    border-color: var(--accent-blue);
+    background: var(--light-blue);
+  }
+
+  .mc-option.selected {
+    border-color: var(--mid-blue);
+    background: var(--light-blue);
+    font-weight: 600;
+  }
+
+  .mc-option input { accent-color: var(--mid-blue); }
+
+  .feedback-icon {
+    display: none;
+    margin-left: 8px;
+    font-weight: 700;
+  }
+
+  .q-block.correct { border-color: var(--correct-green); background: var(--correct-bg); }
+  .q-block.wrong { border-color: var(--wrong-red); background: var(--wrong-bg); }
+
+  .q-block.correct .feedback-icon.correct-icon,
+  .q-block.wrong .feedback-icon.wrong-icon { display: inline; }
+
+  .correct-icon { color: var(--correct-green); }
+  .wrong-icon { color: var(--wrong-red); }
+
+  .correct-answer-note {
+    display: none;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--correct-green);
+    font-style: italic;
+  }
+
+  .q-block.show-answer .correct-answer-note { display: block; }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+
+  button:active { transform: scale(0.97); }
+
+  .btn-check { background: var(--mid-blue); color: var(--white); }
+  .btn-check:hover { background: var(--deep-blue); }
+
+  .btn-reveal {
+    background: var(--white);
+    color: var(--mid-blue);
+    border: 1.5px solid var(--mid-blue);
+  }
+  .btn-reveal:hover { background: var(--light-blue); }
+
+  .btn-reset {
+    background: var(--white);
+    color: #8a8a8a;
+    border: 1.5px solid var(--border-grey);
+  }
+
+  .score-box {
+    margin-top: 18px;
+    padding: 14px;
+    background: var(--deep-blue);
+    color: var(--white);
+    border-radius: 10px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    display: none;
+  }
+
+  .score-box.visible { display: block; }
+
+  .nav-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 28px 24px 28px;
+    border-top: 1px solid var(--border-grey);
+  }
+
+  .nav-btn { background: var(--light-blue); color: var(--deep-blue); padding: 9px 18px; }
+  .nav-btn:hover { background: var(--border-grey); }
+  .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .page-label { font-size: 13px; color: #7a8a99; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <div class="header-text">
+      <h1>Summit &amp; Pines Resort</h1>
+      <p>Investment &amp; Pricing Vocabulary Homework</p>
+    </div>
+    <svg class="mountains" viewBox="0 0 700 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,60 90,15 160,45 230,10 310,50 400,20 480,48 560,18 640,42 700,25 700,60" fill="#ffffff" opacity="0.95"/>
+      <polygon points="0,60 130,32 220,55 320,28 420,55 520,30 620,50 700,35 700,60" fill="#ffffff" opacity="0.6"/>
+    </svg>
+  </div>
+
+  <div class="progress-dots">
+    <div class="dot active" data-page="0"></div>
+    <div class="dot" data-page="1"></div>
+  </div>
+
+  <div class="content">
+
+    <!-- EXERCISE 1: GAP-FILL -->
+    <div class="page active" id="page-0">
+      <div class="ex-title">Exercise 1 — Complete the Sentences</div>
+      <div class="ex-instructions">
+        Fill in each blank with the correct word or phrase from the box below. Use each item once. Answers are not case-sensitive.
+      </div>
+      <div class="word-bank">
+        <strong>Word bank:</strong><br>
+        <span class="wb-item">confidential</span>
+        <span class="wb-item">upper-income</span>
+        <span class="wb-item">enter</span>
+        <span class="wb-item">affordable</span>
+        <span class="wb-item">FAQs</span>
+        <span class="wb-item">format of participation</span>
+        <span class="wb-item">ask for</span>
+        <span class="wb-item">manage</span>
+        <span class="wb-item">price for</span>
+        <span class="wb-item">take place</span>
+        <span class="wb-item">positioning</span>
+        <span class="wb-item">fewer</span>
+      </div>
+
+      <div id="gapfill-container"></div>
+
+      <div class="btn-row">
+        <button class="btn-check" onclick="checkGapFill()">Check Exercise</button>
+        <button class="btn-reveal" onclick="revealGapFill()">See Correct Answers</button>
+        <button class="btn-reset" onclick="resetGapFill()">Reset</button>
+      </div>
+
+      <div class="score-box" id="gapfill-score"></div>
+    </div>
+
+    <!-- EXERCISE 2: MULTIPLE CHOICE -->
+    <div class="page" id="page-1">
+      <div class="ex-title">Exercise 2 — Choose the Correct Option</div>
+      <div class="ex-instructions">
+        Choose the word or phrase that correctly completes each sentence in a business/investment context.
+      </div>
+
+      <div id="mc-container"></div>
+
+      <div class="btn-row">
+        <button class="btn-check" onclick="checkMC()">Check Exercise</button>
+        <button class="btn-reveal" onclick="revealMC()">See Correct Answers</button>
+        <button class="btn-reset" onclick="resetMC()">Reset</button>
+      </div>
+
+      <div class="score-box" id="mc-score"></div>
+    </div>
+
+  </div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <span class="page-label" id="pageLabel">Exercise 1 of 2</span>
+    <button class="nav-btn" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+  // ----------------- DATA -----------------
+
+  const gapFillData = [
+    {
+      text: "We offer several ___ family packages alongside our premium chalets.",
+      answers: ["affordable"]
+    },
+    {
+      text: "We had ___ cancellations this year than last, which is a good sign for investors.",
+      answers: ["fewer"]
+    },
+    {
+      text: "We haven't confirmed the final ___ the new spa membership yet.",
+      answers: ["price for"]
+    },
+    {
+      text: "Investors usually ___ detailed financial projections before the first meeting.",
+      answers: ["ask for"]
+    },
+    {
+      text: "The new premium lodge targets ___ guests looking for a five-star experience.",
+      answers: ["upper-income"]
+    },
+    {
+      text: "We've prepared a page of ___ for investors who can't attend the forum in person.",
+      answers: ["FAQs"]
+    },
+    {
+      text: "Our ___ as a year-round, family-friendly resort sets us apart from competitors.",
+      answers: ["positioning"]
+    },
+    {
+      text: "I will ___ the process from the first meeting to the signing of the contract.",
+      answers: ["manage"]
+    },
+    {
+      text: "Some of the financial details in this proposal are ___ and shouldn't be shared outside the meeting.",
+      answers: ["confidential"]
+    },
+    {
+      text: "The forum will ___ in Bukovel this October.",
+      answers: ["take place"]
+    },
+    {
+      text: "Several international partners are planning to ___ the project next year.",
+      answers: ["enter"]
+    },
+    {
+      text: "Investors can choose their ___: full ownership, joint venture, or minority stake.",
+      answers: ["format of participation"]
+    }
+  ];
+
+  const mcData = [
+    {
+      text: "\"Before signing, investors usually ___ our sustainability practices and safety record.\"",
+      options: ["ask about", "ask for", "look for"],
+      correct: 0,
+      note: "\"ask about\" = to inquire/ask questions on a topic; \"ask for\" = to request something specific (e.g. a document, a discount)."
+    },
+    {
+      text: "\"With this fund, you don't need to explain where the ___ came from.\"",
+      options: ["price", "money", "format"],
+      correct: 1
+    },
+    {
+      text: "\"Our ___ package starts at just $80 a night, ideal for young travellers.\"",
+      options: ["affordable", "confidential", "upper-income"],
+      correct: 0
+    },
+    {
+      text: "\"Could you ___ any further questions about the contract terms?\"",
+      options: ["take place", "manage", "enter"],
+      correct: 1
+    },
+    {
+      text: "\"This year's exhibition will ___ in the main conference hall.\"",
+      options: ["take place", "ask for", "manage"],
+      correct: 0
+    },
+    {
+      text: "\"Please keep this figure ___ until the deal is officially announced.\"",
+      options: ["affordable", "confidential", "positioning"],
+      correct: 1
+    },
+    {
+      text: "\"To ___ the project, investors simply need to sign the partnership agreement.\"",
+      options: ["enter", "look for", "ask for"],
+      correct: 0
+    },
+    {
+      text: "\"Choosing the right ___ helped us stand out from other resorts at the exhibition.\"",
+      options: ["FAQs", "positioning", "price for"],
+      correct: 1
+    }
+  ];
+
+  // ----------------- BUILD GAP-FILL -----------------
+
+  function buildGapFill() {
+    const container = document.getElementById('gapfill-container');
+    container.innerHTML = '';
+    gapFillData.forEach((item, i) => {
+      const block = document.createElement('div');
+      block.className = 'q-block';
+      block.id = 'gf-block-' + i;
+
+      const parts = item.text.split('___');
+      let html = '<span class="q-number">' + (i + 1) + '.</span><span class="q-text">';
+      html += parts[0];
+      html += '<input type="text" class="blank-input" id="gf-input-' + i + '" placeholder="type here">';
+      html += parts[1] || '';
+      html += '<span class="feedback-icon correct-icon">✓</span><span class="feedback-icon wrong-icon">✗</span>';
+      html += '</span>';
+      html += '<div class="correct-answer-note">Correct answer: ' + item.answers[0] + '</div>';
+
+      block.innerHTML = html;
+      container.appendChild(block);
+    });
+  }
+
+  function normalize(str) {
+    return str.trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  function checkGapFill() {
+    let correctCount = 0;
+    gapFillData.forEach((item, i) => {
+      const block = document.getElementById('gf-block-' + i);
+      block.classList.remove('correct', 'wrong', 'show-answer');
+      const input = document.getElementById('gf-input-' + i).value;
+      const isCorrect = item.answers.some(a => normalize(a) === normalize(input));
+
+      if (isCorrect) {
+        block.classList.add('correct');
+        correctCount++;
+      } else {
+        block.classList.add('wrong');
+      }
+    });
+
+    const scoreBox = document.getElementById('gapfill-score');
+    scoreBox.textContent = 'Score: ' + correctCount + ' / ' + gapFillData.length;
+    scoreBox.classList.add('visible');
+  }
+
+  function revealGapFill() {
+    gapFillData.forEach((item, i) => {
+      const block = document.getElementById('gf-block-' + i);
+      block.classList.add('show-answer', 'correct');
+      block.classList.remove('wrong');
+      document.getElementById('gf-input-' + i).value = item.answers[0];
+    });
+    document.getElementById('gapfill-score').classList.remove('visible');
+  }
+
+  function resetGapFill() {
+    buildGapFill();
+    document.getElementById('gapfill-score').classList.remove('visible');
+  }
+
+  // ----------------- BUILD MULTIPLE CHOICE -----------------
+
+  function buildMC() {
+    const container = document.getElementById('mc-container');
+    container.innerHTML = '';
+    mcData.forEach((item, i) => {
+      const block = document.createElement('div');
+      block.className = 'q-block';
+      block.id = 'mc-block-' + i;
+
+      let html = '<span class="q-number">' + (i + 1) + '.</span><span class="q-text">' + item.text;
+      html += '<span class="feedback-icon correct-icon">✓</span><span class="feedback-icon wrong-icon">✗</span></span>';
+      html += '<div class="mc-options">';
+
+      item.options.forEach((opt, j) => {
+        html += '<label class="mc-option" id="mc-opt-' + i + '-' + j + '" onclick="selectMC(' + i + ',' + j + ')">';
+        html += '<input type="radio" name="mc-q-' + i + '" value="' + j + '">' + opt;
+        html += '</label>';
+      });
+
+      html += '</div>';
+      html += '<div class="correct-answer-note">Correct answer: ' + item.options[item.correct];
+      if (item.note) {
+        html += '<br>' + item.note;
+      }
+      html += '</div>';
+
+      block.innerHTML = html;
+      container.appendChild(block);
+    });
+  }
+
+  const mcSelections = {};
+
+  function selectMC(qIndex, optIndex) {
+    mcSelections[qIndex] = optIndex;
+    for (let j = 0; j < mcData[qIndex].options.length; j++) {
+      const label = document.getElementById('mc-opt-' + qIndex + '-' + j);
+      label.classList.toggle('selected', j === optIndex);
+    }
+    document.querySelector('#mc-opt-' + qIndex + '-' + optIndex + ' input').checked = true;
+  }
+
+  function checkMC() {
+    let correctCount = 0;
+    mcData.forEach((item, i) => {
+      const block = document.getElementById('mc-block-' + i);
+      block.classList.remove('correct', 'wrong', 'show-answer');
+      const selected = mcSelections[i];
+
+      if (selected === item.correct) {
+        block.classList.add('correct');
+        correctCount++;
+      } else {
+        block.classList.add('wrong');
+      }
+    });
+
+    const scoreBox = document.getElementById('mc-score');
+    scoreBox.textContent = 'Score: ' + correctCount + ' / ' + mcData.length;
+    scoreBox.classList.add('visible');
+  }
+
+  function revealMC() {
+    mcData.forEach((item, i) => {
+      const block = document.getElementById('mc-block-' + i);
+      block.classList.add('show-answer', 'correct');
+      block.classList.remove('wrong');
+      selectMC(i, item.correct);
+    });
+    document.getElementById('mc-score').classList.remove('visible');
+  }
+
+  function resetMC() {
+    for (const key in mcSelections) delete mcSelections[key];
+    buildMC();
+    document.getElementById('mc-score').classList.remove('visible');
+  }
+
+  // ----------------- NAVIGATION -----------------
+
+  let currentPage = 0;
+  const totalPages = 2;
+
+  function changePage(direction) {
+    const newPage = currentPage + direction;
+    if (newPage < 0 || newPage >= totalPages) return;
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    document.querySelector('.dot[data-page="' + currentPage + '"]').classList.remove('active');
+    currentPage = newPage;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    document.querySelector('.dot[data-page="' + currentPage + '"]').classList.add('active');
+    updateNav();
+  }
+
+  function goToPage(index) {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    document.querySelector('.dot[data-page="' + currentPage + '"]').classList.remove('active');
+    currentPage = index;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    document.querySelector('.dot[data-page="' + currentPage + '"]').classList.add('active');
+    updateNav();
+  }
+
+  function updateNav() {
+    document.getElementById('prevBtn').disabled = currentPage === 0;
+    document.getElementById('nextBtn').disabled = currentPage === totalPages - 1;
+    document.getElementById('pageLabel').textContent = 'Exercise ' + (currentPage + 1) + ' of ' + totalPages;
+  }
+
+  document.querySelectorAll('.dot').forEach(dot => {
+    dot.addEventListener('click', () => goToPage(parseInt(dot.dataset.page)));
+  });
+
+  // ----------------- INIT -----------------
+  buildGapFill();
+  buildMC();
+  updateNav();
+</script>
+
+</body>
+</html>
