@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summit & Pines — Vocabulary Exercises</title>
+<style>
+  :root {
+    --pine: #1f4436;
+    --pine-dark: #16302a;
+    --snow: #f7faf8;
+    --stone: #e4e1d6;
+    --gold: #c9a24b;
+    --text: #223027;
+    --correct: #2e7d4f;
+    --incorrect: #b3452f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--snow);
+    color: var(--text);
+  }
+  header {
+    background: linear-gradient(135deg, var(--pine) 0%, var(--pine-dark) 100%);
+    color: var(--snow);
+    padding: 28px 20px 20px;
+    text-align: center;
+  }
+  header h1 { margin: 8px 0 4px; font-size: 1.5rem; letter-spacing: 0.5px; }
+  header p { margin: 0; opacity: 0.85; font-size: 0.95rem; }
+  .mountain-svg { width: 90px; height: 50px; }
+  .container { max-width: 640px; margin: 0 auto; padding: 20px 16px 60px; }
+  .dots { display: flex; justify-content: center; gap: 10px; margin: 18px 0; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--stone); cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+  .dot.active { background: var(--gold); }
+  .page { display: none; }
+  .page.active { display: block; }
+  .card { background: #fff; border: 1px solid var(--stone); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .card h2 { margin-top: 0; font-size: 1.15rem; color: var(--pine); }
+  .card .sub { margin-top: -8px; margin-bottom: 14px; font-size: 0.9rem; color: #6b7268; }
+  .wordbank { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 18px; padding: 12px; background: var(--snow); border-radius: 8px; border: 1px dashed var(--stone); }
+  .wordbank span { background: var(--stone); padding: 4px 10px; border-radius: 14px; font-size: 0.9rem; }
+  .q { margin-bottom: 16px; }
+  .q p { margin: 0 0 6px; line-height: 1.5; }
+  .q input[type="text"] { padding: 6px 10px; border: 1px solid var(--stone); border-radius: 6px; font-size: 0.95rem; width: 220px; max-width: 100%; }
+  .q input[type="text"].correct { border-color: var(--correct); background: #eaf6ee; }
+  .q input[type="text"].incorrect { border-color: var(--incorrect); background: #fbeae5; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  button { background: var(--pine); color: #fff; border: none; padding: 9px 18px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; }
+  button.secondary { background: transparent; color: var(--pine); border: 1px solid var(--pine); }
+  button:hover { opacity: 0.9; }
+  .score { text-align: center; font-weight: 600; color: var(--pine); margin-top: 8px; }
+  .nav-btns { display: flex; justify-content: space-between; margin-top: 10px; }
+
+  /* shuffle exercise */
+  .shuffle-item { margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px solid var(--stone); }
+  .shuffle-item:last-child { border-bottom: none; }
+  .shuffle-label { font-size: 0.82rem; color: #6b7268; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .answer-zone {
+    min-height: 44px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    padding: 8px;
+    background: var(--snow);
+    border: 1px dashed var(--stone);
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .answer-zone.correct { border-color: var(--correct); background: #eaf6ee; border-style: solid; }
+  .answer-zone.incorrect { border-color: var(--incorrect); background: #fbeae5; }
+  .bank-zone { display: flex; flex-wrap: wrap; gap: 6px; }
+  .word-chip {
+    background: var(--pine);
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .word-chip.answer-chip {
+    background: var(--gold);
+    color: var(--pine-dark);
+  }
+  .word-chip:hover { opacity: 0.85; }
+  .item-btn-row { display: flex; gap: 8px; margin-top: 8px; }
+  .item-btn-row button { padding: 5px 12px; font-size: 0.8rem; }
+  .item-result { font-size: 0.85rem; font-weight: 600; margin-top: 6px; min-height: 18px; }
+  .item-result.correct { color: var(--correct); }
+  .item-result.incorrect { color: var(--incorrect); }
+</style>
+</head>
+<body>
+
+<header>
+  <svg class="mountain-svg" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="10,50 30,15 45,35 60,10 90,50" fill="#f7faf8" opacity="0.9"/>
+    <polygon points="60,10 68,22 52,22" fill="#c9a24b"/>
+    <circle cx="82" cy="14" r="6" fill="#f7faf8" opacity="0.7"/>
+  </svg>
+  <h1>Summit & Pines Resort</h1>
+  <p>Vocabulary Exercises</p>
+</header>
+
+<div class="container">
+  <div class="dots">
+    <div class="dot active" data-page="0"></div>
+    <div class="dot" data-page="1"></div>
+  </div>
+
+  <!-- PAGE 1: SHUFFLE EXERCISE -->
+  <div class="page active" id="page-0">
+    <div class="card">
+      <h2>1. Put the words in order</h2>
+      <p class="sub">Click the words in the right order to build the sentence. Click a word in your answer to remove it.</p>
+      <div id="shuffle-container"></div>
+      <div class="btn-row">
+        <button onclick="checkAllShuffle()">Check all</button>
+        <button class="secondary" onclick="revealAllShuffle()">Reveal all</button>
+        <button class="secondary" onclick="resetAllShuffle()">Reset all</button>
+      </div>
+      <div class="score" id="score-0"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: CYCLE LANE / SIDEWALK / RESPOND / BARELY -->
+  <div class="page" id="page-1">
+    <div class="card">
+      <h2>2. Fill in the gaps</h2>
+      <p class="sub">Getting around the resort</p>
+      <div class="wordbank">
+        <span>barely</span><span>respond</span><span>cycle lane</span><span>sidewalk</span>
+      </div>
+
+      <div class="q">
+        <p>1. The resort built a new <input type="text" data-answer="cycle lane"> connecting the village to the lower slopes, so guests can explore by bike in summer.</p>
+      </div>
+      <div class="q">
+        <p>2. After heavy snowfall, staff clear the <input type="text" data-answer="sidewalk"> outside the lodge before the first guests wake up.</p>
+      </div>
+      <div class="q">
+        <p>3. If the check-in screen doesn't <input type="text" data-answer="respond"> when you tap it, just try again after a few seconds.</p>
+      </div>
+      <div class="q">
+        <p>4. The new signage blends in so well that guests <input type="text" data-answer="barely"> notice it — which is exactly what the designers wanted.</p>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="checkPage(1)">Check</button>
+        <button class="secondary" onclick="revealPage(1)">Reveal</button>
+        <button class="secondary" onclick="resetPage(1)">Reset</button>
+      </div>
+      <div class="score" id="score-1"></div>
+    </div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="secondary" onclick="changePage(-1)">← Back</button>
+    <button class="secondary" onclick="changePage(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+  let currentPage = 0;
+  const totalPages = 2;
+
+  function showPage(n) {
+    document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+    currentPage = n;
+  }
+  function changePage(delta) {
+    let n = currentPage + delta;
+    if (n < 0) n = 0;
+    if (n >= totalPages) n = totalPages - 1;
+    showPage(n);
+  }
+  document.querySelectorAll('.dot').forEach(dot => {
+    dot.addEventListener('click', () => showPage(parseInt(dot.dataset.page)));
+  });
+
+  function normalize(s) {
+    return s.trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  /* ---------- Page 2: gap-fill ---------- */
+  function checkPage(pageIndex) {
+    const page = document.getElementById('page-' + pageIndex);
+    let correct = 0, total = 0;
+    page.querySelectorAll('input[type="text"]').forEach(inp => {
+      total++;
+      const ans = normalize(inp.dataset.answer);
+      const val = normalize(inp.value);
+      if (val === ans) {
+        inp.classList.add('correct'); inp.classList.remove('incorrect');
+        correct++;
+      } else {
+        inp.classList.add('incorrect'); inp.classList.remove('correct');
+      }
+    });
+    if (total > 0) document.getElementById('score-' + pageIndex).textContent = `Score: ${correct} / ${total}`;
+  }
+  function revealPage(pageIndex) {
+    const page = document.getElementById('page-' + pageIndex);
+    page.querySelectorAll('input[type="text"]').forEach(inp => {
+      inp.value = inp.dataset.answer;
+      inp.classList.add('correct'); inp.classList.remove('incorrect');
+    });
+    document.getElementById('score-' + pageIndex).textContent = 'Revealed — review the answers above.';
+  }
+  function resetPage(pageIndex) {
+    const page = document.getElementById('page-' + pageIndex);
+    page.querySelectorAll('input[type="text"]').forEach(inp => {
+      inp.value = '';
+      inp.classList.remove('correct', 'incorrect');
+    });
+    document.getElementById('score-' + pageIndex).textContent = '';
+  }
+
+  /* ---------- Page 1: shuffle sentence builder ---------- */
+  const shuffleItems = [
+    {
+      type: 'Statement',
+      correct: ["The","hotel","completed","a","major","refurbishment","last","winter."],
+      shuffled: ["winter.","major","The","last","completed","refurbishment","a","hotel"]
+    },
+    {
+      type: 'Question',
+      correct: ["Is","the","new","spa","really","state-of-the-art?"],
+      shuffled: ["state-of-the-art?","really","Is","spa","the","new"]
+    },
+    {
+      type: 'Statement',
+      correct: ["Guests","walk","in","through","a","heated","glass","entrance."],
+      shuffled: ["entrance.","heated","Guests","glass","a","through","walk","in"]
+    },
+    {
+      type: 'Negative',
+      correct: ["Not","every","chalet","offers","ski-in/ski-out","access."],
+      shuffled: ["access.","ski-in/ski-out","Not","offers","every","chalet"]
+    },
+    {
+      type: 'Statement',
+      correct: ["The","conference","room","can","seat","forty","delegates","comfortably."],
+      shuffled: ["comfortably.","forty","The","delegates","room","seat","can","conference"]
+    },
+    {
+      type: 'Question',
+      correct: ["What","really","happens","behind","the","scenes","at","a","resort?"],
+      shuffled: ["resort?","scenes","What","a","at","happens","behind","the","really"]
+    },
+    {
+      type: 'Statement',
+      correct: ["Twenty","staff","members","keep","the","whole","operation","running","each","day."],
+      shuffled: ["day.","running","Twenty","operation","each","whole","staff","the","keep","members"]
+    },
+    {
+      type: 'Negative',
+      correct: ["Loud","renovation","work","must","not","disturb","the","guests."],
+      shuffled: ["guests.","disturb","Loud","not","the","must","work","renovation"]
+    }
+  ];
+
+  let shuffleState = shuffleItems.map(item => ({
+    bank: [...item.shuffled],
+    answer: []
+  }));
+
+  function renderShuffleContainer() {
+    const container = document.getElementById('shuffle-container');
+    container.innerHTML = '';
+    shuffleItems.forEach((item, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'shuffle-item';
+      wrap.innerHTML = `
+        <div class="shuffle-label">${item.type} #${i + 1}</div>
+        <div class="answer-zone" id="answer-${i}"></div>
+        <div class="bank-zone" id="bank-${i}"></div>
+        <div class="item-btn-row">
+          <button class="secondary" onclick="checkShuffleItem(${i})">Check</button>
+          <button class="secondary" onclick="revealShuffleItem(${i})">Reveal</button>
+          <button class="secondary" onclick="resetShuffleItem(${i})">Reset</button>
+        </div>
+        <div class="item-result" id="result-${i}"></div>
+      `;
+      container.appendChild(wrap);
+      renderShuffleItem(i);
+    });
+  }
+
+  function renderShuffleItem(i) {
+    const state = shuffleState[i];
+    const bankEl = document.getElementById('bank-' + i);
+    const answerEl = document.getElementById('answer-' + i);
+    bankEl.innerHTML = '';
+    answerEl.innerHTML = '';
+    answerEl.classList.remove('correct', 'incorrect');
+
+    state.bank.forEach((word, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'word-chip';
+      btn.textContent = word;
+      btn.onclick = () => moveToAnswer(i, idx);
+      bankEl.appendChild(btn);
+    });
+
+    state.answer.forEach((word, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'word-chip answer-chip';
+      btn.textContent = word;
+      btn.onclick = () => moveToBank(i, idx);
+      answerEl.appendChild(btn);
+    });
+  }
+
+  function moveToAnswer(i, bankIdx) {
+    const state = shuffleState[i];
+    const [word] = state.bank.splice(bankIdx, 1);
+    state.answer.push(word);
+    renderShuffleItem(i);
+    document.getElementById('result-' + i).textContent = '';
+  }
+
+  function moveToBank(i, answerIdx) {
+    const state = shuffleState[i];
+    const [word] = state.answer.splice(answerIdx, 1);
+    state.bank.push(word);
+    renderShuffleItem(i);
+    document.getElementById('result-' + i).textContent = '';
+  }
+
+  function checkShuffleItem(i) {
+    const state = shuffleState[i];
+    const correct = shuffleItems[i].correct;
+    const answerEl = document.getElementById('answer-' + i);
+    const resultEl = document.getElementById('result-' + i);
+    const isCorrect = state.answer.length === correct.length &&
+      state.answer.every((w, idx) => normalize(w) === normalize(correct[idx]));
+
+    answerEl.classList.remove('correct', 'incorrect');
+    if (isCorrect) {
+      answerEl.classList.add('correct');
+      resultEl.textContent = 'Correct!';
+      resultEl.className = 'item-result correct';
+    } else {
+      answerEl.classList.add('incorrect');
+      resultEl.textContent = 'Not quite — try again.';
+      resultEl.className = 'item-result incorrect';
+    }
+    return isCorrect;
+  }
+
+  function revealShuffleItem(i) {
+    shuffleState[i].bank = [];
+    shuffleState[i].answer = [...shuffleItems[i].correct];
+    renderShuffleItem(i);
+    const answerEl = document.getElementById('answer-' + i);
+    answerEl.classList.add('correct');
+    document.getElementById('result-' + i).textContent = 'Revealed.';
+    document.getElementById('result-' + i).className = 'item-result correct';
+  }
+
+  function resetShuffleItem(i) {
+    shuffleState[i] = { bank: [...shuffleItems[i].shuffled], answer: [] };
+    renderShuffleItem(i);
+    document.getElementById('result-' + i).textContent = '';
+  }
+
+  function checkAllShuffle() {
+    let correctCount = 0;
+    shuffleItems.forEach((_, i) => {
+      if (checkShuffleItem(i)) correctCount++;
+    });
+    document.getElementById('score-0').textContent = `Score: ${correctCount} / ${shuffleItems.length}`;
+  }
+
+  function revealAllShuffle() {
+    shuffleItems.forEach((_, i) => revealShuffleItem(i));
+    document.getElementById('score-0').textContent = 'Revealed — review the sentences above.';
+  }
+
+  function resetAllShuffle() {
+    shuffleItems.forEach((_, i) => resetShuffleItem(i));
+    document.getElementById('score-0').textContent = '';
+  }
+
+  renderShuffleContainer();
+</script>
+
+</body>
+</html>
