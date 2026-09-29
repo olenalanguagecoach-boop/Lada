@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Too and enough | Summit & Pines</title>
+<style>
+:root{--spruce:#17382d;--spruce2:#245240;--snow:#f5f8f7;--ice:#dcebe9;--larch:#d3a13f;--ink:#1c2a26;--mute:#5b6b66;--ok:#1f7a4d;--okbg:#e2f3e9;--bad:#b3392f;--badbg:#fbe6e3;--line:#c9d8d4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--snow);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:var(--spruce);color:#fff;position:relative;overflow:hidden;padding:28px 20px 96px}
+header svg{position:absolute;left:0;bottom:0;width:100%;height:90px}
+.wrap{max-width:760px;margin:0 auto}
+header .brand{margin:0;font-size:15px;color:var(--larch);letter-spacing:.02em}
+header h1{margin:4px 0 6px;font:normal 34px/1.15 Georgia,"Times New Roman",serif}
+header p{margin:0;color:#cfe0da;max-width:520px}
+main{padding:0 16px 40px}
+.rules{background:#fff;border:1px solid var(--line);border-radius:10px;margin:-18px auto 20px;padding:16px 18px;position:relative}
+.rules h2{font:normal 19px Georgia,serif;margin:0 0 8px}
+.rules ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.rules li{padding-left:14px;border-left:3px solid var(--larch)}
+.rules b{color:var(--spruce2)}
+.rules span{color:var(--mute)}
+.page{display:none}
+.page.active{display:block}
+h2.ex{font:normal 24px Georgia,serif;margin:8px 0 2px}
+.task{color:var(--mute);margin:0 0 14px}
+.item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.item.ok{border-color:var(--ok);background:var(--okbg)}
+.item.no{border-color:var(--bad);background:var(--badbg)}
+.q{margin:0 0 8px}
+.blank{display:inline-block;min-width:74px;border-bottom:2px solid var(--spruce2);text-align:center;font-weight:600;color:var(--spruce2);padding:0 4px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{font:inherit;border:1.5px solid var(--line);background:var(--snow);color:var(--ink);border-radius:8px;padding:6px 14px;cursor:pointer}
+.opt:hover{border-color:var(--spruce2)}
+.opt.sel{background:var(--ice);border-color:var(--spruce2);font-weight:600}
+.opt.right{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.wrong{background:var(--bad);border-color:var(--bad);color:#fff}
+input.gap{font:inherit;width:190px;max-width:100%;border:0;border-bottom:2px solid var(--spruce2);background:var(--ice);padding:3px 8px;border-radius:4px 4px 0 0;color:var(--ink)}
+.hint{color:var(--mute)}
+.fb{margin:8px 0 0;font-size:15px;display:none}
+.item.ok .fb,.item.no .fb,.item.rev .fb{display:block}
+.item.ok .fb{color:var(--ok)}
+.item.no .fb{color:var(--bad)}
+.item.rev .fb{color:var(--spruce2)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 6px}
+button.act{font:inherit;font-weight:600;border-radius:8px;padding:9px 18px;cursor:pointer;border:1.5px solid var(--spruce);background:var(--spruce);color:#fff}
+button.act.sec{background:#fff;color:var(--spruce)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--larch);outline-offset:2px}
+.score{margin-left:auto;font-weight:600;color:var(--spruce)}
+nav{display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:14px;border-top:1px solid var(--line)}
+.dots{display:flex;gap:10px}
+.dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--spruce);background:#fff;cursor:pointer;padding:0}
+.dot.on{background:var(--spruce)}
+.total{text-align:center;color:var(--mute);margin-top:12px;font-size:15px}
+@media (max-width:520px){header h1{font-size:28px}.score{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<p class="brand">Summit &amp; Pines Resort</p>
+<h1>Too and enough</h1>
+<p>Homework for facilities at work, resorts and hotels.</p>
+</div>
+<svg viewBox="0 0 800 90" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,90 0,55 90,20 160,52 260,8 370,58 470,26 570,60 680,16 800,52 800,90" fill="#245240"/><polygon points="0,90 0,72 120,44 210,70 330,38 450,74 560,48 690,72 800,46 800,90" fill="#f5f8f7"/><polygon points="260,8 246,26 260,21 274,28" fill="#fff"/><polygon points="680,16 667,32 680,27 693,34" fill="#fff"/></svg>
+</header>
+<main>
+<div class="wrap">
+<section class="rules" aria-label="Rules">
+<h2>Rules</h2>
+<ul>
+<li><b>adjective + enough</b> <span>The spa is warm enough.</span></li>
+<li><b>enough + noun</b> <span>We have enough rooms.</span></li>
+<li><b>too + adjective</b> <span>The lobby is too noisy.</span></li>
+<li><b>too much / too many / too few / too little + noun</b> <span>too much noise, too many guests, too few chairs, too little time</span></li>
+</ul>
+</section>
+
+<section class="page active" id="p0">
+<h2 class="ex">Exercise 1: Choose the correct answer</h2>
+<p class="task">Click one option for each sentence, then press Check.</p>
+<div id="mc"></div>
+<div class="bar">
+<button class="act" id="mcCheck">Check</button>
+<button class="act sec" id="mcReveal">Reveal</button>
+<button class="act sec" id="mcReset">Reset</button>
+<span class="score" id="mcScore">Score: 0 / 10</span>
+</div>
+</section>
+
+<section class="page" id="p1">
+<h2 class="ex">Exercise 2: Complete the sentences</h2>
+<p class="task">Write too, enough, too much, too many, too few or too little with the word in brackets. Write the whole phrase, for example: too noisy.</p>
+<div id="gf"></div>
+<div class="bar">
+<button class="act" id="gfCheck">Check</button>
+<button class="act sec" id="gfReveal">Reveal</button>
+<button class="act sec" id="gfReset">Reset</button>
+<span class="score" id="gfScore">Score: 0 / 10</span>
+</div>
+</section>
+
+<nav>
+<button class="act sec" id="prev">Back</button>
+<div class="dots"><button class="dot on" aria-label="Exercise 1"></button><button class="dot" aria-label="Exercise 2"></button></div>
+<button class="act sec" id="next">Next</button>
+</nav>
+<p class="total" id="total"></p>
+</div>
+</main>
+
+<script>
+var MC=[
+{s:"The ski lift queue is ___ long today. Let's take the gondola.",o:["too","enough","too much"],e:"Too goes before an adjective: too long."},
+{s:"We don't have ___ rooms for the whole conference group.",o:["enough","too","too much"],e:"Enough goes before a noun: enough rooms."},
+{s:"The new spa is ___ for 40 guests at once, so we can take the group booking.",o:["big enough","enough big","too big"],e:"Enough goes after an adjective: big enough."},
+{s:"There is ___ noise in the lobby. Guests can't relax.",o:["too much","too many","enough"],e:"Noise is uncountable, so we use too much."},
+{s:"There are ___ parking spaces. Guests have to park on the street.",o:["too few","too little","too much"],e:"Parking spaces are countable, so we use too few."},
+{s:"The staff room is ___ small for the whole team.",o:["too","enough","too much"],e:"Too goes before an adjective: too small."},
+{s:"Is the Wi-Fi ___ for a video conference?",o:["fast enough","enough fast","too fast"],e:"Enough goes after an adjective: fast enough."},
+{s:"We have ___ time to prepare the press release. Can we extend the deadline?",o:["too little","too few","enough little"],e:"Time is uncountable, so we use too little."},
+{s:"There are ___ tourists in the village in August. It's hard to find a table.",o:["too many","too much","too few"],e:"Tourists are countable, so we use too many."},
+{s:"Do we have ___ for the race next weekend?",o:["enough snow","snow enough","too snow"],e:"Enough goes before a noun: enough snow."}
+];
+var GF=[
+{b:"The conference room is ",a:". We need a bigger one.",h:"small",ok:["too small"],e:"Too goes before an adjective: too small."},
+{b:"Our ski school has ",a:" to run six groups at the same time.",h:"instructor",ok:["enough instructors"],e:"Enough goes before a noun: enough instructors."},
+{b:"There are ",a:" for vegetarian guests. We must add more dishes.",h:"option",ok:["too few options"],e:"Options are countable, so we use too few."},
+{b:"Sorry, the sauna is ",a:" for young children.",h:"hot",ok:["too hot"],e:"Too goes before an adjective: too hot."},
+{b:"Is the meeting room ",a:" for a podcast recording?",h:"quiet",ok:["quiet enough"],e:"Enough goes after an adjective: quiet enough."},
+{b:"We spend ",a:" on printed brochures. Let's move online.",h:"money",ok:["too much money"],e:"Money is uncountable, so we use too much."},
+{b:"There are ",a:" in the spa on Sunday. We can't give everyone a massage.",h:"guest",ok:["too many guests"],e:"Guests are countable, so we use too many."},
+{b:"Our team has ",a:" to answer every message today. We need help.",h:"time",ok:["too little time"],e:"Time is uncountable, so we use too little."},
+{b:"The lobby isn't ",a:" for guests coming in from the snow.",h:"warm",ok:["warm enough"],e:"Enough goes after an adjective: warm enough."},
+{b:"Don't worry, we have ",a:" for all the coaches.",h:"parking space",ok:["enough parking spaces","enough parking space","enough parking"],e:"Enough goes before a noun: enough parking spaces."}
+];
+function $(id){return document.getElementById(id)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function norm(v){return v.toLowerCase().replace(/[.,!?;:]/g,"").replace(/\s+/g," ").trim()}
+var mcOpts=[],mcSel=[],mcDone=[0,0];
+function buildMC(){
+mcOpts=MC.map(function(q){return shuffle(q.o)});mcSel=MC.map(function(){return null});
+var h="";
+MC.forEach(function(q,i){
+h+='<div class="item" id="m'+i+'"><p class="q">'+(i+1)+'. '+q.s.replace("___",'<span class="blank" id="mb'+i+'">&nbsp;</span>')+'</p><div class="opts">';
+mcOpts[i].forEach(function(o,k){h+='<button class="opt" data-i="'+i+'" data-k="'+k+'">'+o+'</button>'});
+h+='</div><p class="fb" id="mf'+i+'"></p></div>'});
+$("mc").innerHTML=h;
+$("mcScore").textContent="Score: 0 / 10";mcDone[0]=0;totals();
+}
+function buildGF(){
+var h="";
+GF.forEach(function(q,i){
+h+='<div class="item" id="g'+i+'"><p class="q">'+(i+1)+'. '+q.b+'<input class="gap" id="gi'+i+'" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Answer '+(i+1)+'"> <span class="hint">('+q.h+')</span>'+q.a+'</p><p class="fb" id="gf'+i+'"></p></div>'});
+$("gf").innerHTML=h;
+$("gfScore").textContent="Score: 0 / 10";mcDone[1]=0;totals();
+}
+function totals(){$("total").textContent="Exercise 1: "+mcDone[0]+" / 10    Exercise 2: "+mcDone[1]+" / 10"}
+document.addEventListener("click",function(e){
+var b=e.target.closest(".opt");
+if(!b||b.disabled)return;
+var i=+b.dataset.i,k=+b.dataset.k;
+mcSel[i]=k;
+var box=$("m"+i);box.className="item";$("mf"+i).textContent="";
+box.querySelectorAll(".opt").forEach(function(x){x.className="opt"});
+b.className="opt sel";
+$("mb"+i).textContent=mcOpts[i][k];
+});
+$("mcCheck").onclick=function(){
+var s=0;
+MC.forEach(function(q,i){
+var box=$("m"+i),f=$("mf"+i),btns=box.querySelectorAll(".opt");
+if(mcSel[i]===null){box.className="item no";f.textContent="Choose an answer first.";return}
+var chosen=mcOpts[i][mcSel[i]];
+if(chosen===q.o[0]){s++;box.className="item ok";btns[mcSel[i]].className="opt right";f.textContent="Correct. "+q.e}
+else{box.className="item no";btns[mcSel[i]].className="opt wrong";f.textContent="Not quite. "+q.e}
+});
+mcDone[0]=s;$("mcScore").textContent="Score: "+s+" / 10";totals();
+};
+$("mcReveal").onclick=function(){
+MC.forEach(function(q,i){
+var box=$("m"+i);box.className="item rev";
+box.querySelectorAll(".opt").forEach(function(x,k){x.className="opt"+(mcOpts[i][k]===q.o[0]?" right":"");x.disabled=true});
+$("mb"+i).textContent=q.o[0];$("mf"+i).textContent=q.e});
+};
+$("mcReset").onclick=buildMC;
+$("gfCheck").onclick=function(){
+var s=0;
+GF.forEach(function(q,i){
+var box=$("g"+i),f=$("gf"+i),v=norm($("gi"+i).value);
+if(!v){box.className="item no";f.textContent="Write your answer first.";return}
+if(q.ok.indexOf(v)>-1){s++;box.className="item ok";f.textContent="Correct. "+q.e}
+else{box.className="item no";f.textContent="Not quite. "+q.e}
+});
+mcDone[1]=s;$("gfScore").textContent="Score: "+s+" / 10";totals();
+};
+$("gfReveal").onclick=function(){
+GF.forEach(function(q,i){
+$("g"+i).className="item rev";$("gi"+i).value=q.ok[0];$("gf"+i).textContent=q.e});
+};
+$("gfReset").onclick=buildGF;
+var cur=0,dots=document.querySelectorAll(".dot");
+function go(n){
+cur=Math.max(0,Math.min(1,n));
+$("p0").className="page"+(cur===0?" active":"");
+$("p1").className="page"+(cur===1?" active":"");
+dots.forEach(function(d,i){d.className="dot"+(i===cur?" on":"")});
+$("prev").style.visibility=cur===0?"hidden":"visible";
+$("next").style.visibility=cur===1?"hidden":"visible";
+window.scrollTo(0,0);
+}
+dots.forEach(function(d,i){d.onclick=function(){go(i)}});
+$("prev").onclick=function(){go(cur-1)};
+$("next").onclick=function(){go(cur+1)};
+buildMC();buildGF();go(0);
+</script>
+</body>
+</html>
