@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Summit & Pines – Vocabulary Homework</title>
+<style>
+:root{--g:#1f5a45;--g2:#e8f3ee;--ink:#1d2b27;--ok:#1b8a4b;--bad:#c0392b}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,sans-serif;background:#f4f7f5;color:var(--ink)}
+header{background:linear-gradient(#2b6f8f,#8fc1d6);color:#fff;text-align:center;padding:16px 12px 0}
+header h1{margin:0;font-size:20px}header p{margin:2px 0 0;font-size:13px;opacity:.9}
+header svg{display:block;width:100%;height:70px;margin-top:6px}
+main{max-width:720px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px #0001}
+h2{margin:0 0 4px;font-size:18px;color:var(--g)}
+.hint{font-size:14px;color:#556;margin:0 0 10px}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.bank span{background:var(--g2);color:var(--g);padding:3px 10px;border-radius:14px;font-weight:600}
+.item{margin:12px 0}.lead{font-style:italic;color:#445}
+input[type=text]{font:inherit;border:0;border-bottom:2px solid #9ab;background:#f7fafb;padding:2px 6px;width:120px;max-width:100%}
+input[type=text].w{width:230px}
+input.ok{border-color:var(--ok);background:#e6f6ec}
+input.bad{border-color:var(--bad);background:#fdeceb}
+input.rev{border-color:#e0a100;background:#fff6dc}
+label.opt{display:block;padding:6px 10px;margin:4px 0;border:1px solid #cdd;border-radius:8px;cursor:pointer}
+label.opt.ok{background:#e6f6ec;border-color:var(--ok)}
+label.opt.bad{background:#fdeceb;border-color:var(--bad)}
+.bar{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+button{font:inherit;border:0;border-radius:8px;padding:7px 14px;cursor:pointer;background:var(--g);color:#fff}
+button.s{background:#dde6e2;color:var(--ink)}
+.score{margin-left:auto;font-weight:700}
+nav{display:flex;justify-content:center;align-items:center;gap:14px;padding-bottom:24px}
+.dot{width:12px;height:12px;border-radius:50%;background:#c3cfca;border:0;padding:0}
+.dot.on{background:var(--g)}
+.page{display:none}.page.on{display:block}
+</style></head><body>
+<header>
+<h1>Summit & Pines Resort</h1><p>Vocabulary homework · Communications team</p>
+<svg viewBox="0 0 700 70" preserveAspectRatio="none"><polygon points="0,70 0,45 90,12 150,40 230,5 320,48 410,18 500,44 590,8 700,40 700,70" fill="#4d7f95"/><polygon points="0,70 0,58 70,34 140,56 240,26 330,60 440,36 540,58 630,30 700,56 700,70" fill="#1f5a45"/></svg>
+</header>
+<main>
+<section class="page on" id="p1">
+<div class="card" id="c1">
+<h2>Exercise 1 · Complete the sentences</h2>
+<p class="hint">Use the words in the box. Each word is used once.</p>
+<div class="bank"><span>stalking</span><span>worried</span><span>hurry</span><span>went</span><span>steamed</span><span>worrying</span></div>
+<div class="root"></div>
+<div class="bar"><button class="chk">Check</button><button class="s rev">Reveal</button><button class="s rst">Reset</button><span class="score"></span></div>
+</div>
+<div class="card" id="c2">
+<h2>Exercise 2 · Choose the correct answer</h2>
+<p class="hint">Select one option for each sentence.</p>
+<div class="root"></div>
+<div class="bar"><button class="chk">Check</button><button class="s rev">Reveal</button><button class="s rst">Reset</button><span class="score"></span></div>
+</div>
+</section>
+<section class="page" id="p2">
+<div class="card" id="c3">
+<h2>Exercise 3 · Paraphrase</h2>
+<p class="hint">Complete the second sentence so that it has the same meaning as the first. Write only in the gap.</p>
+<div class="root"></div>
+<div class="bar"><button class="chk">Check</button><button class="s rev">Reveal</button><button class="s rst">Reset</button><span class="score"></span></div>
+</div>
+</section>
+<nav><button class="s" id="prev">← Back</button><button class="dot on"></button><button class="dot"></button><button class="s" id="next">Next →</button></nav>
+</main>
+<script>
+const N=s=>s.toLowerCase().replace(/[’‘]/g,"'").replace(/[.,!?;:"]/g,"").replace(/\s+/g," ").trim();
+const ex1=[
+["The guests were in a ___ to catch the last ski lift, so we skipped the welcome speech.",["hurry"]],
+["Our mountain restaurant now offers a ___ food menu for health-conscious guests.",["steamed"]],
+["A guest has been ___ our social media manager online, so we reported it to security.",["stalking"]],
+["Don't start ___ yet. We'll know the booking numbers on Monday.",["worrying"]],
+["A short video from the ski slope ___ viral last week and brought us 5,000 new followers.",["went"]],
+["I'm ___ about the weather forecast for the opening weekend.",["worried"]]
+].map(([t,a])=>{const [pre,post]=t.split("___");return{pre:pre.trim(),post:post.trim(),ans:a}});
+const ex2=[
+{q:"Sorry, I can't talk now. I'm ___ to get to the press conference.",o:["in hurry","in a hurry","on a hurry"],c:1},
+{q:"The spa restaurant serves ___ vegetables with every main course.",o:["steaming","steam","steamed"],c:2},
+{q:"Someone keeps following our PR manager and sending creepy messages. This person is a ___.",o:["stalked","stalking","stalker"],c:2},
+{q:"Don't ___ about the broadcast. Everything is under control.",o:["worrying","worry","worried"],c:1},
+{q:"Our post about the new gondola ___ and reached a million views in two days.",o:["gone viral","went viral","went virus"],c:1},
+{q:"If a post goes viral, it ___.",o:["is deleted by the platform","spreads very quickly online","costs a lot of money"],c:1}
+];
+const ex3=[
+{lead:"I'm not sure it's good to do this.",pre:"I have a few reservations",post:".",ans:["about doing this","about this","about doing it","about it","about doing that"]},
+{lead:"How about changing the colour?",pre:"Why don't",post:"?",ans:["we change the colour","we change the color","we change colours","we change colors"]},
+{lead:"Let's ask them to make a better offer.",pre:"I think we should consider",post:".",ans:["asking them to make a better offer","asking them for a better offer","asking them to make us a better offer"]},
+{lead:"I don't think we'll be able to convince them of our proposals.",pre:"It might prove",post:"to convince them of our proposals.",ans:["difficult","hard","challenging"]},
+{lead:"Perhaps we could provide some chairs.",pre:"Couldn't",post:"?",ans:["we provide some chairs","we provide chairs"]},
+{lead:"We could always have music in the factory.",pre:"Have you thought about",post:"music in the factory?",ans:["having","playing"]},
+{lead:"Do you mind if I don't come?",pre:"I'd rather",post:".",ans:["not come","not attend"]},
+{lead:"I'd recommend that we look at this again tomorrow morning.",pre:"I'd recommend",post:"at this again tomorrow morning.",ans:["looking"]}
+];
+function bar(card,n){const sc=card.querySelector('.score');return{sc,set:v=>sc.textContent=v===null?'':'Score: '+v+'/'+n}}
+function mkGap(card,items,wide){
+ const root=card.querySelector('.root');
+ root.innerHTML=items.map((it,i)=>`<div class="item">${it.lead?`<div class="lead">${it.lead}</div>`:''}${i+1}. ${it.pre} <input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" class="${wide?'w':''}"> ${it.post}</div>`).join('');
+ const inp=[...root.querySelectorAll('input')],b=bar(card,items.length);
+ const clr=e=>e.classList.remove('ok','bad','rev');
+ card.querySelector('.chk').onclick=()=>{let n=0;inp.forEach((e,i)=>{clr(e);const ok=items[i].ans.map(N).includes(N(e.value));e.classList.add(ok?'ok':'bad');if(ok)n++});b.set(n)};
+ card.querySelector('.rev').onclick=()=>{inp.forEach((e,i)=>{clr(e);e.value=items[i].ans[0];e.classList.add('rev')});b.sc.textContent='Answers shown'};
+ card.querySelector('.rst').onclick=()=>{inp.forEach(e=>{clr(e);e.value=''});b.set(null)};
+}
+function mkMC(card,items){
+ const root=card.querySelector('.root');
+ root.innerHTML=items.map((it,i)=>`<div class="item"><div>${i+1}. ${it.q}</div>${it.o.map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join('')}</div>`).join('');
+ const grp=items.map((_,i)=>[...root.querySelectorAll(`input[name=q${i}]`)]),b=bar(card,items.length);
+ const clr=()=>root.querySelectorAll('label.opt').forEach(l=>l.classList.remove('ok','bad'));
+ card.querySelector('.chk').onclick=()=>{clr();let n=0;grp.forEach((g,i)=>g.forEach((r,j)=>{if(r.checked){const ok=j===items[i].c;r.parentNode.classList.add(ok?'ok':'bad');if(ok)n++}}));b.set(n)};
+ card.querySelector('.rev').onclick=()=>{clr();grp.forEach((g,i)=>g.forEach((r,j)=>{r.checked=j===items[i].c;if(r.checked)r.parentNode.classList.add('ok')}));b.sc.textContent='Answers shown'};
+ card.querySelector('.rst').onclick=()=>{clr();grp.forEach(g=>g.forEach(r=>r.checked=false));b.set(null)};
+}
+mkGap(document.getElementById('c1'),ex1,false);
+mkMC(document.getElementById('c2'),ex2);
+mkGap(document.getElementById('c3'),ex3,true);
+let cur=0;const pages=[...document.querySelectorAll('.page')],dots=[...document.querySelectorAll('.dot')];
+function go(n){cur=Math.max(0,Math.min(pages.length-1,n));pages.forEach((p,i)=>p.classList.toggle('on',i===cur));dots.forEach((d,i)=>d.classList.toggle('on',i===cur));scrollTo(0,0)}
+dots.forEach((d,i)=>d.onclick=()=>go(i));
+document.getElementById('prev').onclick=()=>go(cur-1);
+document.getElementById('next').onclick=()=>go(cur+1);
+</script></body></html>
