@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Summit & Pines – Vocabulary Homework</title>
+<style>
+:root{--pine:#1b4332;--ice:#eaf2f5;--ink:#24313a;--blue:#2b6c8f;--gold:#e0b038;--ok:#d8f0df;--okb:#2e8b57;--bad:#fbe0e0;--badb:#c0392b;--rev:#fff3cd;--revb:#c9a227}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ice);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:var(--pine);color:#fff;position:relative;overflow:hidden}
+header svg{display:block;width:100%;height:90px}
+.title{padding:14px 20px 4px;max-width:760px;margin:0 auto}
+.title h1{margin:0;font:700 24px/1.2 Georgia,serif}
+.title p{margin:4px 0 14px;opacity:.85;font-size:14px}
+main{max-width:760px;margin:0 auto;padding:18px 16px 40px}
+.page{display:none}.page.on{display:block}
+h2{font:700 21px Georgia,serif;color:var(--pine);margin:6px 0 4px}
+.instr{margin:0 0 14px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;background:#fff;border:2px solid var(--blue);border-radius:10px;padding:12px;margin-bottom:16px}
+.bank span{background:var(--ice);border-radius:6px;padding:4px 10px;font-weight:600;color:var(--blue)}
+.item{background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:10px;border-left:5px solid #cfd8dc}
+.item.ok{background:var(--ok);border-color:var(--okb)}
+.item.bad{background:var(--bad);border-color:var(--badb)}
+.item.rev{background:var(--rev);border-color:var(--revb)}
+input[type=text]{font:inherit;border:0;border-bottom:2px solid var(--blue);background:#f7fbfd;width:150px;padding:2px 6px;margin:0 3px;text-align:center;color:var(--ink)}
+input[type=text]:focus{outline:2px solid var(--gold)}
+.opts{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.opt{text-align:left;font:inherit;background:#fff;border:2px solid #cfd8dc;border-radius:8px;padding:7px 12px;cursor:pointer;color:var(--ink)}
+.opt:hover{border-color:var(--blue)}
+.opt.sel{border-color:var(--blue);background:#e3f0f6}
+.opt.right{border-color:var(--okb);background:var(--ok)}
+.opt.wrong{border-color:var(--badb);background:var(--bad)}
+.why{display:none;margin-top:8px;font-size:14px;color:#44535c}
+.show .why{display:block}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0}
+button.b{font:600 15px system-ui;border:0;border-radius:8px;padding:9px 16px;cursor:pointer;color:#fff;background:var(--pine)}
+button.b.alt{background:var(--blue)}button.b.ghost{background:#fff;color:var(--ink);border:2px solid #cfd8dc}
+.score{margin-left:auto;font-weight:700;color:var(--pine)}
+nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px}
+.dots{display:flex;gap:10px}.dots i{width:12px;height:12px;border-radius:50%;background:#b8c6cc;cursor:pointer}.dots i.on{background:var(--pine);transform:scale(1.25)}
+button:focus-visible,.dots i:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+<svg viewBox="0 0 800 90" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+<circle cx="690" cy="30" r="14" fill="#e0b038"/>
+<polygon points="0,90 120,35 190,65 300,12 420,70 520,30 640,72 760,40 800,58 800,90" fill="#2d6a4f"/>
+<polygon points="300,12 270,34 292,30 304,40 318,28" fill="#fff"/>
+<polygon points="120,35 100,50 118,46 128,54" fill="#fff"/>
+<polygon points="0,90 90,62 200,84 330,60 470,88 600,66 720,86 800,74 800,90" fill="#1b4332"/>
+</svg>
+<div class="title"><h1>Summit &amp; Pines Resort</h1><p>Vocabulary homework · 2 exercises</p></div>
+</header>
+<main>
+
+<section class="page on" id="p0">
+<h2>Exercise 1 · Complete the sentences</h2>
+<p class="instr">Choose the correct word or phrase from the box. Use each one once. Use the phrases exactly as they appear.</p>
+<div class="bank" id="bank"></div>
+<div id="gaps"></div>
+<div class="bar"><button class="b" onclick="gCheck()">Check</button><button class="b alt" onclick="gReveal()">Reveal</button><button class="b ghost" onclick="gReset()">Reset</button><span class="score" id="gScore"></span></div>
+</section>
+
+<section class="page" id="p1">
+<h2>Exercise 2 · Choose the correct answer</h2>
+<p class="instr">Pick the best option (a, b or c) to complete each sentence.</p>
+<div id="mc"></div>
+<div class="bar"><button class="b" onclick="mCheck()">Check</button><button class="b alt" onclick="mReveal()">Reveal</button><button class="b ghost" onclick="mReset()">Reset</button><span class="score" id="mScore"></span></div>
+</section>
+
+<nav><button class="b ghost" id="prev" onclick="go(cur-1)">Back</button><div class="dots" id="dots"></div><button class="b" id="next" onclick="go(cur+1)">Next</button></nav>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>s.toLowerCase().replace(/[.,!?;:]/g,'').replace(/\s+/g,' ').trim();
+
+/* ---------- Exercise 1: gap-fill ---------- */
+const G=[
+ ["Sorry, I was "," the press briefing this morning. The road was blocked by snow.",["late for"]],
+ ["We must "," deadlines, or the new ski-pass brochure won't be printed in time.",["stick to","keep to"]],
+ ["Our opening ceremony will be shown in a live TV "," on Saturday.",["broadcast"]],
+ ["Several guests at our wellness weekend decided to "," alcohol for a month.",["give up","quit"]],
+ ["What would you like "," – pancakes or an omelette?",["for breakfast"]],
+ ["The SWOT analysis shows that our biggest "," is our dependence on winter bookings.",["weakness"]],
+ ["If everything goes "," the new gondola will open in December.",["as planned","according to plan"]],
+ ["Our PR team is determined to "," its goals by building long-term relationships with travel bloggers.",["pursue","achieve"]],
+ [""," the snow came late this year, our bookings are higher than last season.",["although","though","even though"]]
+];
+const bankWords=["late for","stick to","broadcast","give up","for breakfast","weakness","as planned","pursue","although"];
+$("bank").innerHTML=shuffle(bankWords).map(w=>"<span>"+w+"</span>").join("");
+$("gaps").innerHTML=G.map((g,i)=>`<div class="item" id="g${i}">${g[0]}<input type="text" id="gi${i}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Gap ${i+1}">${g[1]}</div>`).join("");
+function gSet(i,c){$("g"+i).className="item "+c}
+function gCheck(){let s=0;G.forEach((g,i)=>{const v=norm($("gi"+i).value);if(!v){gSet(i,"");return}
+ if(g[2].includes(v)){s++;gSet(i,"ok")}else gSet(i,"bad")});
+ $("gScore").textContent="Score: "+s+" / "+G.length}
+function gReveal(){G.forEach((g,i)=>{const inp=$("gi"+i);if(!g[2].includes(norm(inp.value))){inp.value=g[2][0];gSet(i,"rev")}});$("gScore").textContent=""}
+function gReset(){G.forEach((g,i)=>{$("gi"+i).value="";gSet(i,"")});$("gScore").textContent=""}
+
+/* ---------- Exercise 2: multiple choice (first option = correct) ---------- */
+const M=[
+ ["Our photographer was late ___ the press briefing, so we started without him.",["for","on","to"],"We say late FOR a meeting or an event."],
+ ["Our events manager always ___ deadlines, even in the busy season.",["sticks to","sticks at","sticks for"],"The collocation is stick TO a deadline."],
+ ["Last winter the regional channel ___ our opening night live.",["broadcast","broadcasts","has broadcast"].slice(0,2).concat(["will broadcast"]),"Broadcast is irregular: broadcast – broadcast – broadcast. 'Last winter' needs the past simple."],
+ ["My colleague gave ___ sugar in January and says she feels great.",["up","off","away"],"Give UP + noun means to stop doing or having something."],
+ ["The campaign was slow at first, but we didn't give up ___ it.",["on","at","of"],"Give up ON something means to stop believing it can work."],
+ ["What would you like ___ breakfast?",["for","at","on"],"We say FOR breakfast, lunch and dinner."],
+ ["Our biggest ___ is that nobody in the team speaks German, so we need to hire someone.",["weakness","opportunity","strength"],"A weakness is something a company is not good at."],
+ ["If everything goes ___, the new lift will open before Christmas.",["as planned","like planned","with plan"],"Go AS PLANNED = happen the way we expected."],
+ ["She works hard to ___ her goals in the tourism industry.",["pursue","pursuit","pursuing"],"After 'to' we need the base verb: to pursue."],
+ ["___ the road was closed, most guests arrived on time.",["Although","Despite","However"],"Although + full clause. (Despite + noun: 'Despite the closed road'.)"]
+];
+const MS=M.map(m=>{const c=m[1][0];return{q:m[0],o:shuffle(m[1]),c:c,w:m[2],sel:null}});
+function mRender(){$("mc").innerHTML=MS.map((m,i)=>`<div class="item" id="m${i}"><div>${i+1}. ${m.q.replace("___","<b>_____</b>")}</div><div class="opts">${m.o.map((o,j)=>`<button class="opt" id="mo${i}_${j}" onclick="mPick(${i},${j})">${"abc"[j]}) ${o}</button>`).join("")}</div><div class="why">${m.w}</div></div>`).join("")}
+function mPick(i,j){const m=MS[i];if($("m"+i).classList.contains("show"))return;m.sel=j;m.o.forEach((_,k)=>$("mo"+i+"_"+k).className="opt"+(k===j?" sel":""))}
+function mPaint(i,reveal){const m=MS[i],box=$("m"+i);
+ m.o.forEach((o,k)=>{const b=$("mo"+i+"_"+k);if(o===m.c&&(m.sel!==null||reveal))b.className="opt right";else if(k===m.sel)b.className="opt wrong"});
+ box.classList.add("show");box.classList.add(reveal?"rev":(m.o[m.sel]===m.c?"ok":"bad"))}
+function mCheck(){let s=0;MS.forEach((m,i)=>{if(m.sel===null)return;if(m.o[m.sel]===m.c)s++;mPaint(i,false)});$("mScore").textContent="Score: "+s+" / "+MS.length}
+function mReveal(){MS.forEach((m,i)=>{$("m"+i).className="item";if(m.sel===null||m.o[m.sel]!==m.c){mPaint(i,true)}else mPaint(i,false)});$("mScore").textContent=""}
+function mReset(){MS.forEach((m,i)=>{m.sel=null;m.o=shuffle(m.o)});mRender();$("mScore").textContent=""}
+mRender();
+
+/* ---------- Navigation ---------- */
+let cur=0;const N=2;
+$("dots").innerHTML=Array.from({length:N},(_,i)=>`<i tabindex="0" role="button" aria-label="Exercise ${i+1}" onclick="go(${i})" onkeydown="if(event.key==='Enter')go(${i})"></i>`).join("");
+function go(n){if(n<0||n>=N)return;cur=n;document.querySelectorAll(".page").forEach((p,i)=>p.classList.toggle("on",i===n));
+ document.querySelectorAll(".dots i").forEach((d,i)=>d.classList.toggle("on",i===n));
+ $("prev").style.visibility=n===0?"hidden":"visible";$("next").style.visibility=n===N-1?"hidden":"visible";window.scrollTo(0,0)}
+go(0);
+</script>
+</body>
+</html>
