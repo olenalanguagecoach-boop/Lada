@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summit &amp; Pines – Vocabulary Practice</title>
+<style>
+:root{--pine:#1f4a3d;--snow:#f3f7f8;--ice:#cfe3ea;--ink:#16262c;--sun:#e8a33d;--ok:#2e8b57;--bad:#c0392b;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font:17px/1.5 Georgia,"Times New Roman",serif;background:var(--snow);color:var(--ink)}
+header{background:linear-gradient(#17384f,#2d6a7f);color:#fff;padding:14px 18px 0;position:relative;overflow:hidden}
+header h1{margin:0;font-size:22px;font-weight:700;letter-spacing:.2px}
+header p{margin:2px 0 0;font:14px system-ui,sans-serif;opacity:.85}
+header svg{display:block;width:100%;height:70px;margin-top:6px}
+#total{position:absolute;right:16px;top:14px;font:600 14px system-ui,sans-serif;background:rgba(255,255,255,.16);padding:4px 10px;border-radius:14px}
+main{max-width:760px;margin:0 auto;padding:18px 16px 90px}
+.page{display:none}.page.on{display:block}
+h2{margin:6px 0 4px;font-size:21px;color:var(--pine)}
+.intro{font:15px system-ui,sans-serif;color:#44585f;margin:0 0 14px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;background:var(--ice);padding:12px;border-radius:10px;margin-bottom:14px;font:15px system-ui,sans-serif}
+.bank span{background:#fff;padding:3px 10px;border-radius:14px;border:1px solid #a9c6d1}
+ol.items{padding-left:22px;margin:0}
+ol.items li{background:var(--card);margin-bottom:10px;padding:10px 14px;border-radius:10px;border-left:5px solid #d5dde0}
+li.ok{border-left-color:var(--ok);background:#eef8f2}li.bad{border-left-color:var(--bad);background:#fdf0ee}
+input.gap,input.fix{font:inherit;border:0;border-bottom:2px solid var(--pine);background:#f7fbfc;padding:1px 6px;width:150px;max-width:100%}
+input.fix{width:200px;margin-top:6px}
+.opts{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.opt{font:15px system-ui,sans-serif;text-align:left;border:1.5px solid #b9cdd4;background:#fff;border-radius:8px;padding:8px 12px;cursor:pointer}
+.opt.sel{border-color:var(--pine);background:#e4f0ec}
+.opt.right{border-color:var(--ok);background:#dcf3e5}.opt.wrong{border-color:var(--bad);background:#f9dcd7}
+.wrongtxt{background:#fde8c8;padding:0 5px;border-radius:4px;font-weight:700}
+.bar{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+button.b{font:600 15px system-ui,sans-serif;border:0;border-radius:8px;padding:9px 16px;cursor:pointer;background:var(--pine);color:#fff}
+button.b.alt{background:#fff;color:var(--pine);border:1.5px solid var(--pine)}
+.score{font:600 15px system-ui,sans-serif;margin-left:auto}
+.fc{perspective:900px;height:230px;margin:10px 0}
+.fc div.in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d;cursor:pointer}
+.fc.flip .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;background:var(--card);border-radius:14px;border:2px solid var(--pine);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:18px}
+.face.back{transform:rotateY(180deg);background:var(--pine);color:#fff}
+.face .big{font-size:26px;font-weight:700}.face .ex{font:italic 16px Georgia,serif;margin-top:10px;opacity:.95}
+.face small{font:13px system-ui,sans-serif;opacity:.7;margin-top:12px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #cfdde2;display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
+.dots{display:flex;gap:10px}.dot{width:12px;height:12px;border-radius:50%;background:#c4d3d9;cursor:pointer;border:0;padding:0}.dot.on{background:var(--sun);transform:scale(1.25)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+</style></head><body>
+<header>
+<h1>Summit &amp; Pines · Vocabulary Practice</h1>
+<p>Round-table, brand and resort language</p>
+<div id="total">Score: 0</div>
+<svg viewBox="0 0 800 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L90 28 L140 48 L230 6 L330 52 L420 22 L520 56 L610 14 L700 46 L800 20 L800 70Z" fill="#f3f7f8"/><path d="M230 6 L205 24 L222 20 L232 28 L246 18Z M610 14 L590 28 L606 25 L614 31 L628 22Z" fill="#fff"/><path d="M60 70 L60 52 M74 70 L74 46 M770 70 L770 50" stroke="#1f4a3d" stroke-width="5"/></svg>
+</header>
+<main>
+<section class="page on" id="p0">
+<h2>1. Flashcards</h2>
+<p class="intro">Read the clue and say the word or phrase out loud. Then click the card to check. Try to use it in your own sentence.</p>
+<div class="fc" id="fc"><div class="in"><div class="face"><div class="big" id="front"></div><small>click to flip</small></div><div class="face back"><div class="big" id="word"></div><div class="ex" id="ex"></div></div></div></div>
+<div class="bar"><button class="b alt" id="fprev">Previous</button><button class="b alt" id="fnext">Next card</button><span class="score" id="fcount"></span></div>
+</section>
+
+<section class="page" id="p1">
+<h2>2. Fill the gaps</h2>
+<p class="intro">Use each word or phrase from the box once. Change the form if you need to.</p>
+<div class="bank" id="bank"></div>
+<ol class="items" id="gaps"></ol>
+<div class="bar"><button class="b" data-act="check" data-t="gaps">Check</button><button class="b alt" data-act="reveal" data-t="gaps">Reveal</button><button class="b alt" data-act="reset" data-t="gaps">Reset</button><span class="score" id="s-gaps"></span></div>
+</section>
+
+<section class="page" id="p2">
+<h2>3. Choose the correct answer</h2>
+<p class="intro">Pick one option for each question.</p>
+<ol class="items" id="mc"></ol>
+<div class="bar"><button class="b" data-act="check" data-t="mc">Check</button><button class="b alt" data-act="reveal" data-t="mc">Reveal</button><button class="b alt" data-act="reset" data-t="mc">Reset</button><span class="score" id="s-mc"></span></div>
+</section>
+
+<section class="page" id="p3">
+<h2>4. Fix the mistake</h2>
+<p class="intro">The highlighted part of each sentence is wrong. Type the correct version of that part.</p>
+<ol class="items" id="fix"></ol>
+<div class="bar"><button class="b" data-act="check" data-t="fix">Check</button><button class="b alt" data-act="reveal" data-t="fix">Reveal</button><button class="b alt" data-act="reset" data-t="fix">Reset</button><span class="score" id="s-fix"></span></div>
+</section>
+</main>
+<nav><button class="b alt" id="prev">Back</button><div class="dots" id="dots"></div><button class="b" id="next">Next</button></nav>
+
+<script>
+const $=id=>document.getElementById(id),norm=s=>s.trim().toLowerCase().replace(/\s+/g," ");
+const cards=[
+["A meeting that is planned and happens at a set time and place","take place","The round-table will take place at Pines Lodge on Friday."],
+["A goal you want to reach soon","short-term goal","Our short-term goal is to sell out New Year week."],
+["Make something stronger","strengthen","We want to strengthen our brand in Europe."],
+["How well people know and recognise your brand","brand awareness","The ski festival boosted our brand awareness."],
+["Work towards a goal (say the full phrase)","pursue a goal / the aim of doing sth","We are pursuing the aim of becoming a year-round resort."],
+["Have an effect on a decision (no preposition after it!)","influence sth","Reviews influence our bookings."],
+["The person who plans and runs an event","organiser","The organiser sent the media schedule."],
+["The verb for languages (not 'know')","speak English / German","Our team speaks English, German and Polish."],
+["Phrase used to show differences between two things","compared to / in comparison with","Compared to last year, bookings are up 15%."],
+["The machine that prepares ski slopes at night","snowcat / trail groomer","The snowcat prepares the slopes every night."],
+["A famous person's name written for a fan; or your name on a contract","autograph / signature","The skier gave autographs. The contract needs a signature."],
+["A hotel room for one guest","single room","A single room is booked for the keynote speaker."]];
+let ci=0;
+function showCard(){$("fc").classList.remove("flip");$("front").textContent=cards[ci][0];$("word").textContent=cards[ci][1];$("ex").textContent=cards[ci][2];$("fcount").textContent=(ci+1)+" / "+cards.length}
+$("fc").onclick=()=>$("fc").classList.toggle("flip");
+$("fnext").onclick=()=>{ci=(ci+1)%cards.length;showCard()};$("fprev").onclick=()=>{ci=(ci+cards.length-1)%cards.length;showCard()};showCard();
+
+const bankWords=["single room","strengthen","speaks","snowcat","take place","organiser","influence","signature","short-term goal","pursuing","brand awareness","Compared to"];
+$("bank").innerHTML=bankWords.map(w=>"<span>"+w+"</span>").join("");
+const gaps=[
+["Our ___ is to fill every room during Christmas week.",["short-term goal"]],
+["Our guest-relations team ___ English, German and Polish.",["speaks"]],
+["The contract is not valid without the director's ___.",["signature"]],
+["The investor round-table will ___ at Pines Lodge next Friday.",["take place"]],
+["We are ___ the goal of becoming a year-round destination.",["pursuing"]],
+["After the viral video, ___ among young skiers grew fast.",["brand awareness"]],
+["The ___ prepares the slopes every night, so guests get perfect corduroy.",["snowcat","trail groomer"]],
+["___ last winter, snow-making costs have fallen by 10%.",["compared to","in comparison with"]],
+["Weather forecasts ___ our guests' booking decisions.",["influence"]],
+["A ___ is reserved for the keynote speaker.",["single room"]],
+["The new festival will help us ___ our brand in Europe.",["strengthen"]],
+["The ___ of the media tour sent everyone the programme.",["organiser","organizer"]]];
+const mc=[
+["Which sentence is correct?",["Online reviews influence for our bookings.","Online reviews influence our bookings.","Online reviews influence to our bookings."],1],
+["Which sentence is correct?",["The organisator of the event called me.","The organizator of the event called me.","The organiser of the event called me."],2],
+["Which sentence is correct?",["Our press officer knows English and German.","Our press officer speaks English and German.","Our press officer says English and German."],1],
+["Which phrase is best in a formal written report?",["Next to last year, sales are up 8%.","In comparison with last year, sales are up 8%.","Beside last year, sales are up 8%."],1],
+["A famous snowboarder writes his name on a fan's poster. This is an ...",["autograph","signature","sign"],0],
+["A guest is travelling alone and wants a room for one person. Which is correct?",["alone room","one-person bed","single room"],2],
+["Which sentence uses 'take place' correctly?",["The press conference took place in the resort lobby.","I took place a great idea for the campaign.","The skier took place a prize at the race."],0]];
+const fix=[
+["We invited the <span class='wrongtxt'>organisator</span> of the ski festival to our meeting.",["organiser","organizer"]],
+["Most of our international colleagues <span class='wrongtxt'>know English</span> very well.",["speak english","speaks english"]],
+["Bad weather can <span class='wrongtxt'>influence for</span> our summer bookings.",["influence"]],
+["The annual ski race will <span class='wrongtxt'>take a place</span> in February.",["take place","takes place"]],
+["After the race, the winner gave every fan her <span class='wrongtxt'>signature</span> on a poster.",["autograph"]]];
+
+const state={gaps:0,mc:0,fix:0};
+function updTotal(){const t=state.gaps+state.mc+state.fix,m=gaps.length+mc.length+fix.length;$("total").textContent="Score: "+t+" / "+m}
+$("gaps").innerHTML=gaps.map((g,i)=>"<li>"+g[0].replace("___","<input class='gap' autocomplete='off' autocapitalize='off' spellcheck='false' data-i='"+i+"'>")+"</li>").join("");
+$("fix").innerHTML=fix.map((g,i)=>"<li>"+g[0]+"<br><input class='fix' autocomplete='off' autocapitalize='off' spellcheck='false' data-i='"+i+"'></li>").join("");
+$("mc").innerHTML=mc.map((q,i)=>"<li data-i='"+i+"'>"+q[0]+"<div class='opts'>"+q[1].map((o,j)=>"<button class='opt' data-j='"+j+"'>"+o+"</button>").join("")+"</div></li>").join("");
+document.querySelectorAll("#mc .opt").forEach(b=>b.onclick=()=>{const l=b.closest("li");l.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel","right","wrong"));b.classList.add("sel");l.className=""});
+
+const sets={gaps:[gaps,"gaps"],fix:[fix,"fix"]};
+function run(act,t){
+ let n=0,total,list=$(t).children;
+ if(t=="mc"){total=mc.length;
+  [...list].forEach((li,i)=>{const opts=li.querySelectorAll(".opt"),sel=li.querySelector(".sel,.wrong,.right");
+   opts.forEach(o=>o.classList.remove("right","wrong"));
+   if(act=="reset"){opts.forEach(o=>o.classList.remove("sel"));li.className="";return}
+   if(act=="reveal"){opts[mc[i][2]].classList.add("right");li.className="";return}
+   if(!sel){li.className="";return}
+   const j=+sel.dataset.j;
+   if(j==mc[i][2]){n++;sel.classList.add("right");li.className="ok"}else{sel.classList.add("wrong");li.className="bad";sel.classList.remove("sel")}
+  });
+ }else{const data=sets[t][0];total=data.length;
+  [...list].forEach((li,i)=>{const inp=li.querySelector("input");
+   if(act=="reset"){inp.value="";li.className="";return}
+   if(act=="reveal"){inp.value=data[i][1][0];li.className="";return}
+   const v=norm(inp.value);if(!v){li.className="";return}
+   if(data[i][1].includes(v)){n++;li.className="ok"}else li.className="bad";
+  });
+ }
+ if(act=="check"){state[t]=n;$("s-"+t).textContent=n+" / "+total}
+ if(act=="reset"){state[t]=0;$("s-"+t).textContent=""}
+ updTotal();
+}
+document.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>run(b.dataset.act,b.dataset.t));
+updTotal();
+
+let cur=0;const pages=[...document.querySelectorAll(".page")],dots=$("dots");
+pages.forEach((_,i)=>{const d=document.createElement("button");d.className="dot";d.setAttribute("aria-label","Page "+(i+1));d.onclick=()=>go(i);dots.appendChild(d)});
+function go(i){cur=Math.max(0,Math.min(pages.length-1,i));pages.forEach((p,k)=>p.classList.toggle("on",k==cur));[...dots.children].forEach((d,k)=>d.classList.toggle("on",k==cur));$("prev").style.visibility=cur?"visible":"hidden";$("next").style.visibility=cur<pages.length-1?"visible":"hidden";scrollTo(0,0)}
+$("prev").onclick=()=>go(cur-1);$("next").onclick=()=>go(cur+1);go(0);
+</script></body></html>
