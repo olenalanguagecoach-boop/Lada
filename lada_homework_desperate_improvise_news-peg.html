@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Summit & Pines – Homework</title>
+<style>
+:root{--pine:#1f4d3f;--ice:#e8f1f4;--snow:#fafcfc;--ink:#1c2b2a;--blue:#2a6f97;--ok:#2e7d4f;--bad:#c0392b;--line:#c9d9dd}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ice);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:var(--pine);color:#fff;padding:18px 20px 0;position:relative;overflow:hidden}
+header h1{margin:0;font:700 22px Georgia,serif}
+header p{margin:2px 0 0;opacity:.85;font-size:14px}
+header svg{display:block;width:100%;height:60px;margin-top:6px}
+main{max-width:720px;margin:0 auto;padding:16px}
+.page{display:none;background:var(--snow);border:1px solid var(--line);border-radius:10px;padding:18px}
+.page.on{display:block}
+h2{margin:0 0 4px;font:700 20px Georgia,serif;color:var(--pine)}
+.hint{color:#51666a;font-size:14px;margin:0 0 12px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.bank span{background:var(--ice);border:1px solid var(--line);border-radius:6px;padding:3px 10px;font-weight:600;color:var(--blue)}
+.q{margin:0 0 14px;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.q:last-of-type{border-bottom:0}
+input[type=text]{font:inherit;border:0;border-bottom:2px solid var(--blue);background:#fff;padding:1px 6px;width:130px;text-align:center}
+input.w{width:110px}
+textarea{width:100%;min-height:110px;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px}
+.opt{display:block;margin:5px 0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:#fff}
+.opt input{margin-right:8px}
+.q.ok .opt.sel,.q.ok input[type=text]{background:#e3f4e9;border-color:var(--ok)}
+.q.no .opt.sel,.q.no input[type=text]{background:#fbe6e3;border-color:var(--bad)}
+.q.rev .opt.right{background:#e3f4e9;border-color:var(--ok)}
+.fb{display:none;font-size:14px;margin-top:6px;color:#51666a}
+.q.rev .fb,.q.no .fb{display:block}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+button{font:inherit;font-weight:600;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;background:var(--pine);color:#fff}
+button.alt{background:#fff;color:var(--pine);border:1px solid var(--pine)}
+.score{margin-left:auto;font-weight:700;color:var(--pine)}
+nav{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.dots{display:flex;gap:8px}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--line);cursor:pointer}
+.dots i.on{background:var(--pine)}
+.total{text-align:center;margin-top:10px;font-weight:700;color:var(--pine)}
+</style></head><body>
+<header>
+<h1>Summit & Pines · Homework</h1>
+<p>desperate · improvise · news peg · not to + verb</p>
+<svg viewBox="0 0 800 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 L90 22 L140 40 L240 6 L330 44 L420 18 L520 48 L620 12 L710 40 L800 20 L800 60Z" fill="#2c6b58"/><path d="M0 60 L120 36 L210 50 L300 30 L400 54 L500 34 L610 52 L720 32 L800 50 L800 60Z" fill="#e8f1f4"/></svg>
+</header>
+<main>
+<div id="pages"></div>
+<nav><button class="alt" id="prev">Back</button><div class="dots" id="dots"></div><button id="next">Next</button></nav>
+<div class="total" id="total"></div>
+</main>
+<script>
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const P=[
+{t:"1. Fill the gaps",h:"Choose the correct word or phrase from the bank. Each one is used once.",type:"gap",bank:["desperate","improvise","improvised","news peg","news pegs","desperately"],
+ q:[["Our marketing team was ___ for good content before the ski season opened.",["desperate"]],
+    ["The microphone stopped working, so the host had to ___ the whole welcome speech.",["improvise"]],
+    ["A record snowfall is a great ___ for our press release.",["news peg"]],
+    ["When the shuttle was late, the guide ___ a short tour of the village to keep guests happy.",["improvised"]],
+    ["We have two possible ___ this month: the new gondola and the ice festival.",["news pegs"]],
+    ["Guests were ___ looking for a taxi in the storm.",["desperately"]]]},
+{t:"2. Choose the best answer",h:"One answer is correct.",type:"mc",
+ q:[["Which situation needs a news peg?",["Sending a press release about a new lift opening next week","Writing a thank-you note to a colleague","Booking a hotel room"],0,"A news peg is a current event that gives journalists a reason to publish a story now."],
+    ["'We were desperate for snow.' This means we...",["wanted snow very much","didn't care about snow","had too much snow"],0,"desperate for = wanting something very badly."],
+    ["What does 'to improvise' mean?",["to prepare everything in advance","to do something without preparation, using what you have","to cancel an event"],1,"Improvising means solving a problem on the spot."],
+    ["Which sentence is correct?",["Try don't use too much jargon.","Try not use too much jargon.","Try not to use too much jargon."],2,"Negative infinitive: not to + verb."],
+    ["Which sentence is correct?",["She decided not to postpone the launch.","She decided don't postpone the launch.","She decided to not postponing the launch."],0,"decide + not to + verb."],
+    ["Which sentence means the speaker made no attempt?",["I tried not to mention the delay.","I didn't try to mention the delay.","I tried to not mention the delay."],1,"didn't try to = made no attempt. tried not to = made an effort to avoid it."]]},
+{t:"3. Not to + verb",h:"Complete each sentence with not to and the verb in brackets. Write both words, e.g. not to go.",type:"gap",bank:null,w:1,
+ q:[["Remember ___ the guest list with the media. (share)",["not to share"]],
+    ["We decided ___ the date before the partners confirm. (announce)",["not to announce"]],
+    ["The manager asked everyone ___ photos before the official opening. (post)",["not to post"]],
+    ["Be careful ___ promises about snow conditions on social media. (make)",["not to make"]],
+    ["Try ___ the press release with technical details. (overload)",["not to overload"]],
+    ["I promised ___ late for the press briefing. (be)",["not to be"]]]},
+{t:"4. Your turn",h:"Write 4 to 5 sentences (no answer key). Use desperate, improvise or news peg, and at least two sentences with not to + verb. Topic: a problem at a winter event and how you handled it.",type:"open"}
+];
+let cur=0,done={};
+const pagesEl=document.getElementById("pages"),dots=document.getElementById("dots");
+const norm=s=>s.trim().toLowerCase().replace(/\s+/g," ");
+P.forEach((p,pi)=>{
+ const d=document.createElement("section");d.className="page";d.id="p"+pi;
+ let h=`<h2>${p.t}</h2><p class="hint">${p.h}</p>`;
+ if(p.type==="gap"&&p.bank)h+=`<div class="bank">${shuffle(p.bank).map(w=>`<span>${w}</span>`).join("")}</div>`;
+ if(p.type==="gap")p.q.forEach((q,i)=>{h+=`<div class="q" data-i="${i}"><div>${i+1}. ${q[0].replace("___",`<input type="text" class="${p.w?"":"w"}" autocomplete="off" autocapitalize="off" spellcheck="false">`)}</div><div class="fb">Answer: <b>${q[1][0]}</b></div></div>`});
+ if(p.type==="mc")p.q.forEach((q,i)=>{h+=`<div class="q" data-i="${i}"><div>${i+1}. ${q[0]}</div>${q[1].map((o,k)=>`<label class="opt${k===q[2]?" right":""}"><input type="radio" name="p${pi}q${i}" value="${k}">${o}</label>`).join("")}<div class="fb">${q[3]}</div></div>`});
+ if(p.type==="open")h+=`<textarea placeholder="Write here..."></textarea>`;
+ else h+=`<div class="bar"><button class="chk">Check</button><button class="alt rev">Reveal</button><button class="alt rst">Reset</button><span class="score"></span></div>`;
+ d.innerHTML=h;pagesEl.appendChild(d);
+ const dot=document.createElement("i");dot.onclick=()=>go(pi);dots.appendChild(dot);
+ if(p.type==="open")return;
+ const sc=d.querySelector(".score");
+ d.querySelectorAll('.opt').forEach(o=>o.querySelector("input").onchange=()=>{o.parentNode.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));o.classList.add("sel")});
+ d.querySelector(".chk").onclick=()=>{let s=0;d.querySelectorAll(".q").forEach((qq,i)=>{qq.classList.remove("ok","no","rev");let ok=false;
+  if(p.type==="gap"){ok=p.q[i][1].map(norm).includes(norm(qq.querySelector("input").value))}
+  else{const c=qq.querySelector("input:checked");ok=c&&+c.value===p.q[i][2]}
+  qq.classList.add(ok?"ok":"no");if(ok)s++});
+  sc.textContent=`Score: ${s}/${p.q.length}`;done[pi]=s;tot()};
+ d.querySelector(".rev").onclick=()=>{d.querySelectorAll(".q").forEach(qq=>{qq.classList.remove("ok","no");qq.classList.add("rev")})};
+ d.querySelector(".rst").onclick=()=>{d.querySelectorAll(".q").forEach(qq=>{qq.classList.remove("ok","no","rev");qq.querySelectorAll("input[type=text]").forEach(i=>i.value="");qq.querySelectorAll("input[type=radio]").forEach(i=>i.checked=false);qq.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"))});sc.textContent="";delete done[pi];tot()};
+});
+function tot(){const max=P.filter(p=>p.type!=="open").reduce((a,p)=>a+p.q.length,0);const s=Object.values(done).reduce((a,b)=>a+b,0);document.getElementById("total").textContent=Object.keys(done).length?`Total score: ${s}/${max}`:""}
+function go(n){cur=n;document.querySelectorAll(".page").forEach((e,i)=>e.classList.toggle("on",i===n));dots.querySelectorAll("i").forEach((e,i)=>e.classList.toggle("on",i===n));document.getElementById("prev").style.visibility=n?"visible":"hidden";document.getElementById("next").style.visibility=n<P.length-1?"visible":"hidden";window.scrollTo(0,0)}
+document.getElementById("prev").onclick=()=>go(cur-1);document.getElementById("next").onclick=()=>go(cur+1);
+go(0);
+</script></body></html>
