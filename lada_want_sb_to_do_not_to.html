@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summit & Pines | Launch Briefing Practice</title>
+<style>
+:root{--spruce:#17352f;--pine:#2c5b4d;--glacier:#dcebf2;--snow:#f9fcfd;--slate:#2b3a42;--trail:#1b6fa8;--ok:#1e7a46;--okbg:#e1f4e8;--bad:#b3261e;--badbg:#fbe4e2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--glacier);color:var(--slate);font:17px/1.55 "Avenir Next","Segoe UI",system-ui,sans-serif}
+header{background:var(--spruce);color:var(--snow);position:relative;overflow:hidden}
+header .in{max-width:760px;margin:0 auto;padding:22px 20px 70px;position:relative;z-index:1}
+header h1{font:700 26px/1.2 Georgia,"Times New Roman",serif;margin:0 0 4px}
+header p{margin:0;opacity:.85;font-size:15px}
+header svg{position:absolute;left:0;bottom:-1px;width:100%;height:70px}
+main{max-width:760px;margin:0 auto;padding:18px 16px 60px}
+.bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:15px}
+.dots{display:flex;gap:10px}
+.dots button{width:14px;height:14px;border-radius:50%;border:2px solid var(--pine);background:transparent;padding:0;cursor:pointer}
+.dots button.on{background:var(--pine)}
+.dots button.done{background:var(--ok);border-color:var(--ok)}
+.dots button:focus-visible,button.btn:focus-visible,input:focus-visible{outline:3px solid var(--trail);outline-offset:2px}
+.card{background:var(--snow);border-radius:10px;padding:22px 20px;box-shadow:0 1px 0 rgba(23,53,47,.15)}
+h2{font:700 22px/1.25 Georgia,serif;margin:0 0 6px;color:var(--spruce)}
+.instr{margin:0 0 16px;color:#46585f}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:12px;background:var(--glacier);border-radius:8px}
+.bank span{background:var(--snow);border:1px solid var(--pine);border-radius:16px;padding:2px 12px;font-weight:600;color:var(--spruce)}
+.item{padding:14px 0;border-top:1px solid #d3e0e6}
+.item:first-of-type{border-top:0}
+.q{margin:0 0 8px}
+.said{display:block;font-style:italic;color:#4d6068;font-size:15px;margin-bottom:2px}
+.opts label{display:block;padding:8px 12px;margin:6px 0;border:1.5px solid #bcd0d8;border-radius:8px;cursor:pointer}
+.opts input{margin-right:8px}
+.opts label.sel{border-color:var(--trail);background:#eaf3fa}
+input[type=text]{font:inherit;width:11em;max-width:100%;padding:3px 8px;border:0;border-bottom:2px solid var(--pine);background:#eef5f8;border-radius:4px 4px 0 0}
+.item.ok .opts label.sel,.item.ok input[type=text]{border-color:var(--ok);background:var(--okbg)}
+.item.no .opts label.sel,.item.no input[type=text]{border-color:var(--bad);background:var(--badbg)}
+.fb{margin:8px 0 0;font-size:15px;min-height:0}
+.item.ok .fb{color:var(--ok)}.item.no .fb{color:var(--bad)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+button.btn{font:600 16px inherit;font-family:inherit;padding:9px 18px;border-radius:8px;border:2px solid var(--trail);cursor:pointer;background:transparent;color:var(--trail)}
+button.btn.primary{background:var(--trail);color:#fff}
+.score{margin-left:auto;font-weight:700;color:var(--spruce)}
+.nav{display:flex;justify-content:space-between;margin-top:16px}
+.final{margin-top:16px;padding:14px 18px;background:var(--spruce);color:var(--snow);border-radius:10px;text-align:center;font-weight:600}
+@media(max-width:480px){body{font-size:16px}header h1{font-size:22px}}
+@media(prefers-reduced-motion:no-preference){.item{transition:background .2s}}
+</style>
+</head>
+<body>
+<header>
+  <div class="in">
+    <h1>Summit &amp; Pines Launch Briefing</h1>
+    <p>Homework: asking and telling people what to do, and what not to do</p>
+  </div>
+  <svg viewBox="0 0 800 70" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 70V48L90 14l60 30 70-40 90 52 80-36 90 44 100-48 80 40 80-22 60 26V70z" fill="#2c5b4d"/>
+    <path d="M0 70V58l110-26 70 30 100-38 90 40 100-30 90 34 120-34 120 36V70z" fill="#dcebf2"/>
+  </svg>
+</header>
+<main>
+  <div class="bar"><div class="dots" id="dots" role="tablist" aria-label="Tasks"></div><div id="total">Total: 0 / 0</div></div>
+  <div class="card" id="page"></div>
+  <div class="nav"><button class="btn" id="prev">Back</button><button class="btn primary" id="next">Next task</button></div>
+  <div class="final" id="final" hidden></div>
+</main>
+<script>
+const pages=[
+{title:"Task 1. Who does what?",type:"mc",
+ instr:"Choose the correct option. Pay attention to the structure after the verb.",
+ items:[
+ {q:"Marta wants the agency ___ the visuals by Friday.",o:["send","to send","sending"],a:1,n:"want + person + to + verb."},
+ {q:"I'd like you ___ the newsletter before lunch.",o:["to check","check","checking"],a:0,n:"would like + person + to + verb."},
+ {q:"She asked me ___ the press release.",o:["rewrite","that I rewrite","to rewrite"],a:2,n:"ask + person + to + verb. We do not use that-clauses here."},
+ {q:"The manager doesn't want us ___ about the discount.",o:["talking","talk","to talk"],a:2,n:"After doesn't want + person, we still use to + verb."},
+ {q:"Do you want ___ the café menu?",o:["that I choose","me to choose","me choose"],a:1,n:"want + me / him / them + to + verb."},
+ {q:"The CEO expects everyone ___ the plan.",o:["know","knowing","to know"],a:2,n:"expect + person + to + verb."}
+ ]},
+{title:"Task 2. Try not to...",type:"gap",
+ instr:"Complete each sentence with a word from the bank. Some words are not needed. The words after the gap are 'not to + verb'.",
+ bank:["promise","enjoy","asked","try","avoid","decided","remind","told"],
+ items:[
+ {q:"After a long meeting, the CEO ___ not to offer a discount on the early-bird pass.",a:["decided"],n:"decide not to + verb."},
+ {q:"Please ___ the interns not to share any drafts.",a:["remind","tell","ask"],n:"remind / tell / ask + person + not to + verb."},
+ {q:"I will really ___ not to overload the newsletter this time.",a:["try"],n:"try not to + verb. Never 'try don't to'."},
+ {q:"Legal ___ us not to mention prices in the post.",a:["asked","told","reminded"],n:"asked / told / reminded + us + not to + verb."},
+ {q:"Guests are ___ not to park on the access road.",a:["asked","told","reminded"],n:"A passive form: are asked / told / reminded + not to + verb."},
+ {q:"I'm sorry about the typo. I ___ not to make the same mistake again.",a:["promise","decided"],n:"promise / decide not to + verb."}
+ ]},
+{title:"Task 3. Spot the correct sentence",type:"mc",
+ instr:"One sentence in each pair is correct. Choose it.",
+ items:[
+ {q:"",o:["Try don't to use long captions.","Try not to use long captions."],a:1,n:"The negative goes before 'to': not to use."},
+ {q:"",o:["I want you to send the report.","I want that you send the report."],a:0,n:"want + you + to + verb."},
+ {q:"",o:["She told us to not posting yet.","She told us not to post yet."],a:1,n:"not to + base verb. No -ing."},
+ {q:"",o:["My manager doesn't want me to write it.","My manager don't want me to write it."],a:0,n:"My manager = he / she, so doesn't."},
+ {q:"",o:["He asked me not to share the link.","He asked me not to sharing the link."],a:0,n:"not to + base verb."},
+ {q:"",o:["The weather inspire our best content.","The weather inspires our best content."],a:1,n:"The weather = it, so inspires."}
+ ]},
+{title:"Task 4. Report the instruction",type:"gap",
+ instr:"Someone said something. Report it by completing the sentence. Type the missing words (two or three words).",
+ items:[
+ {s:"Marta: \"Please send me the report.\"",q:"Marta asked me ___ the report.",a:["to send"],n:"asked + me + to + verb."},
+ {s:"The manager: \"Don't post the draft.\"",q:"The manager told us ___ the draft.",a:["not to post"],n:"told + us + not to + verb."},
+ {s:"Marta: \"Could you approve the banner?\"",q:"Marta wants me ___ the banner.",a:["to approve"],n:"want + me + to + verb."},
+ {s:"Legal: \"Don't share the code.\"",q:"Legal reminded the interns ___ the code.",a:["not to share"],n:"reminded + person + not to + verb."},
+ {s:"The guest: \"Please reply immediately.\"",q:"The guest wants us ___ immediately.",a:["to reply"],n:"want + us + to + verb."},
+ {s:"The CEO: \"Please don't use the old logo.\"",q:"The CEO asked the designer ___ the old logo.",a:["not to use"],n:"asked + person + not to + verb."}
+ ]}
+];
+const st=pages.map(p=>({ans:p.items.map(()=>null),checked:false,score:0}));
+let cur=0;
+const $=id=>document.getElementById(id);
+const norm=s=>(s||"").toLowerCase().replace(/[’‘]/g,"'").replace(/[.!?,]+$/,"").replace(/\s+/g," ").trim();
+function render(){
+ const p=pages[cur],s=st[cur];
+ let h=`<h2>${p.title}</h2><p class="instr">${p.instr}</p>`;
+ if(p.bank)h+=`<div class="bank" aria-label="Word bank">${p.bank.map(w=>`<span>${w}</span>`).join("")}</div>`;
+ p.items.forEach((it,i)=>{
+  h+=`<div class="item" id="it${i}">`;
+  if(it.s)h+=`<span class="said">${it.s}</span>`;
+  if(p.type==="mc"){
+   if(it.q)h+=`<p class="q">${i+1}. ${it.q}</p>`;else h+=`<p class="q"><b>${i+1}.</b></p>`;
+   h+=`<div class="opts">${it.o.map((o,k)=>`<label class="${s.ans[i]===k?'sel':''}"><input type="radio" name="q${i}" value="${k}" ${s.ans[i]===k?'checked':''}>${o}</label>`).join("")}</div>`;
+  }else{
+   const parts=it.q.split("___");
+   h+=`<p class="q">${i+1}. ${parts[0]}<input type="text" id="g${i}" autocomplete="off" autocapitalize="none" spellcheck="false" value="${(s.ans[i]||"").replace(/"/g,"&quot;")}"> ${parts[1]}</p>`;
+  }
+  h+=`<p class="fb" id="fb${i}"></p></div>`;
+ });
+ h+=`<div class="actions"><button class="btn primary" id="chk">Check</button><button class="btn" id="rev">Show answers</button><button class="btn" id="rst">Reset</button><span class="score" id="sc"></span></div>`;
+ $("page").innerHTML=h;
+ p.items.forEach((it,i)=>{
+  if(p.type==="mc")document.querySelectorAll(`input[name=q${i}]`).forEach(r=>r.onchange=()=>{s.ans[i]=+r.value;if(!s.checked)document.querySelectorAll(`#it${i} label`).forEach((l,k)=>l.classList.toggle("sel",k===s.ans[i]))});
+  else $("g"+i).oninput=e=>{s.ans[i]=e.target.value};
+ });
+ $("chk").onclick=()=>check(false);$("rev").onclick=()=>check(true);$("rst").onclick=reset;
+ if(s.checked)mark(s.revealed);
+ nav();
+}
+function ok(p,it,v){return p.type==="mc"?v===it.a:it.a.includes(norm(v))}
+function mark(reveal){
+ const p=pages[cur],s=st[cur];let n=0;
+ p.items.forEach((it,i)=>{
+  const el=$("it"+i),fb=$("fb"+i),good=ok(p,it,s.ans[i]);
+  if(good)n++;
+  el.className="item "+(good?"ok":"no");
+  const right=p.type==="mc"?it.o[it.a]:it.a[0];
+  fb.textContent=good?"Correct. "+it.n:(reveal||true)?"Not quite. Answer: "+right+". "+it.n:"";
+ });
+ s.score=n;$("sc").textContent=`Score: ${n} / ${p.items.length}`;
+ total();
+}
+function check(reveal){
+ const p=pages[cur],s=st[cur];
+ if(reveal&&p.type==="gap")p.items.forEach((it,i)=>{if(!ok(p,it,s.ans[i])){s.ans[i]=it.a[0];}});
+ if(reveal&&p.type==="mc")p.items.forEach((it,i)=>{s.ans[i]=it.a});
+ s.checked=true;s.revealed=reveal;
+ render();
+}
+function reset(){st[cur]={ans:pages[cur].items.map(()=>null),checked:false,score:0};render();total()}
+function total(){
+ let sc=0,max=0;st.forEach((s,i)=>{max+=pages[i].items.length;sc+=s.checked?s.score:0});
+ $("total").textContent=`Total: ${sc} / ${max}`;
+ const all=st.every(s=>s.checked);
+ const f=$("final");
+ if(all){f.hidden=false;f.textContent=sc===max?"Perfect! You're ready to brief the team.":sc>=max*0.75?"Well done! Re-check the sentences you missed.":"Good effort. Try the tasks again after re-reading the notes."}else f.hidden=true;
+}
+function nav(){
+ $("dots").innerHTML=pages.map((p,i)=>`<button class="${i===cur?'on':''} ${st[i].checked&&i!==cur?'done':''}" aria-label="Task ${i+1}" onclick="go(${i})"></button>`).join("");
+ $("prev").style.visibility=cur===0?"hidden":"visible";
+ $("next").style.visibility=cur===pages.length-1?"hidden":"visible";
+ total();
+}
+function go(i){cur=i;render();window.scrollTo(0,0)}
+$("prev").onclick=()=>go(cur-1);
+$("next").onclick=()=>go(cur+1);
+render();
+</script>
+</body>
+</html>
