@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Summit &amp; Pines – Homework</title>
+<style>
+:root{--pine:#1e3d34;--snow:#f5f8f7;--ink:#1b2b27;--sky:#3b5b73;--sign:#e8b73c;--ok:#2e7d4f;--bad:#b3392f;--line:#cdd8d4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--snow);color:var(--ink);font:17px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:var(--pine);color:#fff;position:relative;overflow:hidden;padding:22px 20px 70px}
+header svg{position:absolute;left:0;bottom:0;width:100%;height:70px}
+header h1{margin:0;font:700 24px Georgia,serif}
+header p{margin:4px 0 0;color:#cfe0d9;font-size:15px}
+#score{position:absolute;right:16px;top:16px;background:var(--sign);color:var(--ink);font-weight:700;border-radius:20px;padding:4px 14px;font-size:15px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 40px}
+#dots{display:flex;gap:10px;justify-content:center;margin:18px 0}
+#dots button{width:14px;height:14px;border-radius:50%;border:2px solid var(--pine);background:#fff;padding:0;cursor:pointer}
+#dots button.on{background:var(--pine)}
+h2{font:700 21px Georgia,serif;margin:6px 0 4px;color:var(--pine)}
+.instr{margin:0 0 14px;color:#47605a}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;padding:12px;background:#e6eeeb;border-radius:8px}
+.bank span{background:#fff;border:1px solid var(--line);border-radius:6px;padding:3px 10px;font-weight:600}
+.item{background:#fff;border:1px solid var(--line);border-left:5px solid var(--line);border-radius:6px;padding:10px 14px;margin:0 0 10px}
+.item.ok{border-left-color:var(--ok);background:#eef7f1}
+.item.bad{border-left-color:var(--bad);background:#fbefed}
+.item.rev{border-left-color:var(--sky);background:#edf2f6}
+.prompt{color:#47605a;font-style:italic;margin-bottom:4px}
+input{font:inherit;border:0;border-bottom:2px solid var(--sky);background:#f2f6f8;padding:1px 6px;margin:0 2px;color:var(--ink);border-radius:3px 3px 0 0}
+input:focus{outline:2px solid var(--sign)}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.opts button{font:inherit;background:#fff;border:2px solid var(--line);border-radius:6px;padding:4px 14px;cursor:pointer}
+.opts button.sel{border-color:var(--sky);background:#edf2f6}
+.item.ok .opts button.sel{border-color:var(--ok)}
+.item.bad .opts button.sel{border-color:var(--bad)}
+.item.rev .opts button.right{border-color:var(--sky);background:#d9e6ee}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.bar button{font:inherit;font-weight:600;border-radius:6px;padding:8px 18px;cursor:pointer;border:2px solid var(--pine);background:#fff;color:var(--pine)}
+.bar .main{background:var(--pine);color:#fff}
+.bar .sp{flex:1}
+button:focus-visible{outline:3px solid var(--sign)}
+#msg{margin-top:12px;font-weight:600;min-height:1.5em}
+</style>
+</head>
+<body>
+<header>
+  <div id="score">0 / 0</div>
+  <h1>Summit &amp; Pines Resort</h1>
+  <p>Homework · Communications team vocabulary</p>
+  <svg viewBox="0 0 800 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70V48L90 20l70 26 80-38 90 44 70-24 100 40 80-30 90 30 130-34V70z" fill="#2c5a4c"/><path d="M0 70V58l120-24 80 24 110-30 90 28 120-26 90 28 190-20V70z" fill="#f5f8f7"/></svg>
+</header>
+<div class="wrap">
+  <div id="dots"></div>
+  <div id="app"></div>
+</div>
+<script>
+const norm=s=>s.toLowerCase().replace(/[’]/g,"'").replace(/-/g," ").replace(/[.,!?]/g,"").replace(/\s+/g," ").trim();
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+
+const pages=[
+ {title:"1. Fill the gaps",type:"gap",bank:true,
+  instr:"Use the words from the box. Each word is used once.",
+  items:[
+   {s:"Our freelance designer is a [private entrepreneur], so she sends us an invoice every month."},
+   {s:"Could you [explain] the new pass rules to our Polish partners?"},
+   {s:"The guests wanted a clear [explanation] of why the lift was closed."},
+   {s:"High [humidity] makes the snow wet and heavy, so grooming took longer."},
+   {s:"Please don’t share the draft [outside] the team."},
+   {s:"Our [intern] is learning how to write short posts for Instagram."},
+   {s:"Don’t [overload] the newsletter with ten different offers."},
+   {s:"The [early-bird] pass is cheaper if you buy it before 1 November."},
+   {s:"Several guests [asked for] a late check-out because of the snowstorm."}
+  ]},
+ {title:"2. Choose the correct answer",type:"mc",
+  instr:"Pick one option for each sentence.",
+  items:[
+   {q:"“Thanks for the update. ___ — can you send me the photos from the event?”",a:"One more thing",d:["Other one thing","More one thing"]},
+   {q:"The new gondola will open ___ two weeks.",a:"in",d:["after","through"]},
+   {q:"Guests often ___ extra blankets in winter.",a:"ask for",d:["ask","ask to"]},
+   {q:"Before opening the new trail, we have to ___ an application for a permit.",a:"file",d:["put","do"]},
+   {q:"The ___ in the email was clear, so nobody had questions.",a:"explanation",d:["explain","explained"]},
+   {q:"Our ___ studies marketing and helps us with social media.",a:"intern",d:["internal","internship"]}
+  ]},
+ {title:"3. Say it with “want”",type:"gap",
+  instr:"Rewrite each request as a report. Use want + person + to + verb. For a negative request, use not to.",
+  items:[
+   {p:"“Please write the press release,” Maria says to Lada.",s:"Maria [wants] Lada [to write] the press release."},
+   {p:"“Please don’t share the draft,” Pavlo says to us.",s:"Pavlo [wants] us [not to share] the draft."},
+   {p:"“Could you explain the new rules?” the guests ask us.",s:"The guests [want] us [to explain] the new rules."},
+   {p:"“Please translate the menu into English,” the chef says to the intern.",s:"The chef [wants] the intern [to translate] the menu into English."},
+   {p:"“Don’t overload the newsletter,” my boss says to me.",s:"My boss [wants] me [not to overload] the newsletter."},
+   {p:"“Please file the application this week,” the director says to HR.",s:"The director [wants] HR [to file] the application this week."}
+  ]}
+];
+
+pages.forEach(p=>{
+  if(p.type==="mc") p.items.forEach(it=>it.opts=shuffle([it.a,...it.d]));
+  if(p.bank){
+    const words=p.items.map(it=>it.s.match(/\[(.*?)\]/)[1].split("|")[0]);
+    let b=shuffle(words);
+    while(b.join()===words.join()) b=shuffle(words);
+    p.bankOrder=b;
+  }
+});
+
+const app=document.getElementById("app"),dots=document.getElementById("dots"),scoreEl=document.getElementById("score");
+const total=pages.reduce((n,p)=>n+p.items.length,0);
+const got=pages.map(()=>0);
+let cur=0;
+
+function updateScore(){scoreEl.textContent=got.reduce((a,b)=>a+b,0)+" / "+total}
+
+function render(){
+  const p=pages[cur];
+  dots.innerHTML="";
+  pages.forEach((_,i)=>{const b=document.createElement("button");b.className=i===cur?"on":"";b.setAttribute("aria-label","Page "+(i+1));b.onclick=()=>{cur=i;render()};dots.appendChild(b)});
+  app.innerHTML="";
+  const h=document.createElement("h2");h.textContent=p.title;app.appendChild(h);
+  const ins=document.createElement("p");ins.className="instr";ins.textContent=p.instr;app.appendChild(ins);
+  if(p.bank){const bk=document.createElement("div");bk.className="bank";p.bankOrder.forEach(w=>{const s=document.createElement("span");s.textContent=w;bk.appendChild(s)});app.appendChild(bk)}
+  const els=[];
+  p.items.forEach(it=>{
+    const d=document.createElement("div");d.className="item";
+    if(p.type==="gap"){
+      if(it.p){const pr=document.createElement("div");pr.className="prompt";pr.textContent=it.p;d.appendChild(pr)}
+      const line=document.createElement("div");
+      it.s.split(/\[(.*?)\]/).forEach((part,i)=>{
+        if(i%2===0){line.appendChild(document.createTextNode(part))}
+        else{const inp=document.createElement("input");inp.type="text";inp.autocomplete="off";inp.autocapitalize="off";inp.spellcheck=false;inp.dataset.ans=part;inp.style.width=(Math.max(...part.split("|").map(x=>x.length))+3)+"ch";inp.setAttribute("aria-label","gap");line.appendChild(inp)}
+      });
+      d.appendChild(line);
+    }else{
+      const q=document.createElement("div");q.textContent=it.q;d.appendChild(q);
+      const o=document.createElement("div");o.className="opts";
+      it.opts.forEach(t=>{const b=document.createElement("button");b.textContent=t;if(t===it.a)b.dataset.right="1";
+        b.onclick=()=>{o.querySelectorAll("button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");d.className="item"};
+        o.appendChild(b)});
+      d.appendChild(o);
+    }
+    app.appendChild(d);els.push(d);
+  });
+  const msg=document.createElement("div");msg.id="msg";
+  const bar=document.createElement("div");bar.className="bar";
+  const mk=(t,c,f)=>{const b=document.createElement("button");b.textContent=t;if(c)b.className=c;b.onclick=f;bar.appendChild(b);return b};
+  mk("Check","main",()=>{
+    let n=0;
+    els.forEach(d=>{
+      let ok;
+      if(p.type==="gap"){ok=[...d.querySelectorAll("input")].every(i=>i.value.trim()&&i.dataset.ans.split("|").map(norm).includes(norm(i.value)))}
+      else{const s=d.querySelector("button.sel");ok=!!s&&!!s.dataset.right}
+      d.className="item "+(ok?"ok":"bad");if(ok)n++;
+    });
+    got[cur]=n;updateScore();
+    msg.textContent=n===els.length?"Perfect! Well done.":n+" of "+els.length+" correct. Fix the red ones and check again.";
+  });
+  mk("Show answers","",()=>{
+    els.forEach(d=>{
+      d.className="item rev";
+      d.querySelectorAll("input").forEach(i=>{i.value=i.dataset.ans.split("|")[0]});
+      const r=d.querySelector("button[data-right]");
+      if(r){d.querySelectorAll("button").forEach(x=>x.classList.remove("sel"));r.classList.add("sel","right")}
+    });
+    msg.textContent="Answers shown. Try the page again with Reset.";
+  });
+  mk("Reset","",()=>{got[cur]=0;updateScore();render()});
+  bar.appendChild(Object.assign(document.createElement("span"),{className:"sp"}));
+  if(cur>0)mk("Back","",()=>{cur--;render();window.scrollTo(0,0)});
+  if(cur<pages.length-1)mk("Next","main",()=>{cur++;render();window.scrollTo(0,0)});
+  app.appendChild(bar);app.appendChild(msg);
+}
+updateScore();render();
+</script>
+</body>
+</html>
