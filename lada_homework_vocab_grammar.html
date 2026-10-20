@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summit & Pines: Homework</title>
+<style>
+:root{--pine:#1d3b34;--snow:#f4f7f9;--ice:#d5e5ee;--gl:#2f7a9c;--ok:#2e7d4f;--no:#c0392b;--ink:#1b2a2f;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--snow:#14201f;--ice:#2a4048;--ink:#e8eef0;--card:#1d2c2c;--gl:#6fb6d6;--ok:#58b57e;--no:#e5766a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--snow);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:var(--pine);color:#fff;padding:0}
+header svg{display:block;width:100%;height:90px}
+.hd{padding:0 18px 14px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.hd h1{margin:0;font:700 22px Georgia,serif}.hd small{opacity:.8}
+.tot{background:#ffffff22;border-radius:20px;padding:4px 14px;font-weight:600}
+main{max-width:720px;margin:0 auto;padding:16px}
+section{display:none}section.on{display:block}
+h2{font:700 21px Georgia,serif;margin:6px 0}
+.d{margin:0 0 12px;opacity:.85}
+.bank{display:flex;flex-wrap:wrap;gap:8px;background:var(--ice);padding:12px;border-radius:10px;margin-bottom:14px}
+.bank span{background:var(--card);padding:4px 12px;border-radius:16px;font-weight:600;color:var(--gl)}
+.it{display:flex;gap:10px;background:var(--card);border-radius:10px;padding:12px;margin-bottom:10px;border:1px solid var(--ice)}
+.n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--pine);color:#fff;text-align:center;line-height:26px;font-size:14px}
+.q{flex:1}
+input[type=text]{font:inherit;width:150px;max-width:100%;border:0;border-bottom:2px solid var(--gl);background:transparent;color:inherit;padding:2px 4px;text-align:center}
+input.ok{border-color:var(--ok);background:#2e7d4f22}input.no{border-color:var(--no);background:#c0392b22}input.rv{border-color:var(--gl);background:#2f7a9c22}
+.opts{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.o{font:inherit;text-align:left;background:transparent;color:inherit;border:1.5px solid var(--ice);border-radius:8px;padding:7px 10px;cursor:pointer}
+.o.sel{border-color:var(--gl);background:#2f7a9c22}.o.ok{border-color:var(--ok);background:#2e7d4f33}.o.no{border-color:var(--no);background:#c0392b33}.o.rv{border-color:var(--gl);background:#2f7a9c33}
+.btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:14px 0}
+button{font:inherit;cursor:pointer;border-radius:8px;padding:8px 16px;border:0;background:var(--pine);color:#fff}
+button.g{background:transparent;color:var(--gl);border:1.5px solid var(--gl)}
+.sc{font-weight:700;margin-left:auto}
+textarea{width:100%;font:inherit;border:1.5px solid var(--ice);border-radius:10px;padding:10px;background:var(--card);color:inherit}
+.model{background:var(--ice);border-radius:10px;padding:12px;margin-top:10px}
+nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.dots{display:flex;gap:8px}.dots i{width:11px;height:11px;border-radius:50%;background:var(--ice);cursor:pointer}.dots i.on{background:var(--gl)}
+nav button:disabled{opacity:.35;cursor:default}
+</style></head><body>
+<header>
+<svg viewBox="0 0 720 90" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect width="720" height="90" fill="#1d3b34"/><path d="M0 90 L110 30 L170 62 L270 8 L370 70 L450 36 L560 76 L640 40 L720 80 L720 90Z" fill="#2c5a4f"/><path d="M270 8 L246 30 L262 26 L274 36 L286 24 L298 30Z" fill="#f4f7f9"/><path d="M110 30 L96 42 L108 40 L118 46 L128 38Z" fill="#f4f7f9"/><path d="M0 90 L80 62 L190 84 L330 58 L470 86 L600 60 L720 88 L720 90Z" fill="#163029"/></svg>
+<div class="hd"><div><h1>Summit & Pines Resort</h1><small>Homework: vocabulary + grammar</small></div><div class="tot" id="tot">Score: 0</div></div>
+</header>
+<main><div id="pages"></div>
+<nav><button class="g" id="pv">Back</button><div class="dots" id="dots"></div><button id="nx">Next</button></nav></main>
+<script>
+const P=[
+{t:"1. Vocabulary: gap-fill",d:"Complete each sentence with a word or phrase from the box.",
+bank:["gloss","go bankrupt","request","by noon","laws of existence","queue","properly","frighten"],
+items:[
+{q:"Please send the final press release ___, because the journalists need it before lunch.",a:["by noon"]},
+{q:"The booking system isn't working ___, so guests can't reserve their ski lessons.",a:["properly"]},
+{q:"We don't want to ___ guests, so the avalanche warning should sound calm and clear.",a:["frighten"]},
+{q:"A long ___ at the gondola is the top complaint on social media this week.",a:["queue"]},
+{q:"The winter brochure is printed on paper with a high ___, so the mountain photos look sharp.",a:["gloss"]},
+{q:"If the ski season is too short, some small ski schools may ___.",a:["go bankrupt"]},
+{q:"A travel blogger sent us a ___ for an interview with our director.",a:["request"]},
+{q:"Snow follows its own ___, so we can't promise opening dates in advance.",a:["laws of existence"]}]},
+{t:"2. Vocabulary: choose the best option",d:"Choose the correct answer.",items:[
+{q:"The safety team won't ___ until the wind drops.",o:["let anyone to go out","let anyone going out","let anyone go out","make anyone to go out"],a:2},
+{q:"I need the report ___ noon at the latest, so please don't send it later.",o:["until","by","since","during"],a:1},
+{q:"Guests had to stand in a long ___ at the ticket office.",o:["request","gloss","noon","queue"],a:3},
+{q:"Which sentence is correct?",o:["The new app doesn't work proper.","The new app doesn't proper work.","The new app doesn't work properly."],a:2},
+{q:"A travel blogger sent us a ___ for an interview.",o:["request","requesting","requested","to request"],a:0},
+{q:"Which phrase means to lose all your money and be unable to pay your debts?",o:["go viral","go ahead","go out","go bankrupt"],a:3}]},
+{t:"3. Grammar: only one negative per clause",d:"Remember: n't + any-word, or a positive verb + no-word. Choose the correct option.",items:[
+{q:"The guests didn't ask for ___ at the front desk.",o:["nothing","anything","something"],a:1},
+{q:"We received ___ complaints about the queue this week.",o:["no","any","not"],a:0},
+{q:"___ told me about the delay.",o:["Anybody","Nobody","Somebody not"],a:1},
+{q:"I can't find the booking ___ in the system.",o:["nowhere","somewhere not","anywhere"],a:2},
+{q:"The IT team didn't fix ___ properly.",o:["anything","nothing","no"],a:0},
+{q:"There isn't ___ snow on the lower slopes.",o:["no","any","nothing"],a:1},
+{q:"Which sentence is correct?",o:["Nobody didn't call the press office.","Nobody called the press office.","Nobody not called the press office."],a:1}]},
+{t:"4. Grammar: Present Perfect",d:"Items 1-5: write the verb in the Present Perfect (e.g. has been, have worked). Items 6-9: write for or since.",items:[
+{q:"The snow ___ (be) poor for the last few days.",a:["has been","'s been"]},
+{q:"I ___ (work) as a communications manager here for three years.",a:["have worked","'ve worked"]},
+{q:"We ___ (not receive) any replies from the investors so far.",a:["haven't received","have not received"]},
+{q:"Our team ___ (launch) three campaigns this month.",a:["has launched","'s launched"]},
+{q:"I ___ (have) stomach problems for the last few days.",a:["have had","'ve had"]},
+{q:"The website has been down ___ 8 a.m.",a:["since"]},
+{q:"We have promoted the winter season ___ two weeks.",a:["for"]},
+{q:"The lift has been closed ___ Monday.",a:["since"]},
+{q:"She has managed the resort's social media ___ five years.",a:["for"]}]},
+{t:"5. Grammar: ask sb for sth",d:"Pattern: ask + person + for + thing.",items:[
+{q:"I asked the IT director ___ help.",o:["to","of","for","about"],a:2},
+{q:"Guests often ask us ___ advice about ski routes.",a:["for"]},
+{q:"Which sentence is correct?",o:["She asked for the chef a vegetarian menu.","She asked to the chef a vegetarian menu.","She asked the chef for a vegetarian menu."],a:2},
+{q:"Which sentence is correct?",o:["We asked the marketing team for help with the press kit.","We asked for the marketing team help with the press kit.","We asked help the marketing team for the press kit."],a:0},
+{q:"A journalist asked us ___ a comment on the closed slopes.",a:["for"]},
+{q:"Please ask the IT director ___ help with the app.",a:["for"]}]},
+{t:"6. Your turn: write",open:1,d:"Write 5 sentences about your work this week. Use at least one of each: a double-negation sentence (anything / nobody / no), a Present Perfect sentence (for / since), ask sb for sth, and two words from the vocabulary list. Read your sentences aloud next lesson.",
+model:"<b>Model answer (yours will be different):</b><br>1. I haven't received any replies from the ski school yet.<br>2. I've worked on the winter brochure for two weeks.<br>3. I asked the designer for a glossy cover.<br>4. We must send the final version to the printer by noon on Friday.<br>5. Nobody wants a long queue at the gondola, so we have asked guests for feedback."}
+];
+const N=s=>s.toLowerCase().replace(/[\u2019`]/g,"'").replace(/\s+/g," ").trim();
+let cur=0,S=[];
+function build(){const m=document.getElementById('pages'),dt=document.getElementById('dots');
+P.forEach((p,i)=>{const s=document.createElement('section');s.id='p'+i;
+let h=`<h2>${p.t}</h2><p class="d">${p.d}</p>`;
+if(p.bank)h+=`<div class="bank">${p.bank.map(w=>`<span>${w}</span>`).join('')}</div>`;
+if(p.open){h+=`<textarea rows="8" placeholder="Write your 5 sentences here..."></textarea><div class="btns"><button onclick="document.getElementById('md').hidden=false">Show model answer</button></div><div class="model" id="md" hidden>${p.model}</div>`}
+else{h+=p.items.map((it,j)=>`<div class="it" data-j="${j}"><span class="n">${j+1}</span><div class="q">${it.o?it.q+'<div class="opts">'+it.o.map((o,k)=>`<button class="o" data-k="${k}">${o}</button>`).join('')+'</div>':it.q.replace('___','<input type="text" autocomplete="off" autocapitalize="off" spellcheck="false">')}</div></div>`).join('');
+h+=`<div class="btns"><button onclick="chk(${i})">Check</button><button class="g" onclick="rev(${i})">Reveal</button><button class="g" onclick="rst(${i})">Reset</button><span class="sc" id="sc${i}"></span></div>`}
+s.innerHTML=h;m.appendChild(s);
+const d=document.createElement('i');d.onclick=()=>go(i);dt.appendChild(d)});
+document.addEventListener('click',e=>{const b=e.target.closest('.o');if(!b)return;b.parentNode.querySelectorAll('.o').forEach(x=>x.className='o');b.classList.add('sel')});
+document.getElementById('pv').onclick=()=>go(cur-1);document.getElementById('nx').onclick=()=>go(cur+1);go(0)}
+function go(i){cur=Math.max(0,Math.min(P.length-1,i));document.querySelectorAll('section').forEach((s,k)=>s.classList.toggle('on',k===cur));document.querySelectorAll('.dots i').forEach((d,k)=>d.classList.toggle('on',k===cur));document.getElementById('pv').disabled=cur===0;document.getElementById('nx').disabled=cur===P.length-1;window.scrollTo(0,0)}
+function rows(i){return [...document.querySelectorAll('#p'+i+' .it')]}
+function upd(i,txt){document.getElementById('sc'+i).textContent=txt;const t=S.reduce((a,b)=>a+(b||0),0),T=P.reduce((a,p)=>a+(p.items?p.items.length:0),0);document.getElementById('tot').textContent='Score: '+t+' / '+T}
+function chk(i){let c=0;rows(i).forEach((el,j)=>{const it=P[i].items[j];let ok;
+if(it.o){const s=el.querySelector('.o.sel');ok=!!s&&+s.dataset.k===it.a;if(s){s.classList.remove('sel');s.classList.add(ok?'ok':'no')}}
+else{const x=el.querySelector('input');ok=it.a.map(N).includes(N(x.value));x.className=ok?'ok':'no'}
+if(ok)c++});S[i]=c;upd(i,c+' / '+P[i].items.length)}
+function rev(i){rows(i).forEach((el,j)=>{const it=P[i].items[j];
+if(it.o){el.querySelectorAll('.o').forEach((o,k)=>o.className='o'+(k===it.a?' rv':''))}
+else{const x=el.querySelector('input');x.value=it.a[0];x.className='rv'}});S[i]=0;upd(i,'Answers shown')}
+function rst(i){rows(i).forEach(el=>{el.querySelectorAll('.o').forEach(o=>o.className='o');const x=el.querySelector('input');if(x){x.value='';x.className=''}});S[i]=0;upd(i,'')}
+build();
+</script></body></html>
