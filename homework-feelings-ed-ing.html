@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summit & Pines – Homework</title>
+<style>
+:root{--pine:#1d3b35;--snow:#f4f7f8;--ice:#dfe9ee;--blue:#3f7399;--sun:#d98e2b;--ok:#2e7d4f;--bad:#b3392f;--ink:#1c2b2a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--snow);color:var(--ink);font:17px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:var(--pine);color:#fff;padding:0 20px;overflow:hidden}
+header .in{max-width:760px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+header h1{font:700 26px/1.2 Georgia,serif;margin:22px 0 4px}
+header p{margin:0 0 18px;color:#bcd2cc;font-size:15px}
+header svg{width:190px;height:84px;flex:none}
+main{max-width:760px;margin:0 auto;padding:20px}
+.page{display:none}.page.on{display:block}
+h2{font:700 22px Georgia,serif;margin:6px 0 4px}
+.sub{color:#51655f;margin:0 0 16px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;background:var(--ice);padding:12px;border-radius:10px;margin-bottom:18px}
+.bank span{background:#fff;border:1px solid #b8cad2;padding:4px 12px;border-radius:99px;font-weight:600}
+.q{background:#fff;border:1px solid #d3e0e5;border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.q input{font:inherit;width:170px;max-width:100%;border:0;border-bottom:2px solid var(--blue);background:var(--ice);padding:2px 8px;border-radius:4px 4px 0 0;margin:0 4px}
+.q input:focus{outline:2px solid var(--sun)}
+.opts{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.opts button{font:inherit;padding:6px 16px;border:2px solid #b8cad2;background:#fff;border-radius:8px;cursor:pointer}
+.opts button.sel{border-color:var(--blue);background:#e6f0f6}
+.q.right{border-color:var(--ok);background:#eef8f1}.q.wrong{border-color:var(--bad);background:#fcefed}
+.opts button.right{border-color:var(--ok);background:#d6eedd}.opts button.wrong{border-color:var(--bad);background:#f6d6d2}
+.fb{font-size:15px;margin-top:6px;color:#51655f;min-height:0}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.tools button,.nav button{font:inherit;font-weight:600;padding:9px 18px;border-radius:8px;border:0;cursor:pointer;background:var(--pine);color:#fff}
+.tools button.alt{background:#fff;color:var(--pine);border:2px solid var(--pine)}
+.score{margin-left:auto;font-weight:700;color:var(--pine)}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.nav button:disabled{opacity:.35;cursor:default}
+.dots{display:flex;gap:10px}.dots i{width:12px;height:12px;border-radius:50%;background:#b8cad2;cursor:pointer}.dots i.on{background:var(--sun)}
+@media(max-width:520px){header svg{width:120px;height:54px}header h1{font-size:21px}}
+</style>
+</head>
+<body>
+<header><div class="in"><div><h1>Summit & Pines</h1><p>Business English homework</p></div>
+<svg viewBox="0 0 190 84" aria-hidden="true"><path d="M0 84L45 30l18 20 30-42 40 54 18-18 39 40z" fill="#2f5a50"/><path d="M93 8l-13 18 8-4 5 6 5-6 8 4z" fill="#f4f7f8"/><path d="M45 30l-8 11 5-3 3 4 4-4 5 3z" fill="#f4f7f8"/><circle cx="160" cy="18" r="8" fill="#d98e2b"/></svg></div></header>
+<main>
+
+<section class="page on" id="p0">
+<h2>1. Target vocabulary</h2>
+<p class="sub">Complete each sentence with a word or phrase from the box. Use each one once.</p>
+<div class="bank" id="bank"></div>
+<div id="gaps"></div>
+<div class="tools"><button onclick="check(0)">Check</button><button class="alt" onclick="reveal(0)">Reveal</button><button class="alt" onclick="reset(0)">Reset</button><span class="score" id="s0"></span></div>
+</section>
+
+<section class="page" id="p1">
+<h2>2. Feelings: -ed or -ing?</h2>
+<p class="sub">Choose the correct adjective. Remember: -ed describes how a person feels; -ing describes what causes the feeling.</p>
+<div id="mc"></div>
+<div class="tools"><button onclick="check(1)">Check</button><button class="alt" onclick="reveal(1)">Reveal</button><button class="alt" onclick="reset(1)">Reset</button><span class="score" id="s1"></span></div>
+</section>
+
+<div class="nav"><button id="prev" onclick="go(-1)">Back</button><div class="dots" id="dots"></div><button id="next" onclick="go(1)">Next</button></div>
+</main>
+
+<script>
+var GAP=[
+["The ___ snowfall in April forced us to postpone the spring-skiing event.","unexpected"],
+["Our guests can tell when a thank-you message is ___ and when it is just a template.","sincere"],
+["The whole team was ___ for good weather before the opening weekend.","desperate"],
+["Layoffs are a ___ topic, so we handle internal communication very carefully.","sensitive"],
+["Please send me the draft today. We need legal's ___ before we publish it.","approval"],
+["The shuttle slows down at the sharp ___ near the lower lift station.","curve"],
+["We updated the website ___ of the winter season.","in anticipation"],
+["Guests must not ___ their cars in front of the main entrance.","leave"],
+["The CEO's joke was so funny that everyone started to ___.","laugh out loud"]];
+var BANK=["laugh out loud","desperate","approval","in anticipation","curve","sincere","leave (a car)","unexpected","sensitive"];
+var MC=[
+["Our guests got very ___ when the ski lift stopped for an hour.","annoyed","annoying","annoyed"],
+["The new resort app crashes every time I upload a photo. It's so ___.","frustrated","frustrating","frustrating"],
+["Our drone video of the summit at sunrise looks absolutely ___.","amazed","amazing","amazing"],
+["I was really ___ when our biggest competitor shared our post.","surprised","surprising","surprised"],
+["Running three campaigns in one week is really ___.","exhausted","exhausting","exhausting"],
+["I'm so ___ about the new partnership with a Swiss ski brand.","excited","exciting","excited"],
+["The instructions for the new booking system are very ___.","confused","confusing","confusing"],
+["The number of bookings from our latest email campaign was really ___.","disappointed","disappointing","disappointing"],
+["Some first-time skiers feel ___ on the steepest slope, so our instructors stay close.","frightened","frightening","frightened"],
+["Seeing guests post happy photos after our campaign is very ___.","satisfied","satisfying","satisfying"],
+["I felt really ___ when I mispronounced the name of our Swiss partner in the meeting.","embarrassed","embarrassing","embarrassed"]];
+var WHY=["a person feels it","the app causes it","the video causes it","a person feels it","the workload causes it","a person feels it","the instructions cause it","the results cause it","a person feels it","the experience causes it","a person feels it"];
+var picks={};
+var bank=document.getElementById("bank");BANK.forEach(function(w){bank.innerHTML+="<span>"+w+"</span>"});
+var gaps=document.getElementById("gaps");
+GAP.forEach(function(g,i){var p=g[0].split("___");gaps.innerHTML+='<div class="q" id="g'+i+'">'+(i+1)+'. '+p[0]+'<input id="i'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false">'+p[1]+'<div class="fb" id="f0_'+i+'"></div></div>'});
+var mc=document.getElementById("mc");
+MC.forEach(function(m,i){mc.innerHTML+='<div class="q" id="m'+i+'">'+(i+1)+'. '+m[0]+'<div class="opts"><button id="b'+i+'a" onclick="pick('+i+',\''+m[1]+'\')">'+m[1]+'</button><button id="b'+i+'b" onclick="pick('+i+',\''+m[2]+'\')">'+m[2]+'</button></div><div class="fb" id="f1_'+i+'"></div></div>'});
+function norm(s){return s.toLowerCase().replace(/\s+/g," ").trim()}
+function pick(i,v){picks[i]=v;["a","b"].forEach(function(x){var b=document.getElementById("b"+i+x);b.classList.toggle("sel",b.textContent===v);b.classList.remove("right","wrong")});var q=document.getElementById("m"+i);q.className="q";document.getElementById("f1_"+i).textContent=""}
+function mark(q,ok){q.className="q "+(ok?"right":"wrong")}
+function check(p){var n=0,t=p?MC.length:GAP.length;
+if(p==0){GAP.forEach(function(g,i){var v=norm(document.getElementById("i"+i).value),ok=v===g[1],q=document.getElementById("g"+i),f=document.getElementById("f0_"+i);if(!v){q.className="q";f.textContent="";return}mark(q,ok);if(ok)n++;f.textContent=ok?"Correct.":"Not quite. Try again."})}
+else{MC.forEach(function(m,i){var q=document.getElementById("m"+i),f=document.getElementById("f1_"+i);if(!picks[i]){return}var ok=picks[i]===m[3];mark(q,ok);if(ok)n++;["a","b"].forEach(function(x){var b=document.getElementById("b"+i+x);b.classList.remove("right","wrong");if(b.textContent===picks[i])b.classList.add(ok?"right":"wrong")});f.textContent=ok?"Correct: "+WHY[i]+".":"Not quite. Think: who or what feels it, and who or what causes it?"})}
+document.getElementById("s"+p).textContent="Score: "+n+" / "+t}
+function reveal(p){if(p==0){GAP.forEach(function(g,i){var inp=document.getElementById("i"+i);inp.value=g[1];document.getElementById("g"+i).className="q right";document.getElementById("f0_"+i).textContent=""})}
+else{MC.forEach(function(m,i){picks[i]=m[3];["a","b"].forEach(function(x){var b=document.getElementById("b"+i+x);b.classList.remove("sel","wrong","right");if(b.textContent===m[3])b.classList.add("right")});document.getElementById("m"+i).className="q right";document.getElementById("f1_"+i).textContent=WHY[i].charAt(0).toUpperCase()+WHY[i].slice(1)+"."})}
+document.getElementById("s"+p).textContent=""}
+function reset(p){if(p==0){GAP.forEach(function(g,i){document.getElementById("i"+i).value="";document.getElementById("g"+i).className="q";document.getElementById("f0_"+i).textContent=""})}
+else{picks={};MC.forEach(function(m,i){["a","b"].forEach(function(x){document.getElementById("b"+i+x).className=""});document.getElementById("m"+i).className="q";document.getElementById("f1_"+i).textContent=""})}
+document.getElementById("s"+p).textContent=""}
+var cur=0,dots=document.getElementById("dots");
+for(var d=0;d<2;d++){dots.innerHTML+='<i onclick="show('+d+')"></i>'}
+function show(n){cur=n;for(var k=0;k<2;k++){document.getElementById("p"+k).classList.toggle("on",k==n);dots.children[k].classList.toggle("on",k==n)}document.getElementById("prev").disabled=n==0;document.getElementById("next").disabled=n==1;window.scrollTo(0,0)}
+function go(d){show(Math.min(1,Math.max(0,cur+d)))}
+show(0);
+</script>
+</body>
+</html>
