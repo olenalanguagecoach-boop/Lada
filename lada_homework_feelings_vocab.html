@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summit & Pines – Homework: Feelings & Vocabulary</title>
+<style>
+:root{--pine:#1f4d3a;--pine2:#2f6b52;--snow:#f5f8f7;--ink:#1d2a26;--line:#cfdcd6;--ok:#2e7d32;--okbg:#e4f3e5;--no:#c62828;--nobg:#fbe5e5;--gold:#e0a82e}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,Arial,sans-serif;background:var(--snow);color:var(--ink);line-height:1.5}
+header{background:var(--pine);color:#fff;padding:0;overflow:hidden}
+header .txt{padding:18px 20px 0;max-width:760px;margin:0 auto}
+header h1{margin:0;font-size:1.35rem;font-weight:600}
+header p{margin:2px 0 0;opacity:.8;font-size:.9rem}
+header svg{display:block;width:100%;height:70px}
+main{max-width:760px;margin:0 auto;padding:18px 16px 40px}
+.page{display:none}.page.active{display:block}
+h2{font-size:1.15rem;margin:.2rem 0 .4rem;color:var(--pine)}
+.intro{background:#fff;border-left:4px solid var(--gold);padding:10px 14px;margin:0 0 14px;border-radius:4px;font-size:.95rem}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.bank span{background:#fff;border:1px solid var(--line);border-radius:16px;padding:3px 12px;font-size:.93rem}
+.item{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:9px}
+.item.ok{border-color:var(--ok);background:var(--okbg)}.item.no{border-color:var(--no);background:var(--nobg)}
+input[type=text],select{font:inherit;padding:3px 8px;border:1px solid #9bb3a8;border-radius:5px;background:#fff;max-width:100%}
+input[type=text]{width:170px}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px}
+button{font:inherit;border:0;border-radius:6px;padding:7px 16px;cursor:pointer;background:var(--pine2);color:#fff}
+button.sec{background:#fff;color:var(--pine);border:1px solid var(--pine2)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+.score{margin-left:auto;font-weight:600;color:var(--pine)}
+nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.dots{display:flex;gap:8px}.dots i{width:11px;height:11px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--pine)}
+</style>
+</head>
+<body>
+<header>
+<div class="txt"><h1>Summit &amp; Pines Resort</h1><p>Homework: feelings &amp; useful vocabulary</p></div>
+<svg viewBox="0 0 800 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L90 25 L150 48 L260 6 L350 50 L440 20 L540 52 L640 14 L720 44 L800 28 L800 70Z" fill="#2f6b52"/><path d="M0 70 L120 42 L210 60 L330 30 L430 62 L560 36 L680 60 L800 40 L800 70Z" fill="#f5f8f7"/><path d="M260 6 L246 22 L256 19 L262 24 L270 18 L276 22Z" fill="#fff"/></svg>
+</header>
+<main>
+<div id="pages"></div>
+<nav><button class="sec" id="back">Back</button><div class="dots" id="dots"></div><button id="next">Next</button></nav>
+</main>
+<script>
+const P=[
+{title:"Exercise 1. Resort vocabulary",type:"gap",
+ intro:"Complete each sentence with a word or phrase from the box. Use each one once.",
+ bank:["soaked","relatively","in the near future","circulation","embezzlement","rival","of mediocre quality"],
+ items:[
+ ["Our winter magazine has a "," of 15,000 copies.",["circulation"]],
+ ["The tourists arrived "," after the sudden rain.",["soaked"]],
+ ["Hotel prices here are "," low, so we mention them in our ads.",["relatively"]],
+ ["We will open the new gondola "," .",["in the near future"]],
+ ["The brochure paper was "," , so we changed the printer.",["of mediocre quality"]],
+ ["Our main "," has just launched a loyalty programme.",["rival","competitor"]],
+ ["We need a clear statement about the "," rumours.",["embezzlement"]]]},
+{title:"Exercise 2. Adjective or noun?",type:"sel",
+ intro:"Choose the correct word: an adjective (a describing word) or a noun (the name of a feeling).",
+ items:[
+ ["The guides feel great "," in the resort's safety record.",["proud","pride"],"pride"],
+ ["Guests were "," about the new lift pass system.",["confusion","confused"],"confused"],
+ ["We are "," about a snowy December.",["hopeful","hope"],"hopeful"],
+ ["His "," of our rival's success was obvious.",["jealous","jealousy"],"jealousy"],
+ ["Journalists were "," about our sustainability plan.",["curiosity","curious"],"curious"],
+ ["She couldn't hide her "," before the live broadcast.",["anxious","anxiety"],"anxiety"],
+ ["Many beginners are "," of the black slopes.",["fear","scared"],"scared"],
+ ["He answered with "," , but politely.",["angry","anger"],"anger"]]},
+{title:"Exercise 3. Anything or nothing?",type:"sel",
+ intro:"Remember: use only one negative in a sentence. With not / n't / never / nobody use <b>anything</b>. Without a negative word, use <b>nothing</b>.",
+ items:[
+ ["I wasn't scared of "," when I skied for the first time.",["nothing","anything"],"anything"],
+ ["There was "," to be anxious about: the launch went perfectly.",["anything","nothing"],"nothing"],
+ ["She isn't jealous of "," our rival has done.",["nothing","anything"],"anything"],
+ ["The journalists were curious, but we had "," to hide.",["anything","nothing"],"nothing"],
+ ["He didn't say "," about the embezzlement rumours.",["nothing","anything"],"anything"],
+ ["Guests were angry because we did "," about the broken lift.",["anything","nothing"],"nothing"],
+ ["Nobody was upset about "," at the event.",["nothing","anything"],"anything"],
+ ["I'm not confused about "," : the instructions are clear.",["nothing","anything"],"anything"]]}
+];
+const root=document.getElementById("pages"),dots=document.getElementById("dots");let cur=0;
+const norm=s=>s.trim().toLowerCase().replace(/\s+/g," ");
+P.forEach((p,pi)=>{
+ const d=document.createElement("section");d.className="page";
+ let h=`<h2>${p.title}</h2><div class="intro">${p.intro}</div>`;
+ if(p.bank)h+=`<div class="bank">${p.bank.map(w=>`<span>${w}</span>`).join("")}</div>`;
+ p.items.forEach((it,i)=>{
+  const f=p.type==="gap"?`<input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="answer ${i+1}">`
+   :`<select aria-label="answer ${i+1}"><option value="">choose…</option>${it[2].map(o=>`<option>${o}</option>`).join("")}</select>`;
+  h+=`<div class="item">${it[0]}${f}${it[1]}</div>`;});
+ h+=`<div class="ctrl"><button data-a="check">Check</button><button class="sec" data-a="reveal">Reveal</button><button class="sec" data-a="reset">Reset</button><span class="score"></span></div>`;
+ d.innerHTML=h;root.appendChild(d);
+ const els=[...d.querySelectorAll(".item")],sc=d.querySelector(".score");
+ const ans=i=>p.type==="gap"?p.items[i][2]:[p.items[i][3]];
+ const fld=i=>els[i].querySelector("input,select");
+ d.querySelector(".ctrl").addEventListener("click",e=>{
+  const a=e.target.dataset.a;if(!a)return;
+  if(a==="check"){let n=0;els.forEach((el,i)=>{const v=norm(fld(i).value);const ok=ans(i).map(norm).includes(v);
+    if(ok)n++;el.className="item "+(v===""?"":ok?"ok":"no");});sc.textContent=`Score: ${n} / ${els.length}`;}
+  if(a==="reveal"){els.forEach((el,i)=>{fld(i).value=ans(i)[0];el.className="item ok";});sc.textContent="";}
+  if(a==="reset"){els.forEach((el,i)=>{fld(i).value="";el.className="item";});sc.textContent="";}
+ });
+ const dot=document.createElement("i");dots.appendChild(dot);
+});
+function show(n){cur=n;[...root.children].forEach((c,i)=>c.classList.toggle("active",i===n));
+ [...dots.children].forEach((c,i)=>c.classList.toggle("on",i===n));
+ back.style.visibility=n?"visible":"hidden";next.style.visibility=n<P.length-1?"visible":"hidden";scrollTo(0,0);}
+back.onclick=()=>show(cur-1);next.onclick=()=>show(cur+1);show(0);
+</script>
+</body>
+</html>
