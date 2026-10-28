@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summit &amp; Pines: Guest Experience Vocabulary</title>
+<style>
+:root{--pine:#17352f;--snow:#eef4f6;--lake:#2f6f8f;--sun:#e0a526;--ink:#1c2b2e;--ok:#2e7d4f;--bad:#c0392b;--line:#c9d8dd}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Trebuchet MS",Verdana,sans-serif;background:var(--snow);color:var(--ink);line-height:1.5}
+header{background:var(--pine);color:#fff;padding:18px 20px 0}
+header h1{margin:0;font-size:1.25rem;font-weight:700}
+header p{margin:2px 0 0;font-size:.9rem;color:#b9d3cc}
+header svg{display:block;width:100%;height:60px;margin-top:6px}
+main{max-width:720px;margin:0 auto;padding:18px 16px 40px}
+h2{font-size:1.15rem;margin:.2em 0 .1em;color:var(--pine)}
+.hint{margin:0 0 14px;color:#4a5f63;font-size:.92rem}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;padding:12px;background:#fff;border:1px dashed var(--lake);border-radius:8px}
+.bank span{background:var(--lake);color:#fff;padding:3px 12px;border-radius:14px;font-size:.92rem}
+.item{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.item.ok{border-color:var(--ok);background:#eaf6ee}
+.item.bad{border-color:var(--bad);background:#fbeceb}
+input.gap{font:inherit;width:11em;max-width:100%;border:0;border-bottom:2px solid var(--lake);background:transparent;padding:0 4px;text-align:center}
+input.gap:focus{outline:2px solid var(--sun);outline-offset:2px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.opt{font:inherit;background:var(--snow);border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer}
+.opt.sel{background:var(--lake);color:#fff;border-color:var(--lake)}
+.opt:focus-visible,button:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px}
+button.act{font:inherit;border:0;border-radius:6px;padding:8px 16px;cursor:pointer;background:var(--pine);color:#fff}
+button.act.alt{background:#fff;color:var(--pine);border:1px solid var(--pine)}
+.score{margin-left:auto;font-weight:700;color:var(--pine)}
+nav{display:flex;align-items:center;justify-content:space-between;margin-top:24px}
+.dots{display:flex;gap:8px}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--line);border:0;padding:0;cursor:pointer}
+.dot.on{background:var(--sun)}
+.page{display:none}.page.on{display:block}
+button:disabled{opacity:.4;cursor:default}
+</style>
+</head>
+<body>
+<header>
+<h1>Summit &amp; Pines: Guest Experience Vocabulary</h1>
+<p>Communications team · homework</p>
+<svg viewBox="0 0 700 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 L90 22 L140 40 L240 6 L330 44 L420 18 L520 46 L610 14 L700 50 L700 60Z" fill="#2f6f8f"/><path d="M0 60 L60 38 L160 54 L290 28 L400 56 L500 36 L620 56 L700 40 L700 60Z" fill="#eef4f6"/><path d="M240 6 L222 17 L236 15 L244 20 L252 14 L258 17Z" fill="#fff"/></svg>
+</header>
+<main>
+
+<section class="page on" data-page="0">
+<h2>1. Complete the sentences</h2>
+<p class="hint">Use each word or phrase from the box once.</p>
+<div class="bank" id="bank"></div>
+<div class="item">After three hours of rain, the guests at the lift station looked cold and <input class="gap" data-a="miserable"> .</div>
+<div class="item">Our ski instructor is so <input class="gap" data-a="energetic"> that she is still running around the slope after a full day of lessons.</div>
+<div class="item">Guests felt <input class="gap" data-a="helpless"> when the lift stopped and nobody told them what was happening.</div>
+<div class="item">Please borrow a pair of <input class="gap" data-a="wellingtons|wellies"> from reception. The spring trails are very muddy.</div>
+<div class="item">I’m sorry, we can’t offer you a room in July. The hotel is <input class="gap" data-a="fully booked"> .</div>
+<div class="item">The guest survey showed only <input class="gap" data-a="minor problems"> , such as slow Wi-Fi in the lobby.</div>
+<div class="item">Our winter wellness post is <input class="gap" data-a="science-backed|science backed"> : studies show that vitamin D can improve mood in the dark months.</div>
+<div class="item">The <input class="gap" data-a="cheerful"> receptionist welcomed every guest with a big smile and a joke.</div>
+</section>
+
+<section class="page" data-page="1">
+<h2>2. Choose the correct answer</h2>
+<p class="hint">Tap one option for each question.</p>
+<div class="item" data-c="0"><b>1.</b> <span>Our night receptionist is warm and ______. She always checks that late arrivals feel welcome.</span><div class="opts"><button class="opt">caring</button><button class="opt">care</button><button class="opt">cared</button><button class="opt">carefully</button></div></div>
+<div class="item" data-c="2"><b>2.</b> <span>Before you scan the digital ski pass, please ______ your phone case.</span><div class="opts"><button class="opt">put off</button><button class="opt">take away</button><button class="opt">take off</button><button class="opt">get off</button></div></div>
+<div class="item" data-c="1"><b>3.</b> <span>Our content creator uses a ______ to protect the lens in heavy snow.</span><div class="opts"><button class="opt">phone case</button><button class="opt">camera cover</button><button class="opt">suit</button><button class="opt">wellingtons</button></div></div>
+<div class="item" data-c="3"><b>4.</b> <span>A 7 a.m. meeting doesn’t ______ our partners in Canada because of the time difference.</span><div class="opts"><button class="opt">wear</button><button class="opt">match</button><button class="opt">dress</button><button class="opt">suit</button></div></div>
+<div class="item" data-c="0"><b>5.</b> <span>The reception team wears a dark ______ with the resort pin.</span><div class="opts"><button class="opt">suit</button><button class="opt">cover</button><button class="opt">case</button><button class="opt">wellingtons</button></div></div>
+<div class="item" data-c="2"><b>6.</b> <span>We can’t take more reservations. The hotel is ______ for New Year week.</span><div class="opts"><button class="opt">full booking</button><button class="opt">fully book</button><button class="opt">fully booked</button><button class="opt">fulled booked</button></div></div>
+<div class="item" data-c="1"><b>7.</b> <span>“Our tips are science-backed.” This means they are ______.</span><div class="opts"><button class="opt">invented by scientists last year</button><button class="opt">supported by research</button><button class="opt">very expensive</button><button class="opt">popular on social media</button></div></div>
+<div class="item" data-c="3"><b>8.</b> <span>“We had only minor problems.” This means the problems were ______.</span><div class="opts"><button class="opt">serious</button><button class="opt">urgent</button><button class="opt">hidden</button><button class="opt">small and not important</button></div></div>
+</section>
+
+<section class="page" data-page="2">
+<h2>3. Definition to word</h2>
+<p class="hint">Write the word or phrase. The first letter is given.</p>
+<div class="item">Feeling very unhappy, often because of bad weather: <input class="gap" data-a="miserable" placeholder="m…"></div>
+<div class="item">Full of energy and enthusiasm: <input class="gap" data-a="energetic" placeholder="e…"></div>
+<div class="item">Unable to do anything to help yourself: <input class="gap" data-a="helpless" placeholder="h…"></div>
+<div class="item">No rooms or places left to reserve: <input class="gap" data-a="fully booked" placeholder="f… b…"></div>
+<div class="item">Rubber boots for wet or muddy ground (British): <input class="gap" data-a="wellingtons|wellies" placeholder="w…"></div>
+<div class="item">A protective cover for your mobile: <input class="gap" data-a="phone case" placeholder="p… c…"></div>
+<div class="item">Happy, positive, and friendly: <input class="gap" data-a="cheerful" placeholder="c…"></div>
+<div class="item">Small problems that are not serious: <input class="gap" data-a="minor problems" placeholder="m… p…"></div>
+</section>
+
+<div class="bar">
+<button class="act" id="check">Check</button>
+<button class="act alt" id="reveal">Reveal</button>
+<button class="act alt" id="reset">Reset</button>
+<span class="score" id="score"></span>
+</div>
+<nav>
+<button class="act alt" id="prev">Back</button>
+<div class="dots" id="dots"></div>
+<button class="act alt" id="next">Next</button>
+</nav>
+</main>
+<script>
+(function(){
+var pages=[].slice.call(document.querySelectorAll('.page')),cur=0;
+var norm=function(s){return s.toLowerCase().replace(/[-\s]+/g,' ').trim()};
+var $=function(id){return document.getElementById(id)};
+
+// shuffled word bank
+var words=['miserable','energetic','helpless','wellingtons','fully booked','minor problems','science-backed','cheerful'];
+for(var i=words.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=words[i];words[i]=words[j];words[j]=t}
+$('bank').innerHTML=words.map(function(w){return '<span>'+w+'</span>'}).join('');
+
+// dots
+pages.forEach(function(_,i){var d=document.createElement('button');d.className='dot';d.setAttribute('aria-label','Page '+(i+1));d.onclick=function(){go(i)};$('dots').appendChild(d)});
+
+// multiple choice
+[].forEach.call(document.querySelectorAll('.item[data-c]'),function(q){
+ [].forEach.call(q.querySelectorAll('.opt'),function(b){b.onclick=function(){
+  [].forEach.call(q.querySelectorAll('.opt'),function(x){x.classList.remove('sel')});b.classList.add('sel');
+  q.classList.remove('ok','bad');update()}})});
+
+function items(p){return [].slice.call(pages[p].querySelectorAll('.item'))}
+function isOk(it){
+ var g=it.querySelector('.gap');
+ if(g){return g.data_ok}
+ var opts=[].slice.call(it.querySelectorAll('.opt')),s=opts.filter(function(o){return o.classList.contains('sel')})[0];
+ return !!s&&opts.indexOf(s)==+it.dataset.c}
+function update(){
+ var n=0,its=items(cur);
+ its.forEach(function(it){if(isOk(it))n++});
+ $('score').textContent=(it_checked[cur]?'Score: '+n+' / '+its.length:'');
+}
+var it_checked={};
+$('check').onclick=function(){
+ items(cur).forEach(function(it){
+  var g=it.querySelector('.gap');
+  if(g){var al=g.dataset.a.split('|').map(norm);g.data_ok=al.indexOf(norm(g.value))>-1}
+  var ok=isOk(it);it.classList.remove('ok','bad');
+  var answered=g?g.value.trim():it.querySelector('.opt.sel');
+  it.classList.add(ok?'ok':'bad');
+ });
+ it_checked[cur]=1;update();
+};
+$('reveal').onclick=function(){
+ items(cur).forEach(function(it){
+  var g=it.querySelector('.gap');
+  if(g){g.value=g.dataset.a.split('|')[0];g.data_ok=true}
+  else{var o=it.querySelectorAll('.opt');[].forEach.call(o,function(x,i){x.classList.toggle('sel',i==+it.dataset.c)})}
+  it.classList.remove('bad');it.classList.add('ok');
+ });
+ it_checked[cur]=1;update();
+};
+$('reset').onclick=function(){
+ items(cur).forEach(function(it){
+  var g=it.querySelector('.gap');if(g){g.value='';g.data_ok=false}
+  [].forEach.call(it.querySelectorAll('.opt'),function(x){x.classList.remove('sel')});
+  it.classList.remove('ok','bad');
+ });
+ it_checked[cur]=0;update();
+};
+function go(n){
+ cur=Math.max(0,Math.min(pages.length-1,n));
+ pages.forEach(function(p,i){p.classList.toggle('on',i==cur)});
+ [].forEach.call(document.querySelectorAll('.dot'),function(d,i){d.classList.toggle('on',i==cur)});
+ $('prev').disabled=cur==0;$('next').disabled=cur==pages.length-1;
+ update();window.scrollTo(0,0);
+}
+$('prev').onclick=function(){go(cur-1)};
+$('next').onclick=function(){go(cur+1)};
+go(0);
+})();
+</script>
+</body>
+</html>
