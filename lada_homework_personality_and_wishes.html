@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Summit &amp; Pines – Homework</title>
+<style>
+:root{--pine:#1d4036;--ice:#3d7a9a;--snow:#f3f7f8;--ink:#1c2b33;--ok:#2e7d4f;--bad:#c0392b;--line:#d5e0e4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--snow);color:var(--ink);font:16px/1.5 "Trebuchet MS",system-ui,sans-serif}
+header{background:linear-gradient(#bcd9e6,#e6f1f5);border-bottom:4px solid var(--pine)}
+header svg{display:block;width:100%;height:110px}
+.ht{max-width:780px;margin:0 auto;padding:6px 16px 12px}
+h1{font:700 26px Georgia,serif;margin:0;color:var(--pine)}
+.sub{margin:0;color:#44606b;font-size:14px}
+main{max-width:780px;margin:0 auto;padding:16px}
+nav{max-width:780px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dots{display:flex;gap:8px;flex:1;justify-content:center}
+.dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--pine);background:#fff;padding:0;cursor:pointer}
+.dot.on{background:var(--pine)}
+button{font:inherit;cursor:pointer}
+.nb{background:var(--pine);color:#fff;border:0;border-radius:6px;padding:7px 14px}
+.nb:disabled{opacity:.35;cursor:default}
+.tot{font-size:14px;color:#44606b}
+h2{font:700 22px Georgia,serif;color:var(--pine);margin:6px 0 4px}
+h3{font:700 17px Georgia,serif;color:var(--ice);margin:18px 0 6px}
+.ins{margin:0 0 12px;color:#44606b}
+.acc{font-size:14px;margin-bottom:6px}
+.acc button{border:1px solid var(--ice);background:#fff;color:var(--ice);border-radius:14px;padding:2px 12px;margin-left:4px}
+.acc button.on{background:var(--ice);color:#fff}
+.g{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.sp{background:var(--snow);border:1px solid var(--ice);color:var(--ice);border-radius:50%;width:34px;height:34px;grid-row:span 2;align-self:center}
+.sp:hover{background:var(--ice);color:#fff}
+.w{font-weight:700;color:var(--pine)}
+.w small{font-weight:400;color:#44606b;font-size:13px}
+.ua{color:var(--ice);font-weight:700}
+.ex{grid-column:2;font-style:italic;color:#33474f}
+.ex button{border:0;background:none;color:var(--ice);padding:0 4px}
+.bank{display:flex;flex-wrap:wrap;gap:6px;background:#e5f0f5;border-radius:8px;padding:10px;margin-bottom:12px}
+.bank span{background:#fff;border:1px solid var(--ice);border-radius:14px;padding:1px 12px}
+.q{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.q input{font:inherit;border:0;border-bottom:2px solid var(--ice);background:#f7fbfc;padding:1px 6px;margin:0 3px;width:150px;max-width:100%}
+.q input.ok,.opt.ok{border-color:var(--ok);background:#e6f4ea}
+.q input.bad,.opt.bad{border-color:var(--bad);background:#fbeaea}
+.q input.rev,.opt.rev{border-color:var(--ice);background:#e5f0f5}
+.opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.opt{border:1px solid var(--line);border-radius:6px;padding:4px 12px;background:#fff;cursor:pointer;font-size:15px}
+.opt.sel{border-color:var(--pine);box-shadow:inset 0 0 0 1px var(--pine)}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.bar button{border-radius:6px;padding:7px 16px;border:1px solid var(--pine);background:#fff;color:var(--pine)}
+.bar .pr{background:var(--pine);color:#fff}
+.sc{margin-left:auto;font-weight:700;color:var(--pine)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--ice);outline-offset:1px}
+@media(max-width:480px){h1{font-size:22px}.q input{width:120px}}
+</style></head><body>
+<header>
+<svg viewBox="0 0 800 110" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+<circle cx="650" cy="34" r="16" fill="#e8b04a"/>
+<path d="M0 110V70l90-40 80 38 100-54 110 62 90-36 120 50 90-34 120 46v50z" fill="#7fa6ba"/>
+<path d="M0 110V86l120-34 90 30 120-40 110 44 100-30 130 38 130-28v54z" fill="#2c5d52"/>
+<path d="M270 14l-18 24 12-4 8 8 7-6 10 8z" fill="#fff"/>
+<g fill="#1d4036"><path d="M60 110l12-34 12 34zM96 110l10-28 10 28zM700 110l12-34 12 34zM736 110l10-28 10 28z"/></g>
+</svg>
+<div class="ht"><h1>Summit &amp; Pines</h1><p class="sub">Homework: personality, arrangements, wishes and regrets</p></div>
+</header>
+<nav><button class="nb" id="pv">Back</button><div class="dots" id="dots"></div><button class="nb" id="nx">Next</button><span class="tot" id="tot"></span></nav>
+<main id="main"></main>
+<script>
+const GL=[
+["What are you like?",[
+["mean","скупий, жадібний","Our former supplier was so mean that he refused to give a discount, even after ten years of cooperation."],
+["dishonest","нечесний","It would be dishonest to say that all the slopes are open when two lifts are closed."],
+["unpleasant","неприємний","The guest was really unpleasant on the phone, but our front-desk team stayed calm."],
+["unkind","недобрий, жорстокий","It was unkind of him to criticise the intern’s presentation in front of the whole team."],
+["unfriendly","недружній, неприязний","Several reviews described the staff at the rental shop as unfriendly, so we’re planning customer-service training."],
+["sensible","розсудливий, тямущий","Our safety manager is very sensible: she never takes risks with weather conditions."],
+["silly","дурний, безглуздий","I made a silly mistake and sent the newsletter without the discount code."],
+["patient","терплячий","You need to be patient with guests who are stressed after a long journey."],
+["impatient","нетерплячий","The journalist was impatient and wanted our press release immediately."],
+["reliable","надійний","Our shuttle partner is very reliable, and the buses have never been late during peak season."],
+["unreliable","ненадійний","The Wi-Fi in the mountain restaurant is unreliable, so guests can’t upload their photos."]]],
+["Mini glossary",[
+["noble","шляхетний, благородний","Raising money for the local mountain rescue team is a noble cause, and our guests want to be part of it.","formal"],
+["arrange","організовувати, влаштовувати, домовлятися про","I’m arranging a press trip for three travel journalists in December."],
+["not yet","ще ні, ще не","I haven’t decided yet which influencer to invite to the opening weekend."]]]];
+
+const EX=[
+{t:"Vocabulary 1: Complete the sentences",i:"Use the words from the box. Each word is used once.",type:"gap",bank:1,items:[
+["Our new supplier is very ___: the shuttle buses arrived late three times this week.",["unreliable"]],
+["The guest left a bad review because the reception staff were ___ and didn’t even say hello.",["unfriendly"]],
+["It would be ___ to promise fresh snow in the advert when we can’t guarantee it.",["dishonest"]],
+["Please be ___ with first-time skiers; everything is new for them.",["patient"]],
+["I’d like to ___ a meeting with the ski school before the season starts.",["arrange"]],
+["He is too ___ to give a discount to a loyal group of 40 guests.",["mean"]],
+["Donating the profits to the mountain rescue team is a ___ gesture.",["noble"]],
+["It was ___ of me to forget the attachment: the email went out empty.",["silly"]],
+["A ___ manager closes the slope when visibility is bad.",["sensible"]],
+["The journalist was ___ and called us three times in ten minutes.",["impatient"]]]},
+{t:"Vocabulary 2: Choose the best answer",i:"Choose one option for each sentence.",type:"mc",items:[
+["A colleague criticises an intern’s work in front of everyone. This is ___ behaviour.",["unkind","reliable","sensible"],0],
+["“Has the campaign launched?” “___”",["Not yet.","Yet not.","Not still."],0],
+["Which sentence is correct?",["I haven’t decided yet.","I haven’t decided already.","I didn’t decided yet."],0],
+["A person who always delivers on time and keeps promises is ___.",["reliable","silly","mean"],0],
+["We need to ___ transfers for 20 VIP guests before Friday.",["arrange","arrive","argue"],0],
+["Someone who gives guests false information is ___.",["dishonest","sensible","patient"],0],
+["A person who never wants to spend money on others is ___.",["mean","noble","impatient"],0],
+["Raising funds for the rescue team is a ___ cause.",["noble","unpleasant","silly"],0]]},
+{t:"Grammar 1: I wish I could…",i:"Present wishes. Write could + the verb in brackets, e.g. could go.",type:"gap",items:[
+["I wish I ___ (update) the website myself, but I always have to ask IT.",["could update"]],
+["I wish I ___ (reply) to every guest within an hour, but we get hundreds of messages.",["could reply"]],
+["I wish I ___ (take) a day off in January, but it’s our busiest month.",["could take"]],
+["I wish I ___ (work) with bigger travel bloggers, but our budget is tiny.",["could work"]],
+["I wish I ___ (see) which campaigns really work, but our data is a mess.",["could see"]],
+["I wish I ___ (skip) some meetings, but my manager wants everyone there.",["could skip"]],
+["I wish I ___ (speak) English without thinking about grammar.",["could speak"]],
+["I wish I ___ (visit) Whistler this winter, but it’s too expensive.",["could visit"]]]},
+{t:"Grammar 2: I wish I could have done…",i:"Regrets about the past. Write could have + past participle of the verb in brackets. Short forms (could’ve) are fine.",type:"gap",items:[
+["I wish I ___ (reply) to that journalist before the deadline, but I was in a meeting.",["could have replied","could’ve replied"]],
+["I wish I ___ (invite) more foreign media to the opening, but we had no budget.",["could have invited","could’ve invited"]],
+["I wish I ___ (shoot) more video during the race, but we only had one camera.",["could have shot","could’ve shot"]],
+["I wish I ___ (send) the newsletter earlier, but the approval took two days.",["could have sent","could’ve sent"]],
+["I wish I ___ (go) to the tourism fair in Berlin, but it was the same week as our launch.",["could have gone","could’ve gone"]],
+["I wish I ___ (see) the guest feedback before it went viral, but nobody told me.",["could have seen","could’ve seen"]],
+["I wish I ___ (book) the venue earlier, but the dates weren’t confirmed.",["could have booked","could’ve booked"]],
+["I wish I ___ (take) a holiday last summer, but we were too busy.",["could have taken","could’ve taken"]]]},
+{t:"Grammar 3: Now or then?",i:"Choose between I wish I could (now) and I wish I could have done (past).",type:"mc",items:[
+["Our video went viral last week. I wish I ___ the camera crew for the whole day.",["could hire","could have hired"],1],
+["Our website is so slow. I wish I ___ it myself.",["could change","could have changed"],0],
+["It’s 5 p.m. and the inbox is full. I wish I ___ all the messages tonight.",["could answer","could have answered"],0],
+["The journalist left angry. I wish I ___ to her earlier.",["could speak","could have spoken"],1],
+["We only get two weeks of holiday. I wish I ___ longer.",["could stay","could have stayed"],0],
+["The lift broke down yesterday morning. I wish I ___ the guests faster.",["could inform","could have informed"],1],
+["Right now we only have one camera. I wish I ___ from two angles.",["could shoot","could have shot"],0],
+["Last year’s budget was too small. I wish I ___ more bloggers to the festival.",["could invite","could have invited"],1]]}
+];
+
+const $=s=>document.querySelector(s),el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const norm=s=>s.toLowerCase().replace(/[’‘]/g,"'").replace(/\s+/g," ").trim();
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+
+let acc="en-GB";
+function say(t){
+  if(!("speechSynthesis" in window)){alert("Audio is not supported in this browser. Please open the file in Chrome or Safari.");return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t);u.lang=acc;u.rate=.85;
+  const v=speechSynthesis.getVoices().find(v=>v.lang.replace("_","-")===acc);if(v)u.voice=v;
+  speechSynthesis.speak(u);
+}
+
+const pages=[],scores=EX.map(()=>0);
+function updTot(){const m=EX.reduce((a,e)=>a+e.items.length,0);$("#tot").textContent="Total: "+scores.reduce((a,b)=>a+b,0)+" / "+m}
+
+function glossary(){
+  const p=el("section");
+  p.append(el("h2",0,"Glossary"),el("p","ins","Press the speaker button to hear a word. Press ▶ to hear the example sentence."));
+  const a=el("div","acc","Accent: ");
+  const bu=el("button","on","British"),bs=el("button","","American");
+  bu.onclick=()=>{acc="en-GB";bu.className="on";bs.className=""};
+  bs.onclick=()=>{acc="en-US";bs.className="on";bu.className=""};
+  a.append(bu,bs);p.append(a);
+  GL.forEach(([title,rows])=>{
+    p.append(el("h3",0,title));
+    rows.forEach(r=>{
+      const g=el("div","g");
+      const b=el("button","sp","🔊");b.title="Listen: "+r[0];b.setAttribute("aria-label","Listen to "+r[0]);b.onclick=()=>say(r[0]);
+      g.append(b,el("div",0,'<span class="w">'+r[0]+(r[3]?' <small>('+r[3]+')</small>':'')+'</span> &nbsp;<span class="ua">'+r[1]+'</span>'));
+      const e=el("div","ex",r[2]+" ");const pb=el("button","","▶");pb.setAttribute("aria-label","Listen to the example");pb.onclick=()=>say(r[2]);e.append(pb);
+      g.append(e);p.append(g);
+    });
+  });
+  return p;
+}
+
+function exercise(ex,n){
+  const p=el("section");
+  p.append(el("h2",0,ex.t),el("p","ins",ex.i));
+  if(ex.bank){const b=el("div","bank");shuf(ex.items.map(i=>i[1][0])).forEach(w=>b.append(el("span",0,w)));p.append(b)}
+  const qs=[];
+  ex.items.forEach((it,k)=>{
+    const q=el("div","q");
+    if(ex.type==="gap"){
+      const [a,b]=it[0].split("___");
+      const inp=el("input");inp.type="text";inp.autocomplete="off";inp.autocapitalize="none";inp.spellcheck=false;
+      q.append(document.createTextNode((k+1)+". "+a),inp,document.createTextNode(b));
+      qs.push({q,inp,ok:()=>it[1].map(norm).includes(norm(inp.value)),rev:()=>{inp.value=it[1][0];inp.disabled=true;inp.className="rev"},mark:o=>{inp.className=o?"ok":"bad"},clr:()=>{inp.value="";inp.disabled=false;inp.className=""}});
+    }else{
+      q.append(el("div",0,(k+1)+". "+it[0]));
+      const wrap=el("div","opts");const order=shuf(it[1].map((t,i)=>({t,i})));let sel=null;const btns=[];
+      order.forEach(o=>{const b=el("button","opt",o.t);b.onclick=()=>{if(b.disabled)return;sel=o.i;btns.forEach(x=>x.classList.remove("sel"));b.classList.add("sel")};btns.push(b);wrap.append(b)});
+      q.append(wrap);
+      const good=()=>btns[order.findIndex(o=>o.i===it[2])];
+      qs.push({q,ok:()=>order[btns.findIndex(b=>b.classList.contains("sel"))]?.i===it[2],
+        rev:()=>{btns.forEach(b=>{b.disabled=true;b.className="opt"});good().className="opt rev";sel=it[2]},
+        mark:o=>{const s=btns.find(b=>b.classList.contains("sel"));if(s)s.className="opt "+(o?"ok":"bad");if(!o)good().classList.add("rev")},
+        clr:()=>{sel=null;btns.forEach(b=>{b.disabled=false;b.className="opt"})}});
+    }
+    p.append(q);
+  });
+  const bar=el("div","bar"),sc=el("span","sc","");
+  const c=el("button","pr","Check"),r=el("button","","Show answers"),z=el("button","","Reset");
+  c.onclick=()=>{let s=0;qs.forEach(x=>{const o=x.ok();if(o)s++;x.mark(o)});scores[n]=s;sc.textContent="Score: "+s+" / "+qs.length;updTot()};
+  r.onclick=()=>{qs.forEach(x=>x.rev());sc.textContent="Answers shown"};
+  z.onclick=()=>{qs.forEach(x=>x.clr());scores[n]=0;sc.textContent="";updTot()};
+  bar.append(c,r,z,sc);p.append(bar);
+  return p;
+}
+
+pages.push({n:"Glossary",f:glossary});
+EX.forEach((e,i)=>pages.push({n:e.t,f:()=>exercise(e,i)}));
+const cache=[];let cur=0;
+const dots=$("#dots");
+pages.forEach((p,i)=>{const d=el("button","dot");d.title=p.n;d.setAttribute("aria-label",p.n);d.onclick=()=>go(i);dots.append(d)});
+function go(i){
+  cur=i;if(!cache[i])cache[i]=pages[i].f();
+  const m=$("#main");m.replaceChildren(cache[i]);
+  [...dots.children].forEach((d,k)=>d.classList.toggle("on",k===i));
+  $("#pv").disabled=i===0;$("#nx").disabled=i===pages.length-1;window.scrollTo(0,0);
+}
+$("#pv").onclick=()=>go(cur-1);$("#nx").onclick=()=>go(cur+1);
+if("speechSynthesis" in window)speechSynthesis.getVoices();
+updTot();go(0);
+</script></body></html>
