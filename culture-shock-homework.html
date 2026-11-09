@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summit &amp; Pines: Culture Shock Homework</title>
+<style>
+:root{--ink:#1f2d3a;--pine:#2f5d50;--snow:#f3f6f8;--ice:#dbe7ee;--ok:#2e7d4f;--okbg:#e0f2e7;--bad:#b3392f;--badbg:#fbe4e1;--accent:#c9602f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--snow);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+header{background:linear-gradient(#9fc3d6,#dbe7ee);padding:18px 20px 0;text-align:center}
+header h1{margin:0;font-size:1.5rem;color:#16323d}
+header p{margin:2px 0 0;font-family:system-ui,sans-serif;font-size:.9rem;color:#2c4a57}
+header svg{display:block;width:100%;max-width:640px;margin:0 auto;height:auto}
+main{max-width:680px;margin:0 auto;padding:18px 16px 40px;font-family:system-ui,-apple-system,sans-serif}
+h2{font-family:Georgia,serif;font-size:1.25rem;margin:0 0 4px;color:var(--pine)}
+.hint{margin:0 0 14px;color:#4a5b66;font-size:.95rem}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:12px;background:#fff;border:1px solid var(--ice);border-radius:8px}
+.bank span{padding:3px 10px;background:var(--ice);border-radius:14px;font-size:.95rem}
+.q{background:#fff;border:1px solid var(--ice);border-left:5px solid var(--ice);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.q.ok{border-left-color:var(--ok);background:var(--okbg)}
+.q.bad{border-left-color:var(--bad);background:var(--badbg)}
+.q input{font:inherit;border:0;border-bottom:2px solid var(--pine);background:transparent;width:9.5em;padding:1px 4px;text-align:center;color:var(--ink)}
+.q input:focus{outline:2px solid var(--accent);outline-offset:2px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.opts button{font:inherit;font-size:.95rem;padding:6px 12px;border:1px solid #9fb4c0;background:#fff;border-radius:6px;cursor:pointer;color:var(--ink)}
+.opts button.sel{background:var(--pine);color:#fff;border-color:var(--pine)}
+.opts button.right{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opts button.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
+.fb{display:block;margin-top:6px;font-size:.88rem;color:var(--bad)}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:16px 0}
+.bar button,.nav button{font:inherit;font-size:.95rem;padding:8px 16px;border-radius:6px;border:1px solid var(--pine);background:#fff;color:var(--pine);cursor:pointer}
+.bar button.main{background:var(--pine);color:#fff}
+.score{margin-left:auto;font-weight:600;color:var(--pine)}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.dots{display:flex;gap:10px}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--ice);border:1px solid #9fb4c0;cursor:pointer}
+.dots i.on{background:var(--accent);border-color:var(--accent)}
+.nav button:disabled{opacity:.35;cursor:default}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+<h1>Summit &amp; Pines Resort</h1>
+<p>Homework: culture shock and international guests</p>
+<svg viewBox="0 0 640 110" aria-hidden="true"><path d="M0 110 L90 45 L140 78 L230 20 L320 85 L410 35 L500 80 L560 50 L640 110Z" fill="#7ea3b5"/><path d="M0 110 L60 78 L120 100 L200 62 L290 105 L380 70 L470 104 L560 74 L640 110Z" fill="#2f5d50"/><path d="M230 20 L206 40 L222 38 L232 46 L240 37 L254 40Z" fill="#fff"/><path d="M410 35 L392 52 L405 50 L412 57 L420 49 L430 52Z" fill="#fff"/></svg>
+</header>
+<main>
+<div id="page"></div>
+<div class="nav"><button id="prev">Back</button><div class="dots" id="dots"></div><button id="next">Next</button></div>
+</main>
+<script>
+const pages=[
+{title:"1. Fill in the gaps",hint:"Use each word or phrase from the box once.",type:"gap",
+ bank:["path","clue","homesick","lively","dull","place of interest","extraordinary","off-piste"],
+ items:[
+ {t:"The view from the top station is absolutely ___ and guests take hundreds of photos.",a:["extraordinary"]},
+ {t:"Skiing ___ is only allowed for guests who have avalanche training.",a:["off-piste","off piste"]},
+ {t:"Monday's meeting was so ___ that two people almost fell asleep.",a:["dull"]},
+ {t:"Please stay on the marked ___ because the area on the right is dangerous.",a:["path"]},
+ {t:"The old watchtower is the most popular ___ in the valley.",a:["place of interest"]},
+ {t:"After a month abroad, she felt ___ for the mountains.",a:["homesick"]},
+ {t:"The bar is very ___ on Saturday nights, with live music and lots of people.",a:["lively"]},
+ {t:"I have no ___ how to explain our prices to guests from other cultures.",a:["clue"]}]},
+{title:"2. Choose the correct answer",hint:"Tap one option for each question.",type:"mc",
+ items:[
+ {t:"Which is the correct pronunciation of Cannes?",o:["/kɑːnz/","/kæn/","/keɪnz/"],a:1},
+ {t:"Our partners in ___ are very direct, so their feedback can sound blunt.",o:["Netherlands","the Netherlands","Netherland"],a:1},
+ {t:"\"I have no clue\" means:",o:["I am very sure.","I am too tired.","I don't know."],a:2},
+ {t:"Despite the storm, the team carried on ___ on the launch.",o:["work","working","to work"],a:1},
+ {t:"She is homesick ___ her family and the mountains.",o:["for","of","about"],a:0},
+ {t:"Careful with the match! You will ___ your finger.",o:["burning","burn","to burn"],a:1},
+ {t:"Someone ___ coffee on the reception desk this morning.",o:["spilt","spill","spilling"],a:0},
+ {t:"The opposite of a dull newsletter is a ___ newsletter.",o:["lively","dim","path"],a:0}]},
+{title:"3. Put the verb in the correct form",hint:"Write one word in each gap. Two answers are possible where the verb has two correct forms.",type:"gap",
+ items:[
+ {t:"Despite the delays, the team carried on ___ (work) until midnight.",a:["working"]},
+ {t:"Guests carried on ___ (ask) questions long after the tour ended.",a:["asking"]},
+ {t:"Yesterday a guest ___ (spill) hot chocolate on the lobby carpet.",a:["spilt","spilled"]},
+ {t:"The tea has been ___ (spill) all over the table.",a:["spilt","spilled"]},
+ {t:"She ___ (light) a candle for the welcome dinner.",a:["lit","lighted"]},
+ {t:"He ___ (burn) his finger on the match.",a:["burned","burnt"]}]}
+];
+let cur=0;const st=pages.map(p=>({sel:{},checked:false}));
+const $=id=>document.getElementById(id);
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const banks=pages.map(p=>p.bank?shuffle(p.bank):null);
+function render(){
+ const p=pages[cur],s=st[cur];let h=`<h2>${p.title}</h2><p class="hint">${p.hint}</p>`;
+ if(p.bank)h+=`<div class="bank">${banks[cur].map(w=>`<span>${w}</span>`).join("")}</div>`;
+ p.items.forEach((it,i)=>{
+  if(p.type==="gap"){h+=`<div class="q" id="q${i}">${it.t.replace("___",`<input type="text" id="i${i}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="answer ${i+1}">`)}<span class="fb" id="f${i}"></span></div>`}
+  else{h+=`<div class="q" id="q${i}">${it.t}<div class="opts">${it.o.map((o,k)=>`<button data-i="${i}" data-k="${k}">${o}</button>`).join("")}</div></div>`}
+ });
+ h+=`<div class="bar"><button class="main" id="chk">Check</button><button id="rev">Reveal</button><button id="rst">Reset</button><span class="score" id="sc"></span></div>`;
+ $("page").innerHTML=h;
+ if(p.type==="gap"){p.items.forEach((it,i)=>{const e=$("i"+i);if(s.vals&&s.vals[i]!=null)e.value=s.vals[i];e.addEventListener("input",()=>{s.vals=s.vals||{};s.vals[i]=e.value})})}
+ else{document.querySelectorAll(".opts button").forEach(b=>b.onclick=()=>{if(s.checked)return;s.sel[b.dataset.i]=+b.dataset.k;paintSel()});paintSel()}
+ $("chk").onclick=check;$("rev").onclick=reveal;$("rst").onclick=reset;
+ if(s.checked)check();
+ $("prev").disabled=cur===0;$("next").disabled=cur===pages.length-1;
+ $("dots").innerHTML=pages.map((_,i)=>`<i class="${i===cur?"on":""}" data-p="${i}"></i>`).join("");
+ document.querySelectorAll(".dots i").forEach(d=>d.onclick=()=>{cur=+d.dataset.p;render()});
+}
+function paintSel(){document.querySelectorAll(".opts button").forEach(b=>b.classList.toggle("sel",st[cur].sel[b.dataset.i]===+b.dataset.k))}
+function check(){
+ const p=pages[cur],s=st[cur];s.checked=true;let n=0;
+ p.items.forEach((it,i)=>{const q=$("q"+i);let ok;
+  if(p.type==="gap"){const v=$("i"+i).value.trim().toLowerCase().replace(/\s+/g," ");ok=it.a.includes(v)}
+  else{ok=s.sel[i]===it.a;document.querySelectorAll(`.opts button[data-i="${i}"]`).forEach(b=>{b.classList.remove("sel","right","wrong");const k=+b.dataset.k;if(k===s.sel[i])b.classList.add(ok?"right":"wrong")})}
+  q.className="q "+(ok?"ok":"bad");if(ok)n++;
+ });
+ $("sc").textContent=`Score: ${n} / ${p.items.length}`;
+}
+function reveal(){
+ const p=pages[cur],s=st[cur];
+ p.items.forEach((it,i)=>{
+  if(p.type==="gap"){$("i"+i).value=it.a[0];s.vals=s.vals||{};s.vals[i]=it.a[0]}
+  else{s.sel[i]=it.a}
+ });
+ if(p.type==="mc")paintSel();
+ check();
+}
+function reset(){st[cur]={sel:{},checked:false};render()}
+$("prev").onclick=()=>{if(cur>0){cur--;render()}};
+$("next").onclick=()=>{if(cur<pages.length-1){cur++;render()}};
+render();
+</script>
+</body>
+</html>
