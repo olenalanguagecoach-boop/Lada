@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summit &amp; Pines – Homework</title>
+<style>
+:root{--bg:#f4f7f6;--card:#fff;--ink:#1c2b28;--mute:#5d6f6b;--line:#d3dedb;--pine:#1f4a3f;--ice:#3b7ca3;--ok:#1f7a4d;--okbg:#e2f3e9;--bad:#b3362f;--badbg:#fbe6e4;--chip:#e6eff3}
+@media(prefers-color-scheme:dark){:root{--bg:#121a18;--card:#1b2724;--ink:#e8f0ee;--mute:#9db0ab;--line:#2f413d;--pine:#6fc2ab;--ice:#7db8dc;--ok:#7fd6a3;--okbg:#1d3a2b;--bad:#f09890;--badbg:#412220;--chip:#243632}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:#1f4a3f;color:#fff;position:relative;overflow:hidden}
+header .t{padding:20px 20px 64px;max-width:760px;margin:auto}
+header h1{margin:0;font:600 24px/1.2 Georgia,serif}
+header p{margin:4px 0 0;opacity:.85;font-size:14px}
+header svg{position:absolute;left:0;bottom:0;width:100%;height:56px}
+main{max-width:760px;margin:auto;padding:16px}
+#dots{display:flex;gap:10px;justify-content:center;margin:4px 0 14px}
+#dots button{width:14px;height:14px;border-radius:50%;border:2px solid var(--pine);background:none;padding:0;cursor:pointer}
+#dots button.on{background:var(--pine)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+h2{margin:0 0 4px;font:600 20px/1.3 Georgia,serif;color:var(--pine)}
+.ins{margin:0 0 12px;color:var(--mute)}
+.note{background:var(--chip);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.bank span{background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:3px 10px;font-weight:600}
+ol{padding-left:24px;margin:0}
+li{margin:0 0 10px;padding:8px 10px;border-radius:8px;border:1px solid transparent}
+li.ok{background:var(--okbg);border-color:var(--ok)}
+li.bad{background:var(--badbg);border-color:var(--bad)}
+li input[type=text]{font:inherit;color:var(--ink);background:var(--card);border:0;border-bottom:2px solid var(--ice);width:11em;max-width:100%;padding:0 4px;text-align:center}
+li input[type=text]:focus{outline:2px solid var(--ice);outline-offset:2px}
+.opts{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.opts label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.opts input{margin-top:5px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+button.b{font:inherit;font-weight:600;border:1px solid var(--pine);background:none;color:var(--pine);border-radius:8px;padding:8px 16px;cursor:pointer}
+button.p{background:var(--pine);color:var(--card)}
+button.b:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
+#sc{font-weight:700;margin-left:auto}
+.nav{display:flex;justify-content:space-between;margin-top:14px}
+.nav button:disabled{opacity:.35;cursor:default}
+</style></head><body>
+<header><div class="t"><h1>Summit &amp; Pines Resort</h1><p>Business English homework · Lada</p></div>
+<svg viewBox="0 0 800 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 56V38L90 12l70 24 80-30 90 34 70-18 100 22 90-34 110 30V56z" fill="#2c6355"/><path d="M0 56V46l120-14 90 14 100-20 110 18 110-12 120 14 150-10V56z" fill="var(--bg)"/></svg></header>
+<main><div id="dots"></div><div class="card" id="app"></div>
+<div class="nav"><button class="b" id="pv">Previous</button><button class="b" id="nx">Next</button></div></main>
+<script>
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const nz=s=>s.toLowerCase().replace(/[’]/g,"'").replace(/\s+/g," ").trim();
+const E=[
+{type:"fill",h:"Exercise 1 · Resort words",i:"Complete the sentences with the words from the box. Use each word or phrase once.",
+bank:["navigation","poorly designed","terribly busy","on the way back home","homesick for","run out of","place of interest","the Netherlands"],
+items:[
+{t:"The app’s ___ is so clear that guests find the ski school in seconds.",a:["navigation"]},
+{t:"Our old trail map was ___, so guests kept getting lost.",a:["poorly designed"]},
+{t:"The lift area is ___ on Saturday mornings, so we send queue-time updates.",a:["terribly busy"]},
+{t:"Many guests post their photos ___, so every sign carries our hashtag.",a:["on the way back home"]},
+{t:"Our seasonal staff often feel ___ their families by the end of January.",a:["homesick for"]},
+{t:"If we don’t order more brochures, we’ll ___ them before the weekend.",a:["run out of"]},
+{t:"Our new guide shows every ___ within a 30-minute drive of the resort.",a:["place of interest"]},
+{t:"A tour operator from ___ wants to bring 40 skiers in February.",a:["the netherlands"]}]},
+{type:"mc",h:"Exercise 2 · Choose the correct answer",i:"Choose one option for each item.",
+items:[
+{q:"It’s important ___ our guests to feel welcome from the first email.",o:["for","to","of"],a:"for"},
+{q:"Our new partner agency is based in ___.",o:["Mexico","the Mexico","Mexican"],a:"Mexico"},
+{q:"Which sentence is correct?",o:["Our old website was poorly designed.","Our old website was poor designed.","Our old website was poorly design."],a:"Our old website was poorly designed."},
+{q:"After a week in the city, I was ___ the mountains.",o:["homesick for","homesick of","homesick about"],a:"homesick for"},
+{q:"We’ll ___ lift passes if sales keep growing.",o:["run out of","run out","run off"],a:"run out of"},
+{q:"Guests often take selfies ___.",o:["on the way back home","on the way back to home","at the way back home"],a:"on the way back home"},
+{q:"The ski school is ___ in February.",o:["terribly busy","terrible busy","terribly business"],a:"terribly busy"},
+{q:"What is a “place of interest”?",o:["A place that is worth visiting","A bank that pays interest","A person who is interesting"],a:"A place that is worth visiting"}]},
+{type:"fill",h:"Exercise 3 · so / such / too / enough",i:"Write one word in each gap. You can use the words more than once.",
+note:"<b>so</b> + adjective · <b>such</b> + (a/an) (adjective) + noun · <b>enough</b> + noun / adjective + <b>enough</b> · <b>too</b> + adjective + to + infinitive",
+bank:["so","such","too","enough"],
+items:[
+{t:"The trail map was ___ confusing that guests kept getting lost.",a:["so"]},
+{t:"The slope is ___ steep for beginners to ski safely.",a:["too"]},
+{t:"It was ___ a busy weekend that we ran out of lift passes.",a:["such"]},
+{t:"We didn’t have ___ staff at the ticket office, so the queue was huge.",a:["enough"]},
+{t:"Our new app is ___ easy to use that even first-time guests love it.",a:["so"]},
+{t:"The car park isn’t big ___ for 500 cars.",a:["enough"]},
+{t:"It was ___ great news that the whole team celebrated.",a:["such"]},
+{t:"The hotel was ___ expensive for most families to book in high season.",a:["too"]},
+{t:"The reviews were ___ positive that we shared them on social media.",a:["so"]},
+{t:"Is the Wi-Fi fast ___ for video calls with our partners?",a:["enough"]}]},
+{type:"mc",h:"Exercise 4 · Which sentence is correct?",i:"Choose the correct sentence in each item.",
+items:[
+{q:"Room comfort",o:["The room is warm enough for our guests.","The room is enough warm for our guests.","The room is enough warmly for our guests."],a:"The room is warm enough for our guests."},
+{q:"Terrace season",o:["It was so nice weather that we opened the terrace.","It was such nice weather that we opened the terrace.","It was such a nice weather that we opened the terrace."],a:"It was such nice weather that we opened the terrace."},
+{q:"Lift speed",o:["The lift is too slow to take us up before sunset.","The lift is too slow for take us up before sunset.","The lift is enough slow to take us up before sunset."],a:"The lift is too slow to take us up before sunset."},
+{q:"Rental equipment",o:["We have enough skis for everyone.","We have enough of skis for everyone.","We have enough skis of everyone."],a:"We have enough skis for everyone."},
+{q:"Closed slope",o:["It was so a steep slope that we closed it.","It was such a steep slope that we closed it.","It was so steep slope that we closed it."],a:"It was such a steep slope that we closed it."},
+{q:"Guests after the party",o:["The guests were too tired to join the evening event.","The guests were too tired joining the evening event.","The guests were tired too to join the evening event."],a:"The guests were too tired to join the evening event."},
+{q:"Social media",o:["Our content isn’t enough engaging.","Our content isn’t engaging enough.","Our content isn’t engaging too."],a:"Our content isn’t engaging enough."},
+{q:"Campaign results",o:["The launch was so successful that we doubled the budget.","The launch was such successful that we doubled the budget.","The launch was so successfully that we doubled the budget."],a:"The launch was so successful that we doubled the budget."}]}
+];
+E.forEach(e=>{if(e.type==="mc")e.items.forEach(it=>it.o=sh(it.o));
+if(e.type==="fill"&&e.bank.length>4){const f=a=>a.every((w,i)=>nz(w)!==e.items[i].a[0]);let b;do{b=sh(e.bank)}while(!f(b));e.bank=b}});
+let cur=0;const app=document.getElementById("app"),dots=document.getElementById("dots");
+function render(){const e=E[cur];
+let h=`<h2>${e.h}</h2><p class="ins">${e.i}</p>`;
+if(e.note)h+=`<div class="note">${e.note}</div>`;
+if(e.type==="fill"&&e.bank.length>4||cur===2)h+=`<div class="bank">${e.bank.map(w=>`<span>${w}</span>`).join("")}</div>`;
+h+="<ol>";
+e.items.forEach((it,k)=>{
+if(e.type==="fill"){const p=it.t.split("___");h+=`<li>${p[0]}<input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Answer ${k+1}">${p[1]}</li>`}
+else h+=`<li>${it.q}<div class="opts">${it.o.map((o,j)=>`<label><input type="radio" name="q${k}" value="${j}"><span>${o}</span></label>`).join("")}</div></li>`});
+h+=`</ol><div class="row"><button class="b p" id="ck">Check</button><button class="b" id="rv">Reveal answers</button><button class="b" id="rs">Reset</button><span id="sc"></span></div>`;
+app.innerHTML=h;
+document.getElementById("ck").onclick=check;
+document.getElementById("rs").onclick=render;
+document.getElementById("rv").onclick=()=>{app.querySelectorAll("ol>li").forEach((li,k)=>{const it=e.items[k];
+if(e.type==="fill")li.querySelector("input").value=it.a[0];
+else li.querySelectorAll("input").forEach((r,j)=>r.checked=it.o[j]===it.a)});check()};
+dots.innerHTML=E.map((_,i)=>`<button class="${i===cur?"on":""}" aria-label="Exercise ${i+1}" data-i="${i}"></button>`).join("");
+dots.querySelectorAll("button").forEach(b=>b.onclick=()=>{cur=+b.dataset.i;render()});
+document.getElementById("pv").disabled=cur===0;document.getElementById("nx").disabled=cur===E.length-1}
+function check(){const e=E[cur];let s=0;
+app.querySelectorAll("ol>li").forEach((li,k)=>{const it=e.items[k];let ok;
+if(e.type==="fill")ok=it.a.includes(nz(li.querySelector("input").value));
+else{const c=li.querySelector("input:checked");ok=!!c&&it.o[+c.value]===it.a}
+li.className=ok?"ok":"bad";if(ok)s++});
+document.getElementById("sc").textContent=`Score: ${s} / ${e.items.length}`}
+document.getElementById("pv").onclick=()=>{cur--;render();scrollTo(0,0)};
+document.getElementById("nx").onclick=()=>{cur++;render();scrollTo(0,0)};
+render();
+</script></body></html>
