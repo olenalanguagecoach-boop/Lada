@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Summit &amp; Pines – Homework</title>
+<style>
+:root{--g:#1f4d3a;--n:#16324f;--ok:#d6f0dd;--okb:#2e9e55;--bad:#fbe0e0;--badb:#d04a4a;--rev:#fff3c4;--revb:#d4a017;--t:#1d2a33;--m:#5d6b73;--l:#dfe7e3}
+*{box-sizing:border-box}
+body{margin:0;font-family:Georgia,"Times New Roman",serif;color:var(--t);background:#f3f6f4;line-height:1.55}
+header{background:linear-gradient(#16324f,#1f4d3a);color:#fff;text-align:center;padding:14px 12px 0}
+header h1{margin:0;font-size:1.3rem;font-weight:600;letter-spacing:.3px}
+header p{margin:2px 0 0;opacity:.8;font-size:.85rem;font-family:system-ui,sans-serif}
+header svg{display:block;width:100%;max-width:640px;height:64px;margin:6px auto 0}
+nav{display:flex;justify-content:center;gap:10px;padding:12px;font-family:system-ui,sans-serif}
+nav button{width:14px;height:14px;border-radius:50%;border:2px solid var(--g);background:#fff;padding:0;cursor:pointer}
+nav button.on{background:var(--g)}
+main{max-width:720px;margin:0 auto;padding:0 14px 90px}
+h2{font-size:1.25rem;margin:6px 0 4px;color:var(--n)}
+h3{font-size:1rem;margin:22px 0 8px;color:var(--g)}
+.ins{color:var(--m);font-family:system-ui,sans-serif;font-size:.92rem;margin:0 0 14px}
+.page{display:none}.page.on{display:block}
+.card{background:#fff;border:1px solid var(--l);border-radius:8px;padding:10px 14px;margin:8px 0}
+.gw{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gw b{font-size:1.05rem;color:var(--n)}.gw i{font-family:system-ui,sans-serif;font-size:.8rem;color:var(--m)}
+.ua{font-family:system-ui,sans-serif;color:var(--g);font-weight:600;margin:2px 0}
+.ex{display:flex;gap:8px;align-items:flex-start;margin:2px 0 0}
+.sp{border:1px solid var(--g);background:#fff;color:var(--g);border-radius:6px;font-size:.9rem;padding:1px 7px;cursor:pointer;flex:none}
+.sp:active{background:var(--g);color:#fff}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.bank span{background:#fff;border:1px solid var(--g);border-radius:16px;padding:2px 12px;font-family:system-ui,sans-serif;font-size:.9rem}
+.it{margin:10px 0;padding:8px 12px;background:#fff;border:1px solid var(--l);border-radius:8px}
+.it .n{color:var(--m);font-family:system-ui,sans-serif;margin-right:6px}
+input{font:inherit;border:0;border-bottom:2px solid var(--g);background:#f7faf8;padding:1px 6px;margin:0 3px;min-width:90px;width:150px;max-width:100%;outline:none}
+input:focus{background:#eaf3ee}
+input.ok{background:var(--ok);border-color:var(--okb)}input.bad{background:var(--bad);border-color:var(--badb)}input.rev{background:var(--rev);border-color:var(--revb)}
+.o{display:inline-block;margin:4px 6px 0 0;padding:3px 12px;border:1px solid #b9c7c0;border-radius:16px;background:#fff;font:inherit;font-size:.95rem;cursor:pointer}
+.o.sel{border-color:var(--n);background:#e6eef6}.o.ok{background:var(--ok);border-color:var(--okb)}.o.bad{background:var(--bad);border-color:var(--badb)}.o.rev{background:var(--rev);border-color:var(--revb)}
+.bar{display:flex;gap:8px;align-items:center;margin-top:16px;font-family:system-ui,sans-serif;flex-wrap:wrap}
+.bar button,.foot button{font:inherit;font-size:.9rem;border:0;border-radius:6px;padding:7px 14px;background:var(--g);color:#fff;cursor:pointer}
+.bar button.s{background:#fff;color:var(--g);border:1px solid var(--g)}
+.sc{margin-left:auto;font-weight:700;color:var(--n)}
+.foot{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--l);display:flex;justify-content:space-between;padding:10px 14px;font-family:system-ui,sans-serif}
+.foot button:disabled{opacity:.35}.foot span{align-self:center;color:var(--m);font-size:.85rem}
+</style></head><body>
+<header><h1>Summit &amp; Pines Resort</h1><p>Business English · Homework</p>
+<svg viewBox="0 0 640 64" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><polygon points="0,64 90,22 140,44 230,6 330,50 420,18 520,46 600,24 640,40 640,64" fill="#2c6a50"/><polygon points="230,6 213,20 226,17 233,24 241,16 250,20" fill="#fff"/><polygon points="420,18 406,29 417,27 423,33 430,27 436,30" fill="#fff"/><polygon points="0,64 0,50 60,42 160,56 280,46 400,58 520,50 640,56 640,64" fill="#1b3f30"/><g fill="#12291f"><polygon points="40,64 48,40 56,64"/><polygon points="70,64 77,44 84,64"/><polygon points="360,64 368,42 376,64"/><polygon points="560,64 568,38 576,64"/><polygon points="590,64 597,46 604,64"/></g></svg></header>
+<nav id="dots"></nav><main id="app"></main>
+<div class="foot"><button id="pv">Back</button><span id="pg"></span><button id="nx">Next</button></div>
+<script>
+const norm=s=>s.toLowerCase().replace(/[’‘]/g,"'").replace(/\s+/g," ").trim();
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const say=t=>{if(!("speechSynthesis" in window)){alert("Audio is not supported here. Please open this file in Chrome or Safari.");return}
+speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-GB";u.rate=.9;speechSynthesis.speak(u)};
+
+const G=[
+["Target words",[
+["temptation","спокуса","The 40% off all ski passes was a real temptation, but we stuck to the campaign budget."],
+["perfectionism","перфекціонізм","Her perfectionism slows the team down: she rewrites every press release five times."],
+["glossy","глянцевий","We printed the new winter brochure on glossy paper to make the mountain photos pop."],
+["colour proof","кольоропроба","Please check the colour proof before printing; the blue of our logo looks too dark."],
+["to terminate a contract","розірвати договір","We decided to terminate the contract with the printing house after they missed the deadline twice."],
+["by the way","до речі","By the way, the ski-rental team needs the new price list by Friday."],
+["speaking of","до речі про…, до слова про…","Speaking of the winter campaign, have we confirmed the date of the influencer visit?"],
+["silent mode","беззвучний режим","Please put your phones on silent mode during the investor presentation."],
+["air alert","повітряна тривога","The webinar was paused for ten minutes because of an air alert."],
+["to turn out to + verb","виявлятися (якимось), виходити так, що","The new ad campaign turned out to be more successful than we expected."],
+["play it by ear","вирішувати по ситуації / по ходу","We don’t know how many guests will come to the opening, so let’s play it by ear.","informal"],
+["ring – rang – rung","дзвонити (по телефону)","I rang the hotel manager yesterday, but he hasn’t rung me back yet."],
+["alternative","альтернатива; альтернативний","We need an alternative route for the shuttle bus because the main road is closed."]]],
+["Sound-alike pairs: listen and repeat",[
+["still","досі, все ще","The main lift is still closed because of the wind."],
+["to steal – stole – stolen","красти","Someone tried to steal our ski equipment from the rental shop last night."],
+["to sit – sat – sat","сидіти","Please sit here; the interview starts in five minutes."],
+["seat","місце (для сидіння)","We reserved the best seats in the cable car for our VIP guests."]]]];
+
+const GAP1={bank:["glossy","colour proof","terminate","temptation","perfectionism","silent mode","air alert","play it by ear","alternative","still"],
+items:[
+["The new sales brochure is printed on ___ paper, so the photos of the slopes look amazing.","glossy"],
+["Please send me the ___ by noon; I want to check the colours before we print 5,000 copies.","colour proof|color proof"],
+["Our lawyers advised us to ___ the contract with the agency because it broke several terms.","terminate"],
+["It was hard to resist the ___ of posting the guests’ photos without asking permission.","temptation"],
+["His ___ is a problem: he refuses to publish a post until every word is perfect.","perfectionism"],
+["Everyone must switch their phones to ___ before the CEO starts speaking.","silent mode"],
+["The livestream from the summit stopped because of an ___ in the region.","air alert"],
+["We have no idea how many people will come, so let’s ___.","play it by ear"],
+["The main road to the resort is closed, so we need an ___ route for the shuttle.","alternative"],
+["It’s 11 a.m., and the main lift is ___ closed.","still"]]};
+
+const MC1=[
+["Someone ___ our logo and used it on fake merchandise.",["stole","stolen","still","steal"],0],
+["Excuse me, is this ___ free? I’d like to join your table.",["sit","seat","set","site"],1],
+["Please ___ down; the press conference starts in a minute.",["sit","seat","sits","sitting"],0],
+["The weather forecast ___ to be wrong, and we had amazing powder on opening day.",["turned out","turned up","ended up","came out"],0],
+["I ___ the press office three times this morning, but nobody answered.",["rang","rung","ringed","ring"],0],
+["Has anyone ___ the hotel about the late check-in?",["rang","rung","ring","ringing"],1],
+["Thanks for the update. ___, did you book the photographer for Saturday?",["By the way","Speaking of","Turn out to","By ear"],0],
+["___ the media list, who is updating it this week?",["By the way","Speaking of","Play it","Turn out to"],1]];
+
+const GAP2={items:[
+["While we ___ (film) the promo video on the slope, it suddenly ___ (start) to snow.","were filming|was filming","started"],
+["I ___ (write) the press release when the manager ___ (call).","was writing","called"],
+["The guests ___ (arrive) at 9 a.m., and we ___ (give) them welcome drinks.","arrived","gave"],
+["What ___ you ___ (do) at 6 p.m. yesterday?","were","doing"],
+["The power ___ (go) off while the CEO ___ (give) his speech.","went","was giving"],
+["We ___ (not / see) the alert because our phones ___ (be) on silent mode.","didn't see|did not see","were"],
+["When the photographer ___ (arrive), the guests ___ (have) breakfast.","arrived","were having"],
+["Last winter, we ___ (launch) a new loyalty programme, and it ___ (turn out) to be a huge success.","launched","turned out"]]};
+
+const MC2=[
+["I ___ through the website when I found a mistake in the price list.",["scrolled","was scrolling","have scrolled","scroll"],1],
+["She ___ the resort manager at the conference last year.",["was meeting","met","meets","has met"],1],
+["At 10 a.m. yesterday, our designers ___ the new ski map.",["designed","were designing","was designing","are designing"],1],
+["While I ___ a post, my phone rang.",["wrote","was writing","were writing","am writing"],1],
+["The guests ___ dinner when the fire alarm went off.",["ate","were eating","was eating","eat"],1],
+["We ___ the contract on Monday, and the agency replied on Tuesday.",["terminated","were terminating","terminate","have terminate"],0]];
+
+const P=[
+{t:"Glossary",k:"g"},
+{t:"Vocabulary: gap-fill",k:"gap",d:GAP1,i:"Complete the sentences with words from the box. Use each word once. You don’t need to change the words.",bank:1},
+{t:"Vocabulary: multiple choice",k:"mc",d:MC1,i:"Choose the correct answer."},
+{t:"Grammar: Past Simple or Past Continuous?",k:"gap",d:GAP2,i:"Put the verbs in brackets into the Past Simple or the Past Continuous."},
+{t:"Grammar: multiple choice",k:"mc",d:MC2,i:"Choose the correct answer."}];
+
+const app=document.getElementById("app"),dots=document.getElementById("dots");let cur=0;
+const el=(h)=>{const d=document.createElement("div");d.innerHTML=h;return d.firstElementChild};
+
+function glossary(sec){
+ sec.append(el(`<p class="ins">Tap 🔊 to listen to a word or a sentence, then repeat it aloud. If you hear nothing, open this file in Chrome or Safari and check that your phone is not on silent mode.</p>`));
+ G.forEach(([h,list])=>{sec.append(el(`<h3>${h}</h3>`));
+  list.forEach(([w,u,e,r])=>{const c=el(`<div class="card"><div class="gw"><b>${w}</b>${r?`<i>(${r})</i>`:""}<button class="sp" aria-label="Listen">🔊</button></div><div class="ua">${u}</div><div class="ex"><button class="sp" aria-label="Listen">🔊</button><span>${e}</span></div></div>`);
+   const b=c.querySelectorAll(".sp");b[0].onclick=()=>say(w.replace(/ – /g,", ").replace(/to \+ verb/,"to"));b[1].onclick=()=>say(e);sec.append(c)})})}
+
+function bar(sec,chk,rev,rst,total){
+ const b=el(`<div class="bar"><button>Check</button><button class="s">Reveal</button><button class="s">Reset</button><span class="sc"></span></div>`);
+ const [c,r,x]=b.querySelectorAll("button");const sc=b.querySelector(".sc");
+ c.onclick=()=>sc.textContent="Score: "+chk()+" / "+total;
+ r.onclick=()=>{rev();sc.textContent="Answers shown"};
+ x.onclick=()=>{rst();sc.textContent=""};sec.append(b)}
+
+function gap(sec,p){
+ const d=p.d;
+ if(p.bank)sec.append(el(`<div class="bank">${shuf(d.bank).map(w=>`<span>${w}</span>`).join("")}</div>`));
+ let total=0;
+ d.items.forEach((it,n)=>{const parts=it[0].split("___");let h=`<span class="n">${n+1}.</span>`;
+  parts.forEach((s,i)=>{h+=s;if(i<parts.length-1){h+=`<input data-a="${it[i+1]}" autocomplete="off" autocapitalize="off" spellcheck="false">`;total++}});
+  sec.append(el(`<div class="it">${h}</div>`))});
+ const ins=()=>[...sec.querySelectorAll("input")];
+ bar(sec,()=>{let s=0;ins().forEach(i=>{i.classList.remove("rev");const ok=i.dataset.a.split("|").map(norm).includes(norm(i.value));i.classList.toggle("ok",ok);i.classList.toggle("bad",!ok);if(ok)s++});return s},
+ ()=>ins().forEach(i=>{i.value=i.dataset.a.split("|")[0];i.className="rev"}),
+ ()=>ins().forEach(i=>{i.value="";i.className=""}),total)}
+
+function mc(sec,p){
+ p.d.forEach(([q,o,c],n)=>{const it=el(`<div class="it"><span class="n">${n+1}.</span>${q}<div></div></div>`);const box=it.lastChild;
+  shuf(o.map((t,i)=>[t,i===c])).forEach(([t,ok])=>{const b=el(`<button class="o">${t}</button>`);b.dataset.c=ok?1:0;
+   b.onclick=()=>{box.querySelectorAll(".o").forEach(x=>x.className="o");b.classList.add("sel")};box.append(b)});sec.append(it)});
+ const bs=()=>[...sec.querySelectorAll(".o")];
+ bar(sec,()=>{let s=0;bs().forEach(b=>{if(b.classList.contains("sel")||b.classList.contains("ok")||b.classList.contains("bad")){const ok=b.dataset.c==="1";b.className="o "+(ok?"ok":"bad");if(ok)s++}});return s},
+ ()=>bs().forEach(b=>{b.className="o"+(b.dataset.c==="1"?" rev":"")}),
+ ()=>bs().forEach(b=>b.className="o"),p.d.length)}
+
+P.forEach((p,i)=>{const s=el(`<section class="page"><h2>${p.t}</h2>${p.i?`<p class="ins">${p.i}</p>`:""}</section>`);
+ ({g:glossary,gap:gap,mc:mc})[p.k](s,p);app.append(s);
+ const d=el(`<button aria-label="Page ${i+1}"></button>`);d.onclick=()=>show(i);dots.append(d)});
+
+function show(i){cur=i;document.querySelectorAll(".page").forEach((s,k)=>s.classList.toggle("on",k===i));
+ [...dots.children].forEach((d,k)=>d.classList.toggle("on",k===i));
+ pv.disabled=i===0;nx.disabled=i===P.length-1;pg.textContent=(i+1)+" / "+P.length;window.scrollTo(0,0)}
+const pv=document.getElementById("pv"),nx=document.getElementById("nx"),pg=document.getElementById("pg");
+pv.onclick=()=>show(cur-1);nx.onclick=()=>show(cur+1);show(0);
+</script></body></html>
